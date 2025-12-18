@@ -1,0 +1,121 @@
+{
+  "color-space-for-untagged-svg-colors" : "display-p3",
+  "fill" : "system-light",
+  "groups" : [
+    {
+      "blur-material" : 0.5,
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "linear-gradient" : [
+              "display-p3:1.00000,1.00000,1.00000,0.75000",
+              "extended-gray:1.00000,1.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0,
+                "y" : 0.5
+              },
+              "stop" : {
+                "x" : 1,
+                "y" : 0.5
+              }
+            }
+          },
+          "glass" : true,
+          "image-name" : "App Icon Template.svg",
+          "name" : "App Icon Template",
+          "opacity" : 0.75
+        },
+        {
+          "blend-mode" : "multiply",
+          "fill" : {
+            "solid" : "extended-gray:0.00000,1.00000"
+          },
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "2_Texture.svg",
+          "name" : "2_Texture",
+          "opacity" : 0.1
+        }
+      ],
+      "shadow" : {
+        "kind" : "layer-color",
+        "opacity" : 0.5
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "blur-material" : 0.5,
+      "layers" : [
+        {
+          "blend-mode" : "multiply",
+          "fill" : {
+            "linear-gradient" : [
+              "extended-gray:0.00000,1.00000",
+              "display-p3:0.00000,0.00000,0.00000,0.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0,
+                "y" : 0.5
+              },
+              "stop" : {
+                "x" : 0.5920511881510416,
+                "y" : 0.5
+              }
+            }
+          },
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "1.svg",
+          "name" : "1",
+          "opacity" : 0.75
+        },
+        {
+          "blend-mode" : "multiply",
+          "fill" : {
+            "solid" : "extended-gray:1.00000,1.00000"
+          },
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "1.svg",
+          "name" : "1",
+          "opacity" : 1
+        }
+      ],
+      "lighting" : "combined",
+      "shadow-specializations" : [
+        {
+          "value" : {
+            "kind" : "layer-color",
+            "opacity" : 1
+          }
+        },
+        {
+          "appearance" : "dark",
+          "value" : {
+            "kind" : "layer-color",
+            "opacity" : 0.1
+          }
+        }
+      ],
+      "specular" : false,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

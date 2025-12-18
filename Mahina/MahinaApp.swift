@@ -1,32 +1,14 @@
-//
-//  MahinaApp.swift
-//  Mahina
-//
-//  Created by Jared Pendergraft on 11/18/25.
-//
-
 import SwiftUI
-import SwiftData
 
+/// Main entry point for the Mahina lunar calendar iOS application.
+///
+/// Presents the primary ContentView which displays the interactive lunar calendar
+/// with navigation, phase information, and cultural guidance.
 @main
 struct MahinaApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
     }
 }

@@ -180,6 +180,13 @@
 			);
 			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
 		};
+		6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -193,6 +200,9 @@
 		};
 		6129C1B02EDE357100684393 /* Mahina Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */,
+			);
 			path = "Mahina Watch App";
 			sourceTree = "<group>";
 		};
@@ -612,7 +622,7 @@
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Mahina-Watch-App-Info.plist";
+				INFOPLIST_FILE = "Mahina Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mahina;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.jaredpdesigns.Mahina;
@@ -650,7 +660,7 @@
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Mahina-Watch-App-Info.plist";
+				INFOPLIST_FILE = "Mahina Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mahina;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.jaredpdesigns.Mahina;

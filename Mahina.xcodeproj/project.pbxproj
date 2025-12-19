@@ -105,6 +105,7 @@
 		611AF8982ED7C4BB00CB610E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		6129C1AF2EDE357100684393 /* Mahina Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		613480072ECCE855000D7A53 /* Mahina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mahina.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina MenuBar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MahinaComplicationsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -159,6 +160,36 @@
 			);
 			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
 		};
+		6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
+		};
+		6138DC3B2EF4CB8300DCB3DC /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				Models/MonthData.swift,
+				Models/MoonDay.swift,
+				Models/MoonGroup.swift,
+				Models/MoonGroupRow.swift,
+				Models/MoonPhase.swift,
+				Services/MoonCalendarGenerator.swift,
+				Views/DayDetail.swift,
+				Views/MoonImage.swift,
+			);
+			target = 6138DC182EF4C59000DCB3DC /* Mahina MenuBar */;
+		};
+		6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina MenuBar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Item.swift,
+				MahinaMenuBarApp.swift,
+			);
+			target = 6138DC182EF4C59000DCB3DC /* Mahina MenuBar */;
+		};
 		61C8DFD22EDE57D80034DF62 /* Exceptions for "MahinaComplications" folder in "MahinaComplicationsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -179,13 +210,6 @@
 				Views/MoonImage.swift,
 			);
 			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
-		};
-		6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -213,8 +237,17 @@
 				611AF8AD2ED7C62A00CB610E /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */,
 				6129C1BB2EDE35A400684393 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */,
 				61C8DFDB2EDE5BB10034DF62 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */,
+				6138DC3B2EF4CB8300DCB3DC /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */,
 			);
 			path = Mahina;
+			sourceTree = "<group>";
+		};
+		6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina MenuBar" target */,
+			);
+			path = "Mahina MenuBar";
 			sourceTree = "<group>";
 		};
 		61C8DFC22EDE57D70034DF62 /* MahinaComplications */ = {
@@ -251,6 +284,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6138DC162EF4C59000DCB3DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61C8DFBC2EDE57D70034DF62 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -279,6 +319,7 @@
 				611AF89A2ED7C4BB00CB610E /* MahinaWidgetExtension */,
 				6129C1B02EDE357100684393 /* Mahina Watch App */,
 				61C8DFC22EDE57D70034DF62 /* MahinaComplications */,
+				6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */,
 				611AF8952ED7C4BB00CB610E /* Frameworks */,
 				613480082ECCE855000D7A53 /* Products */,
 			);
@@ -291,6 +332,7 @@
 				611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */,
 				6129C1AF2EDE357100684393 /* Mahina Watch App.app */,
 				61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */,
+				6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -373,6 +415,28 @@
 			productReference = 613480072ECCE855000D7A53 /* Mahina.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6138DC182EF4C59000DCB3DC /* Mahina MenuBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6138DC232EF4C59100DCB3DC /* Build configuration list for PBXNativeTarget "Mahina MenuBar" */;
+			buildPhases = (
+				6138DC152EF4C59000DCB3DC /* Sources */,
+				6138DC162EF4C59000DCB3DC /* Frameworks */,
+				6138DC172EF4C59000DCB3DC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */,
+			);
+			name = "Mahina MenuBar";
+			packageProductDependencies = (
+			);
+			productName = "Mahina MenuBar";
+			productReference = 6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */;
+			productType = "com.apple.product-type.application";
+		};
 		61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61C8DFCF2EDE57D80034DF62 /* Build configuration list for PBXNativeTarget "MahinaComplicationsExtension" */;
@@ -414,6 +478,9 @@
 					613480062ECCE854000D7A53 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
+					6138DC182EF4C59000DCB3DC = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
 					61C8DFBE2EDE57D70034DF62 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
@@ -437,6 +504,7 @@
 				611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */,
 				6129C1AE2EDE357100684393 /* Mahina Watch App */,
 				61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */,
+				6138DC182EF4C59000DCB3DC /* Mahina MenuBar */,
 			);
 		};
 /* End PBXProject section */
@@ -457,6 +525,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		613480052ECCE854000D7A53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6138DC172EF4C59000DCB3DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -488,6 +563,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		613480032ECCE854000D7A53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6138DC152EF4C59000DCB3DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -899,6 +981,74 @@
 			};
 			name = Release;
 		};
+		6138DC242EF4C59100DCB3DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaredpdesigns.Mahina-MenuBar";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		6138DC252EF4C59100DCB3DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaredpdesigns.Mahina-MenuBar";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		61C8DFD02EDE57D80034DF62 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1003,6 +1153,15 @@
 			buildConfigurations = (
 				613480152ECCE857000D7A53 /* Debug */,
 				613480162ECCE857000D7A53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6138DC232EF4C59100DCB3DC /* Build configuration list for PBXNativeTarget "Mahina MenuBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6138DC242EF4C59100DCB3DC /* Debug */,
+				6138DC252EF4C59100DCB3DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

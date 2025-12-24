@@ -3,7 +3,7 @@ import SwiftUI
 /// Preference key for tracking scroll positions of day items in the list
 struct DayPositionPreferenceKey: PreferenceKey {
     static var defaultValue: [Date: CGFloat] = [:]
-    
+
     static func reduce(value: inout [Date: CGFloat], nextValue: () -> [Date: CGFloat]) {
         value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
@@ -12,13 +12,19 @@ struct DayPositionPreferenceKey: PreferenceKey {
 /// Invisible view that tracks and reports the vertical position of a day item in the scroll view
 struct DayPositionTracker: View {
     let date: Date
+    let anchorPoint: UnitPoint
 
     var body: some View {
         GeometryReader { proxy in
             let frame = proxy.frame(in: .named("scroll"))
+            /*
+             * Calculate position based on anchor point
+             * UnitPoint(0.5, 0.5) = center, (0, 0) = top-left, etc.
+             */
+            let anchorY = frame.minY + (frame.height * anchorPoint.y)
             Color.clear.preference(
                 key: DayPositionPreferenceKey.self,
-                value: [date: frame.minY]
+                value: [date: anchorY]
             )
         }
     }
@@ -27,8 +33,8 @@ struct DayPositionTracker: View {
 /// Generic scrollable list with automatic scrolling and active date tracking.
 ///
 /// Provides a vertically scrollable list of items with automatic scroll-to-date functionality.
-/// Tracks which day is currently in the center of the view and updates the active date accordingly.
-/// Includes position tracking for smooth programmatic scrolling to specific dates.
+/// Tracks which day is currently at the activation threshold and updates the active date accordingly.
+/// Includes position tracking for smooth programmatic scrolling to specific dates with configurable offset.
 struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
     // MARK: - Properties
 
@@ -43,11 +49,29 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
     /// View builder for bottom spacer/content
     let bottomContent: () -> BottomContent
 
+    /// Vertical position (in points from top) where an item becomes "active"
+    /// Default: 100 points from top, which typically positions content nicely visible
+    var activationThreshold: CGFloat = 100
+
+    /// Anchor point within each item to track (0 = top, 0.5 = center, 1 = bottom)
+    var trackingAnchor: UnitPoint = UnitPoint(x: 0.5, y: 0.2)
+
+    /// Additional offset to apply when scrolling to a date (negative scrolls higher)
+    var scrollOffset: CGFloat = -16
+
     // MARK: - State
 
     @State private var hasAutoScrolled = false
 
     private var calendar: Calendar { Calendar.current }
+
+    private var isWatchOS: Bool {
+#if os(watchOS)
+        return true
+#else
+        return false
+#endif
+    }
 
     // MARK: - Initialization
 
@@ -75,17 +99,22 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
             let item = items[index]
             let dayDate = calendar.startOfDay(for: dateForItem(item))
 
-            rowContent(item)
-                .overlay(DayPositionTracker(date: dayDate))
-                .id(dayDate)
-                .padding()
-            
-            if index < items.count - 1 {
-                Divider()
+            VStack(spacing: 16) {
+                if index > 0 {
+                    Divider()
+                        .frame(minHeight: 8)
+                }
+
+                rowContent(item)
+                    .padding()
+                    .padding(.bottom, isWatchOS ? 24 : nil)
+                    .overlay(DayPositionTracker(date: dayDate, anchorPoint: trackingAnchor))
             }
+            .padding(.top, scrollOffset)
+            .id(dayDate)
         }
     }
-    
+
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.vertical) {
@@ -100,17 +129,23 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
             .accessibilityHint("Swipe to navigate between days")
             .onChange(of: scrollTarget) { _, newTarget in
                 guard let date = newTarget else { return }
-                // scroll after layout has updated
+                /*
+                 * scroll after layout has updated
+                 */
                 DispatchQueue.main.async {
                     withAnimation(.easeInOut) {
                         proxy.scrollTo(date, anchor: .top)
                     }
-                    // Clear the target once we've attempted the scroll.
+                    /*
+                     * Clear the target once we've attempted the scroll.
+                     */
                     scrollTarget = nil
                 }
             }
             .onAppear {
-                // Optional: if someone sets an initial scrollTarget before appearance
+                /*
+                 * Optional: if someone sets an initial scrollTarget before appearance
+                 */
                 if !hasAutoScrolled, let initial = scrollTarget {
                     DispatchQueue.main.async {
                         proxy.scrollTo(initial, anchor: .top)
@@ -121,12 +156,28 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
             }
         }
         .onPreferenceChange(DayPositionPreferenceKey.self) { values in
-            // Choose the day whose row is closest to the top (but still visible)
-            let sorted = values.sorted { lhs, rhs in
-                abs(lhs.value) < abs(rhs.value)
+            /*
+             * Find the item whose tracked anchor point is closest to our activation threshold.
+             * Only consider items that have crossed the threshold (are past it moving down).
+             */
+            let candidates = values.filter { _, position in
+                position >= 0 && position <= activationThreshold + 50
             }
-            if let first = sorted.first {
-                activeDate = calendar.startOfDay(for: first.key)
+
+            guard !candidates.isEmpty else { return }
+
+            /*
+             * Pick the one closest to our activation threshold
+             */
+            let sorted = candidates.sorted { lhs, rhs in
+                abs(lhs.value - activationThreshold) < abs(rhs.value - activationThreshold)
+            }
+
+            if let best = sorted.first {
+                let newActiveDate = calendar.startOfDay(for: best.key)
+                if newActiveDate != activeDate {
+                    activeDate = newActiveDate
+                }
             }
         }
     }

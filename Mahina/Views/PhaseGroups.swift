@@ -6,23 +6,23 @@ import SwiftUI
 /// status relative to the current lunar day. Supports both horizontal and vertical layouts.
 struct PhaseGroups: View {
     // MARK: - Properties
-
+    
     let rows: [MoonGroupRow]
     /// Callback when a group row is tapped for more information
     var onSelectRow: (MoonGroupRow) -> Void = { _ in }
     /// Whether to display groups vertically or horizontally
     var isVertical: Bool = false
-
+    
     // MARK: - Body
-
+    
     var body: some View {
         content
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel("Moon groups progress")
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel("Moon groups progress")
     }
-
+    
     // MARK: - View Components
-
+    
     /// Adaptive layout that switches between horizontal and vertical arrangements
     @ViewBuilder
     private var content: some View {
@@ -37,12 +37,12 @@ struct PhaseGroups: View {
             }
         }
     }
-
+    
     /// Collection of interactive group pills showing phase progress
     private var pills: some View {
         ForEach(rows.indices, id: \.self) { index in
             let row = rows[index]
-
+            
             Button {
                 onSelectRow(row)
             } label: {
@@ -57,17 +57,17 @@ struct PhaseGroups: View {
 private struct PhaseGroupRowView: View {
     let row: MoonGroupRow
     let isVertical: Bool
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(row.name)
                 .font(
                     .caption
-                    .weight(row.isActiveGroup ? .semibold : .regular)
+                        .weight(row.isActiveGroup ? .semibold : .regular)
                 )
                 .textCase(.uppercase)
                 .opacity(row.isActiveGroup ? 1.0 : 0.75)
-
+            
             FlowDotsView(days: row.days, isVertical: isVertical)
         }
         .accessibilityElement(children: .combine)
@@ -83,7 +83,7 @@ private struct FlowDotsView: View {
     let isVertical: Bool
     
     @Environment(\.colorScheme) private var colorScheme
-
+    
     var body: some View {
         HStack(spacing: 4) {
             ForEach(days) { day in

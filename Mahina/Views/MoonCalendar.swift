@@ -8,26 +8,28 @@ import Foundation
 /// provides month navigation controls.
 struct MoonCalendar: View {
     // MARK: - Properties
-
+    
     let monthData: MonthData
     @Binding var displayedMonth: Date
     @Binding var activeDate: Date
-
+    
+    @State private var dragOffset: CGFloat = 0
+    
     // MARK: - Platform Detection
-
+    
     private var isWatchOS: Bool {
-        #if os(watchOS)
+#if os(watchOS)
         return true
-        #else
+#else
         return false
-        #endif
+#endif
     }
-
+    
     /// Grid configuration for the 7-day week layout
     private let columns = Array(repeating: GridItem(.flexible(minimum: 24), spacing: 4), count: 7)
-
+    
     // MARK: - Body
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: isWatchOS ? 4 : 8) {
             HStack(spacing: 0) {
@@ -40,6 +42,8 @@ struct MoonCalendar: View {
                 Text(monthTitle)
                     .font(isWatchOS ? .body : .headline)
                     .fontWeight(.semibold)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
                     .frame(minHeight: 32)
                 Spacer(minLength: 8)
                 Button(action: { shiftMonth(1) }) {
@@ -98,24 +102,58 @@ struct MoonCalendar: View {
                 }
             }
         }
+        .gesture(
+            DragGesture(minimumDistance: 30)
+                .onChanged { value in
+                    dragOffset = value.translation.width
+                }
+                .onEnded { value in
+                    let swipeThreshold: CGFloat = 50
+                    if value.translation.width < -swipeThreshold {
+                        /* Swiped left → next month */
+                        shiftMonth(1)
+                    } else if value.translation.width > swipeThreshold {
+                        /* Swiped right → previous month */
+                        shiftMonth(-1)
+                    }
+                    dragOffset = 0
+                }
+        )
+        .accessibilityElement(children: .contain)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel("Calendar for \(monthTitle)")
+        .accessibilityHint("Swipe left for next month, swipe right for previous month, or use the navigation buttons")
+        .accessibilityAction(named: "Previous Month") {
+            shiftMonth(-1)
+        }
+        .accessibilityAction(named: "Next Month") {
+            shiftMonth(1)
+        }
     }
-
+    
     // MARK: - Helper Properties
-
+    
     /// Platform-specific moon image size
     private var moonImageSize: CGFloat {
         isWatchOS ? 20 : 24
     }
-
+    
     /// Formatted month/year title for the navigation header
     private var monthTitle: String {
+        let year = Calendar.current.component(.year, from: displayedMonth)
+        let monthName = HawaiianLocalization.month(for: displayedMonth) ?? englishMonth
+        return "\(monthName) \(year)"
+    }
+    
+    /// English month fallback
+    private var englishMonth: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = isWatchOS ? "LLL yyy": "LLLL yyyy"
+        formatter.dateFormat = isWatchOS ? "LLL" : "LLLL"
         return formatter.string(from: displayedMonth)
     }
-
+    
     // MARK: - Actions
-
+    
     /// Navigates to the previous or next month
     private func shiftMonth(_ months: Int) {
         if let newDate = Calendar.current.date(byAdding: .month, value: months, to: displayedMonth) {

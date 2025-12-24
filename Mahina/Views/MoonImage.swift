@@ -7,7 +7,7 @@ struct MoonImage: View {
         case simple   // Current white/black appearance
         // case detailed // Future textured appearance
     }
-
+    
     let day: Int
     var variant: Variant = .simple
     var isDetailed: Bool = false
@@ -15,7 +15,7 @@ struct MoonImage: View {
     var isAccentedRendering: Bool = false
     var accessibilityLabel: String? = nil
     var accessibilityValue: String? = nil
-
+    
     @Environment(\.colorScheme) private var colorScheme
     
     @ViewBuilder

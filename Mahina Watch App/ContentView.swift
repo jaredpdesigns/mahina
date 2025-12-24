@@ -18,63 +18,61 @@ struct ContentView: View {
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
     }
-    
+
     private var isToday: Bool {
         Calendar.current.isDateInToday(activeDate)
     }
-    
-    private var headerTitle: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE, MMM d, yyyy"
-        return formatter.string(from: activeDate)
+
+    private var scrollableDayList: some View {
+        var list = ScrollableDayList(
+            items: monthData.monthCalendar,
+            activeDate: $activeDate,
+            scrollTarget: $scrollTarget,
+            dateForItem: { $0.date }
+        ) { day in
+            DayDetail(
+                date: day.date,
+                phase: day.phase,
+                displayMode: .smallWidget
+            )
+        }
+
+        list.activationThreshold = 70
+
+        return list
     }
-    
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text(headerTitle)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-                    .allowsTightening(true)
+                DateHeader(date: activeDate)
                     .padding(.horizontal)
-                
-                ScrollableDayList(
-                    items: monthData.monthCalendar,
-                    activeDate: $activeDate,
-                    scrollTarget: $scrollTarget,
-                    dateForItem: { $0.date }
-                ) { day in
-                    DayDetail(
-                        date: day.date,
-                        phase: day.phase,
-                        displayMode: .smallWidget
-                    )
-                    .padding(.horizontal)
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
+
+                scrollableDayList
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button {
+                                scrollToToday()
+                            } label: {
+                                Image(systemName: isToday ? "moon.fill" : "moon")
+                                    .font(.title3)
+                            }
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                isShowingCalendarOverlay = true
+                            } label: {
+                                Image(systemName: "calendar")
+                                    .font(.title3)
+                            }
+                        }
+                    }
+                    .onAppear {
+                        if !hasAutoScrolledToToday {
                             scrollToToday()
-                        } label: {
-                            Image(systemName: isToday ? "moon.fill" : "moon")
-                                .font(.title3)
+                            hasAutoScrolledToToday = true
                         }
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            isShowingCalendarOverlay = true
-                        } label: {
-                            Image(systemName: "calendar")
-                                .font(.title3)
-                        }
-                    }
-                }
-                .onAppear {
-                    if !hasAutoScrolledToToday {
-                        scrollToToday()
-                        hasAutoScrolledToToday = true
-                    }
-                }
             }
         }
         .sheet(isPresented: $isShowingCalendarOverlay) {
@@ -85,7 +83,7 @@ struct ContentView: View {
                 ) { selectedDate, monthAnchor in
                     let calendar = Calendar.current
                     let normalized = calendar.startOfDay(for: selectedDate)
-                    
+
                     displayedMonth = monthAnchor
                     activeDate = normalized
                     isShowingCalendarOverlay = false
@@ -95,7 +93,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     private func scrollToToday() {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())

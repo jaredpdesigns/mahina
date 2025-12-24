@@ -8,24 +8,22 @@ import Foundation
 /// Manages the primary user experience for exploring the Hawaiian lunar calendar system.
 struct ContentView: View {
     // MARK: - State Properties
-
+    
     /// Date representing the month currently being displayed in the calendar
     @State private var displayedMonth: Date = Date()
     /// Currently selected/active date in the interface
     @State private var activeDate: Date = Date()
     /// Controls visibility of the month selection popover
     @State private var showCalendarPopover: Bool = false
-    /// Currently selected phase group for showing detail popover
-    @State private var selectedGroupRow: MoonGroupRow?
     /// Target date for programmatic scrolling
     @State private var scrollTarget: Date? = nil
     /// Height of the top overlay for layout calculations
     @State private var topOverlayHeight: CGFloat = 100
     /// Controls initial loading state and animation
     @State private var isInitialLoading: Bool = true
-
+    
     // MARK: - Computed Properties
-
+    
     /// Formatted date string for navigation title display
     private var navigationTitleString: String {
         let formatter = DateFormatter()
@@ -41,7 +39,9 @@ struct ContentView: View {
         return formatter.string(from: activeDate)
     }
     
-    // Derived month data
+    /*
+     * Derived month data
+     */
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
     }
@@ -60,7 +60,7 @@ struct ContentView: View {
     }
     
     private var mainScrollableList: some View {
-        ScrollableDayList(
+        var scrollableList = ScrollableDayList(
             items: monthData.monthCalendar.filter { !$0.isOverlap },
             activeDate: $activeDate,
             scrollTarget: $scrollTarget,
@@ -76,58 +76,39 @@ struct ContentView: View {
             Spacer()
                 .frame(height: topOverlayHeight + 200)
         }
+        
+        /*
+         * Use the actual top overlay height as the activation threshold
+         * so items become "active" when they clear the header
+         */
+        scrollableList.activationThreshold = topOverlayHeight
+        return scrollableList
     }
     
     private var topOverlayContent: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(weekdayString)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .accessibilityLabel("Selected day: \(weekdayString)")
-            Text(navigationTitleString)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(.bar)
-        .background(
-            GeometryReader { geometry in
-                Color.clear
-                    .onAppear {
-                        topOverlayHeight = geometry.size.height
-                    }
-                    .onChange(of: geometry.size.height) { _, newHeight in
-                        topOverlayHeight = newHeight
-                    }
-            }
-        )
+        DateHeader(date: activeDate)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(.bar)
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            topOverlayHeight = geometry.size.height
+                        }
+                        .onChange(of: geometry.size.height) { _, newHeight in
+                            topOverlayHeight = newHeight
+                        }
+                }
+            )
     }
     
     private var bottomOverlayContent: some View {
         VStack {
-            PhaseGroups(rows: groupRows) { row in
-                selectedGroupRow = row
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal)
-            .padding(.top)
-            .animation(nil, value: groupRows)
-            .accessibilityLabel("Moon phase groups")
-            .accessibilityHint("Shows progress through lunar cycle")
-            .popover(
-                item: $selectedGroupRow,
-                attachmentAnchor: .rect(.bounds),
-                arrowEdge: .bottom
-            ) { row in
-                MoonGroupInfoPopoverView(
-                    name: row.name,
-                    description: row.description,
-                    englishMeaning: row.englishMeaning
-                )
-                .frame(width: 360)
-                .presentationCompactAdaptation(.popover)
-            }
+            PhaseGroupsWithPopover(rows: groupRows)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+                .padding(.top)
         }
         .frame(maxWidth: .infinity)
         .background(.bar)
@@ -194,7 +175,7 @@ struct ContentView: View {
                 .accessibilityLabel("Select today")
                 .accessibilityHint("Change selected day to today")
             }
-
+            
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: { showCalendarPopover.toggle() }) {
                     Label("Calendar", systemImage: "calendar")
@@ -267,33 +248,10 @@ private struct LoadingView: View {
                 value: currentPhase.day
             )
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(weekdayString)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Text(navigationTitleString)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-            }
+            DateHeader(date: today)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
-    }
-}
-
-private struct MoonGroupInfoPopoverView: View {
-    let name: String
-    let description: String
-    let englishMeaning: String
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("\(name) (\(englishMeaning))")
-                .fontWeight(.semibold)
-            Text(description)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

@@ -4,8 +4,12 @@ import SwiftUI
 ///
 /// Shows the weekday in a secondary style above the full date in a large, bold format.
 /// Used consistently across iOS, macOS, and watchOS for Hawaiian date display.
+/// Tap to view the English translation in a popover (can be disabled).
 struct DateHeader: View {
     let date: Date
+    var enablePopover: Bool = true
+    
+    @State private var showEnglishTranslation = false
     
     // MARK: - Computed Properties
     
@@ -36,6 +40,13 @@ struct DateHeader: View {
         return formatter.string(from: date)
     }
     
+    private var fullEnglishDate: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateFormat = "EEEE, MMMM d, yyyy"
+        return formatter.string(from: date)
+    }
+    
     private var isWatchOS: Bool {
 #if os(watchOS)
         return true
@@ -47,6 +58,37 @@ struct DateHeader: View {
     // MARK: - Body
     
     var body: some View {
+        Group {
+            if enablePopover {
+                Button(action: { showEnglishTranslation.toggle() }) {
+                    dateContent
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .buttonStyle(.plain)
+                .accessibilityLabel("Date header: \(weekdayString), \(dateString)")
+                .accessibilityHint("Tap to view English translation")
+            } else {
+                dateContent
+                    .accessibilityLabel("Date header: \(weekdayString), \(dateString)")
+            }
+        }
+#if os(watchOS)
+        .sheet(isPresented: $showEnglishTranslation) {
+            DateTranslationPopoverView(englishDate: fullEnglishDate)
+        }
+#else
+        .popover(
+            isPresented: $showEnglishTranslation,
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .bottom
+        ) {
+            DateTranslationPopoverView(englishDate: fullEnglishDate)
+                .presentationCompactAdaptation(.popover)
+        }
+#endif
+    }
+    
+    private var dateContent: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(weekdayString)
                 .foregroundStyle(.secondary)
@@ -58,8 +100,18 @@ struct DateHeader: View {
     }
 }
 
+/// Popover content showing the English translation of the Hawaiian date.
+private struct DateTranslationPopoverView: View {
+    let englishDate: String
+    
+    var body: some View {
+        Text(englishDate)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 #Preview {
     DateHeader(date: Date())
         .padding()
 }
-

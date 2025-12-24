@@ -218,20 +218,6 @@ private struct LoadingView: View {
         MoonCalendarGenerator.phase(for: today)
     }
     
-    private var navigationTitleString: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "LLLL d, yyyy"
-        return formatter.string(from: today)
-    }
-    
-    private var weekdayString: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "EEEE"
-        return formatter.string(from: today)
-    }
-    
     var body: some View {
         VStack(spacing: 16) {
             MoonImage(
@@ -248,7 +234,7 @@ private struct LoadingView: View {
                 value: currentPhase.day
             )
             
-            DateHeader(date: today)
+            DateHeader(date: today, enablePopover: false)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))

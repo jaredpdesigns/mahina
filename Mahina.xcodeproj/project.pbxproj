@@ -129,6 +129,7 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				MahinaIcon.icon,
+				Models/LunarPhases.swift,
 				Models/MonthData.swift,
 				Models/MoonDay.swift,
 				Models/MoonGroup.swift,
@@ -147,6 +148,7 @@
 				Assets.xcassets,
 				MahinaIcon.icon,
 				Models/HawaiianLocalization.swift,
+				Models/LunarPhases.swift,
 				Models/MonthData.swift,
 				Models/MoonDay.swift,
 				Models/MoonGroup.swift,
@@ -175,6 +177,7 @@
 				Assets.xcassets,
 				MahinaIcon.icon,
 				Models/HawaiianLocalization.swift,
+				Models/LunarPhases.swift,
 				Models/MonthData.swift,
 				Models/MoonDay.swift,
 				Models/MoonGroup.swift,
@@ -211,6 +214,7 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				MahinaIcon.icon,
+				Models/LunarPhases.swift,
 				Models/MonthData.swift,
 				Models/MoonDay.swift,
 				Models/MoonGroup.swift,

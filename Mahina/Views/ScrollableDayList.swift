@@ -56,9 +56,6 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
     /// Anchor point within each item to track (0 = top, 0.5 = center, 1 = bottom)
     var trackingAnchor: UnitPoint = UnitPoint(x: 0.5, y: 0.2)
 
-    /// Additional offset to apply when scrolling to a date (negative scrolls higher)
-    var scrollOffset: CGFloat = -16
-
     // MARK: - State
 
     @State private var hasAutoScrolled = false
@@ -99,30 +96,45 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
             let item = items[index]
             let dayDate = calendar.startOfDay(for: dateForItem(item))
 
-            VStack(spacing: 16) {
-                if index > 0 {
-                    Divider()
-                        .frame(minHeight: 8)
-                }
-
+            if isWatchOS {
+                /*
+                 * Simple card display for watchOS without heavy effects
+                 */
                 rowContent(item)
-                    .padding()
-                    .padding(.bottom, isWatchOS ? 24 : nil)
                     .overlay(DayPositionTracker(date: dayDate, anchorPoint: trackingAnchor))
+                    .id(dayDate)
+            } else {
+                /*
+                 * Carousel scroll transition effects for iOS/macOS
+                 */
+                rowContent(item)
+                    .scrollTransition(.interactive, axis: .vertical) { content, phase in
+                        content
+                            .scaleEffect(
+                                x: phase.isIdentity ? 1.0 : 0.95,
+                                y: phase.isIdentity ? 1.0 : 0.95
+                            )
+                            .opacity(phase.isIdentity ? 1.0 : 0.6)
+                            .blur(radius: phase.isIdentity ? 0 : 2)
+                            .offset(y: phase.value * -20)
+                    }
+                    .overlay(DayPositionTracker(date: dayDate, anchorPoint: trackingAnchor))
+                    .id(dayDate)
             }
-            .padding(.top, scrollOffset)
-            .id(dayDate)
         }
     }
 
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.vertical) {
-                LazyVStack(alignment: .leading, spacing: 0) {
+                LazyVStack(alignment: .leading, spacing: isWatchOS ? 16 : 24) {
                     content()
                     bottomContent()
                 }
+                .scrollTargetLayout()
+                .padding(.vertical, isWatchOS ? 8 : 16)
             }
+            .scrollTargetBehavior(.viewAligned)
             .coordinateSpace(name: "scroll")
             .accessibilityElement(children: .contain)
             .accessibilityLabel("Lunar calendar days")
@@ -219,7 +231,7 @@ extension ScrollableDayList where BottomContent == EmptyView {
                 scrollTarget: $scrollTarget,
                 dateForItem: { $0.date }
             ) { day in
-                DayDetail(
+                DayCard(
                     date: day.date,
                     phase: day.phase,
                     displayMode: .full

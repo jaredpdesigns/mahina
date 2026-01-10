@@ -1,5 +1,4 @@
 import SwiftUI
-import Foundation
 
 /// Main view for the Mahina lunar calendar application.
 ///
@@ -8,7 +7,7 @@ import Foundation
 /// Manages the primary user experience for exploring the Hawaiian lunar calendar system.
 struct ContentView: View {
     // MARK: - State Properties
-    
+
     /// Date representing the month currently being displayed in the calendar
     @State private var displayedMonth: Date = Date()
     /// Currently selected/active date in the interface
@@ -17,48 +16,23 @@ struct ContentView: View {
     @State private var showCalendarPopover: Bool = false
     /// Target date for programmatic scrolling
     @State private var scrollTarget: Date? = nil
-    /// Height of the top overlay for layout calculations
-    @State private var topOverlayHeight: CGFloat = 100
     /// Controls initial loading state and animation
     @State private var isInitialLoading: Bool = true
-    
+
     // MARK: - Computed Properties
-    
-    /// Formatted date string for navigation title display
-    private var navigationTitleString: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "LLLL d, yyyy"
-        return formatter.string(from: activeDate)
-    }
-    
-    private var weekdayString: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "EEEE"
-        return formatter.string(from: activeDate)
-    }
-    
+
     /*
      * Derived month data
      */
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
     }
-    
-    
-    private var isToday: Bool {
-        Calendar.current.isDateInToday(activeDate)
-    }
-    
+
+
     private var groupRows: [MoonGroupRow] {
         MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: activeDate)
     }
-    
-    private var currentPhase: MoonPhase? {
-        MoonCalendarGenerator.phase(for: activeDate)
-    }
-    
+
     private var mainScrollableList: some View {
         var scrollableList = ScrollableDayList(
             items: monthData.monthCalendar.filter { !$0.isOverlap },
@@ -66,64 +40,51 @@ struct ContentView: View {
             scrollTarget: $scrollTarget,
             dateForItem: { $0.date }
         ) { day in
-            DayDetail(
+            DayCard(
                 date: day.date,
                 phase: day.phase,
                 displayMode: .full
             )
-            .padding(.vertical)
         } bottomContent: {
+            /*
+             * Bottom spacer to prevent last card from being covered by floating overlay
+             * Height accounts for pill height (~80pt) + padding (32pt) + safe area (34pt)
+             */
             Spacer()
-                .frame(height: topOverlayHeight + 200)
+                .frame(height: 150)
         }
-        
+
         /*
-         * Use the actual top overlay height as the activation threshold
-         * so items become "active" when they clear the header
+         * Use a card-friendly activation threshold (center of screen)
          */
-        scrollableList.activationThreshold = topOverlayHeight
+        scrollableList.activationThreshold = 200
         return scrollableList
     }
-    
-    private var topOverlayContent: some View {
-        DateHeader(date: activeDate)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .background(.bar)
-            .background(
-                GeometryReader { geometry in
-                    Color.clear
-                        .onAppear {
-                            topOverlayHeight = geometry.size.height
-                        }
-                        .onChange(of: geometry.size.height) { _, newHeight in
-                            topOverlayHeight = newHeight
-                        }
-                }
-            )
-    }
-    
+
     private var bottomOverlayContent: some View {
-        VStack {
-            PhaseGroupsWithPopover(rows: groupRows)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
-                .padding(.top)
-        }
-        .frame(maxWidth: .infinity)
-        .background(.bar)
+        PhaseGroupsWithPopover(rows: groupRows)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(.bar)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: -2)
+            )
+            .padding(.horizontal)
     }
-    
+
     var body: some View {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .bottom) {
+                /*
+                 * Background color for the carousel
+                 */
+                Color(.secondarySystemBackground)
+                    .ignoresSafeArea()
+
+                /*
+                 * Main scrollable card list
+                 */
                 mainScrollableList
-                    .safeAreaInset(edge: .top) {
-                        topOverlayContent
-                    }
-                    .safeAreaInset(edge: .bottom) {
-                        bottomOverlayContent
-                    }
                     .onAppear {
                         let calendar = Calendar.current
                         let today = calendar.startOfDay(for: Date())
@@ -131,10 +92,16 @@ struct ContentView: View {
                         activeDate = today
                         scrollTarget = today
                     }
-                
-                // Show loading view during initial load
+
+                /*
+                 * Floating pill-shaped phase groups indicator at bottom
+                 */
+                bottomOverlayContent
+
+                /*
+                 * Show loading view during initial load
+                 */
                 if isInitialLoading {
-                    
                     LoadingView()
                         .transition(.opacity)
                         .zIndex(1)
@@ -142,9 +109,10 @@ struct ContentView: View {
             }
             .toolbar { topToolbar() }
             .accessibilityLabel("Mahina Lunar Calendar")
-            .accessibilityValue("Currently viewing \(navigationTitleString)")
             .onChange(of: scrollTarget) { _, _ in
-                // Hide loading view after a delay when scroll target changes
+                /*
+                 * Hide loading view after a delay when scroll target changes
+                 */
                 if isInitialLoading {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                         withAnimation(.easeOut(duration: 0.5)) {
@@ -155,7 +123,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     @ToolbarContentBuilder
     private func topToolbar() -> some ToolbarContent {
         if !isInitialLoading {
@@ -168,6 +136,7 @@ struct ContentView: View {
                     scrollTarget = today
                 }) {
                     HStack(spacing: 4) {
+                        let isToday = Calendar.current.isDateInToday(activeDate)
                         Image(systemName: isToday ? "moon.fill" : "moon")
                         Text("Today")
                     }
@@ -175,7 +144,7 @@ struct ContentView: View {
                 .accessibilityLabel("Select today")
                 .accessibilityHint("Change selected day to today")
             }
-            
+
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: { showCalendarPopover.toggle() }) {
                     Label("Calendar", systemImage: "calendar")
@@ -204,20 +173,16 @@ struct ContentView: View {
             }
         }
     }
-    
-    private func phaseFor(date: Date, in data: MonthData) -> MoonPhase? {
-        data.monthBuilt.first(where: { Calendar.current.isDate($0.date, inSameDayAs: date) })?.phase
-    }
 }
 
 
 private struct LoadingView: View {
     let today = Date()
-    
+
     private var currentPhase: MoonPhase {
         MoonCalendarGenerator.phase(for: today)
     }
-    
+
     var body: some View {
         VStack(spacing: 16) {
             MoonImage(
@@ -233,8 +198,9 @@ private struct LoadingView: View {
                 .repeatForever(autoreverses: true),
                 value: currentPhase.day
             )
-            
-            DateHeader(date: today, enablePopover: false)
+
+            Text(currentPhase.name)
+                .font(.headline)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))

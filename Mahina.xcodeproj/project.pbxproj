@@ -156,6 +156,7 @@
 				Models/MoonPhase.swift,
 				Services/MoonCalendarGenerator.swift,
 				Views/DateHeader.swift,
+				Views/DayCard.swift,
 				Views/DayDetail.swift,
 				Views/MoonCalendar.swift,
 				Views/MoonCalendarOverlay.swift,

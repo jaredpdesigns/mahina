@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Main interface for the Mahina lunar calendar Apple Watch application.
 ///
-/// Displays a compact, scrollable view of lunar phases optimized for the watch interface.
+/// Displays a compact, scrollable carousel of lunar phase cards optimized for the watch interface.
 /// Provides essential navigation and phase information with watchOS-appropriate sizing and interaction patterns.
 struct ContentView: View {
     // MARK: - State Properties
@@ -30,50 +30,51 @@ struct ContentView: View {
             scrollTarget: $scrollTarget,
             dateForItem: { $0.date }
         ) { day in
-            DayDetail(
+            /*
+             * Use compact card design for watch
+             */
+            DayCard(
                 date: day.date,
                 phase: day.phase,
                 displayMode: .smallWidget
             )
         }
 
-        list.activationThreshold = 70
+        /*
+         * Lower activation threshold for watch screen
+         */
+        list.activationThreshold = 50
 
         return list
     }
 
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 8) {
-                DateHeader(date: activeDate)
-                    .padding(.horizontal)
-
-                scrollableDayList
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button {
-                                scrollToToday()
-                            } label: {
-                                Image(systemName: isToday ? "moon.fill" : "moon")
-                                    .font(.title3)
-                            }
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                isShowingCalendarOverlay = true
-                            } label: {
-                                Image(systemName: "calendar")
-                                    .font(.title3)
-                            }
-                        }
-                    }
-                    .onAppear {
-                        if !hasAutoScrolledToToday {
+            scrollableDayList
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
                             scrollToToday()
-                            hasAutoScrolledToToday = true
+                        } label: {
+                            Image(systemName: isToday ? "moon.fill" : "moon")
+                                .font(.title3)
                         }
                     }
-            }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            isShowingCalendarOverlay = true
+                        } label: {
+                            Image(systemName: "calendar")
+                                .font(.title3)
+                        }
+                    }
+                }
+                .onAppear {
+                    if !hasAutoScrolledToToday {
+                        scrollToToday()
+                        hasAutoScrolledToToday = true
+                    }
+                }
         }
         .sheet(isPresented: $isShowingCalendarOverlay) {
             ScrollView {
@@ -98,14 +99,18 @@ struct ContentView: View {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
-        // Anchor the displayed month to the month that contains today.
+        /*
+         * Anchor the displayed month to the month that contains today.
+         */
         if let monthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: today)) {
             displayedMonth = monthStart
         } else {
             displayedMonth = today
         }
 
-        // Make today the active date and schedule a scroll to that day.
+        /*
+         * Make today the active date and schedule a scroll to that day.
+         */
         activeDate = today
         scrollTarget = today
     }

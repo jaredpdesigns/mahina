@@ -1,5 +1,4 @@
 import SwiftUI
-import Foundation
 import Combine
 
 @main
@@ -78,6 +77,13 @@ class MoonController: ObservableObject {
 
     private func updateCurrentPhase() {
         currentPhase = MoonCalendarGenerator.phase(for: Date())
+    }
+
+    /*
+     * Updates the displayed phase for a specific date
+     */
+    func updatePhase(for date: Date) {
+        currentPhase = MoonCalendarGenerator.phase(for: date)
     }
 
     private func scheduleMidnightUpdate() {

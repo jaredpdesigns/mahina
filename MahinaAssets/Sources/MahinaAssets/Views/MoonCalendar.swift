@@ -9,16 +9,18 @@ public struct MoonCalendar: View {
     // MARK: - Properties
 
     public let monthData: MonthData
+    public var enablePopover: Bool = true
 @Binding public var displayedMonth: Date
 @Binding public var activeDate: Date
 
 @State public var dragOffset: CGFloat = 0
 @State public var showEnglishTranslation = false
 
-    public init(monthData: MonthData, displayedMonth: Binding<Date>, activeDate: Binding<Date>) {
+    public init(monthData: MonthData, displayedMonth: Binding<Date>, activeDate: Binding<Date>, enablePopover: Bool = true) {
         self.monthData = monthData
         self._displayedMonth = displayedMonth
         self._activeDate = activeDate
+        self.enablePopover = enablePopover
     }
 
     // MARK: - Platform Detection
@@ -45,17 +47,17 @@ public struct MoonCalendar: View {
                         .contentShape(Rectangle())
                 }
                 Spacer(minLength: 8)
-                Button(action: { showEnglishTranslation.toggle() }) {
-                    Text(monthTitle)
-                        .font(isWatchOS ? .body : .headline)
-                        .fontWeight(.semibold)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                        .frame(minHeight: 32)
+                if enablePopover {
+                    Button(action: { showEnglishTranslation.toggle() }) {
+                        monthTitleText
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Month header: \(monthTitle)")
+                    .accessibilityHint("Tap to view English translation")
+                } else {
+                    monthTitleText
+                        .accessibilityLabel("Month header: \(monthTitle)")
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Month header: \(monthTitle)")
-                .accessibilityHint("Tap to view English translation")
                 Spacer(minLength: 8)
                 Button(action: { shiftMonth(1) }) {
                     Image(systemName: "chevron.right")
@@ -69,7 +71,9 @@ public struct MoonCalendar: View {
             .padding(.bottom, isWatchOS ? 0:8)
 #if os(watchOS)
             .sheet(isPresented: $showEnglishTranslation) {
-                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+                if enablePopover {
+                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+                }
             }
 #else
             .popover(
@@ -77,8 +81,10 @@ public struct MoonCalendar: View {
                 attachmentAnchor: .rect(.bounds),
                 arrowEdge: .top
             ) {
-                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
-                    .presentationCompactAdaptation(.popover)
+                if enablePopover {
+                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+                        .presentationCompactAdaptation(.popover)
+                }
             }
 #endif
             HStack {
@@ -161,6 +167,16 @@ public struct MoonCalendar: View {
     /// Platform-specific moon image size
     private var moonImageSize: CGFloat {
         isWatchOS ? 20 : 24
+    }
+
+    /// Month title text view
+    private var monthTitleText: some View {
+        Text(monthTitle)
+            .font(isWatchOS ? .body : .headline)
+            .fontWeight(.semibold)
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .frame(minHeight: 32)
     }
 
     /// Formatted month/year title for the navigation header

@@ -62,16 +62,8 @@ struct MahinaComplicationsEntryView: View {
                 Image("moon-\(entry.phase.day)")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 44, height: 44)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(entry.phase.name)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.secondary)
-                    Text(entry.phase.description)
-                        .font(.footnote)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer()
+                    .frame(width: 24, height: 24)
+                DateHeader(date: entry.date)
             }
 
 

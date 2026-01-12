@@ -82,6 +82,7 @@ struct ContentView: View {
                 MoonCalendarOverlay(
                     initialMonth: displayedMonth,
                     initialActiveDate: activeDate,
+                    enablePopover: false
                 ) { selectedDate, monthAnchor in
                     let calendar = Calendar.current
                     let normalized = calendar.startOfDay(for: selectedDate)

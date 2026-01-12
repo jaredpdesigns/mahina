@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6129C1AE2EDE357100684393"
-               BuildableName = "Mahina Watch App.app"
-               BlueprintName = "Mahina Watch App"
-               ReferencedContainer = "container:Mahina.xcodeproj">
+               BlueprintIdentifier = "6138DC182EF4C59000DCB3DC"
+               BuildableName = "Mahina Hawaii MenuBar.app"
+               BlueprintName = "Mahina Hawaii MenuBar"
+               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6129C1AE2EDE357100684393"
-            BuildableName = "Mahina Watch App.app"
-            BlueprintName = "Mahina Watch App"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BlueprintIdentifier = "6138DC182EF4C59000DCB3DC"
+            BuildableName = "Mahina Hawaii MenuBar.app"
+            BlueprintName = "Mahina Hawaii MenuBar"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6129C1AE2EDE357100684393"
-            BuildableName = "Mahina Watch App.app"
-            BlueprintName = "Mahina Watch App"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BlueprintIdentifier = "6138DC182EF4C59000DCB3DC"
+            BuildableName = "Mahina Hawaii MenuBar.app"
+            BlueprintName = "Mahina Hawaii MenuBar"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

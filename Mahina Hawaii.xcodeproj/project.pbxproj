@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		611AD8EA2EE0D77300B6BFAC /* MahinaComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		611AD8EE2EE0D78000B6BFAC /* MahinaComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		611AD8F12EE0D78000B6BFAC /* MahinaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		611AD8EA2EE0D77300B6BFAC /* Mahina HawaiiComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		611AD8EE2EE0D78000B6BFAC /* Mahina HawaiiComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		611AD8F12EE0D78000B6BFAC /* Mahina HawaiiWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 611AF8942ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		611AF8972ED7C4BB00CB610E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8962ED7C4BB00CB610E /* WidgetKit.framework */; };
 		611AF8992ED7C4BB00CB610E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8982ED7C4BB00CB610E /* SwiftUI.framework */; };
 		618A60D62F11EC5100707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D52F11EC5100707800 /* MahinaAssets */; };
@@ -19,7 +19,7 @@
 		618A60DE2F11ECCA00707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60DD2F11ECCA00707800 /* MahinaAssets */; };
 		61C8DFC02EDE57D70034DF62 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8962ED7C4BB00CB610E /* WidgetKit.framework */; };
 		61C8DFC12EDE57D70034DF62 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8982ED7C4BB00CB610E /* SwiftUI.framework */; };
-		61C8DFDD2EDE62520034DF62 /* Mahina Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6129C1AF2EDE357100684393 /* Mahina Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		61C8DFDD2EDE62520034DF62 /* Mahina Hawaii Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6129C1AF2EDE357100684393 /* Mahina Hawaii Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +74,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				611AD8EA2EE0D77300B6BFAC /* MahinaComplicationsExtension.appex in Embed Foundation Extensions */,
+				611AD8EA2EE0D77300B6BFAC /* Mahina HawaiiComplicationsExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,8 +85,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				611AD8F12EE0D78000B6BFAC /* MahinaWidgetExtensionExtension.appex in Embed Foundation Extensions */,
-				611AD8EE2EE0D78000B6BFAC /* MahinaComplicationsExtension.appex in Embed Foundation Extensions */,
+				611AD8F12EE0D78000B6BFAC /* Mahina HawaiiWidgetExtensionExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,7 +96,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				61C8DFDD2EDE62520034DF62 /* Mahina Watch App.app in Embed Watch Content */,
+				61C8DFDD2EDE62520034DF62 /* Mahina Hawaii Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,81 +104,82 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MahinaWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		611AF8942ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mahina HawaiiWidgetExtensionExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		611AF8962ED7C4BB00CB610E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		611AF8982ED7C4BB00CB610E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		6129C1AF2EDE357100684393 /* Mahina Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		613480072ECCE855000D7A53 /* Mahina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mahina.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina MenuBar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MahinaComplicationsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6129C1AF2EDE357100684393 /* Mahina Hawaii Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Hawaii Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		613480072ECCE855000D7A53 /* Mahina Hawaii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Hawaii.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6138DC192EF4C59000DCB3DC /* Mahina Hawaii MenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Hawaii MenuBar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mahina HawaiiComplicationsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		611AF88F2ED7BB1800CB610E /* Exceptions for "Mahina" folder in "Mahina" target */ = {
+		611AF88F2ED7BB1800CB610E /* Exceptions for "Mahina" folder in "Mahina Hawaii" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 613480062ECCE854000D7A53 /* Mahina */;
+			target = 613480062ECCE854000D7A53 /* Mahina Hawaii */;
 		};
-		611AF8AA2ED7C4BC00CB610E /* Exceptions for "MahinaWidgetExtension" folder in "MahinaWidgetExtensionExtension" target */ = {
+		611AF8AA2ED7C4BC00CB610E /* Exceptions for "MahinaWidgetExtension" folder in "Mahina HawaiiWidgetExtensionExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
+			target = 611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */;
 		};
-		6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */ = {
+		6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Hawaii Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
+			target = 6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */;
 		};
-		6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina MenuBar" target */ = {
+		6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina Hawaii MenuBar" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Info.plist,
 				Item.swift,
 				MahinaMenuBarApp.swift,
 			);
-			target = 6138DC182EF4C59000DCB3DC /* Mahina MenuBar */;
+			target = 6138DC182EF4C59000DCB3DC /* Mahina Hawaii MenuBar */;
 		};
-		61C8DFD22EDE57D80034DF62 /* Exceptions for "MahinaComplications" folder in "MahinaComplicationsExtension" target */ = {
+		61C8DFD22EDE57D80034DF62 /* Exceptions for "MahinaComplications" folder in "Mahina HawaiiComplicationsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
+			target = 61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */;
 		};
-		61EA34A32F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */ = {
+		61EA34A32F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina HawaiiWidgetExtensionExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
 			);
-			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
+			target = 611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */;
 		};
-		61EA34A42F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-				MahinaIcon.icon,
-			);
-			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
-		};
-		61EA34A52F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-			);
-			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
-		};
-		61EA34A62F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */ = {
+		61EA34A42F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Hawaii Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
 				MahinaIcon.icon,
 			);
-			target = 6138DC182EF4C59000DCB3DC /* Mahina MenuBar */;
+			target = 6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */;
+		};
+		61EA34A52F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina HawaiiComplicationsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */;
+		};
+		61EA34A62F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Hawaii MenuBar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				MahinaIcon.icon,
+			);
+			target = 6138DC182EF4C59000DCB3DC /* Mahina Hawaii MenuBar */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -187,7 +187,7 @@
 		611AF89A2ED7C4BB00CB610E /* MahinaWidgetExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				611AF8AA2ED7C4BC00CB610E /* Exceptions for "MahinaWidgetExtension" folder in "MahinaWidgetExtensionExtension" target */,
+				611AF8AA2ED7C4BC00CB610E /* Exceptions for "MahinaWidgetExtension" folder in "Mahina HawaiiWidgetExtensionExtension" target */,
 			);
 			path = MahinaWidgetExtension;
 			sourceTree = "<group>";
@@ -195,7 +195,7 @@
 		6129C1B02EDE357100684393 /* Mahina Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */,
+				6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Hawaii Watch App" target */,
 			);
 			path = "Mahina Watch App";
 			sourceTree = "<group>";
@@ -203,11 +203,11 @@
 		613480092ECCE855000D7A53 /* Mahina */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				611AF88F2ED7BB1800CB610E /* Exceptions for "Mahina" folder in "Mahina" target */,
-				61EA34A32F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */,
-				61EA34A42F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */,
-				61EA34A52F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */,
-				61EA34A62F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */,
+				611AF88F2ED7BB1800CB610E /* Exceptions for "Mahina" folder in "Mahina Hawaii" target */,
+				61EA34A32F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina HawaiiWidgetExtensionExtension" target */,
+				61EA34A42F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Hawaii Watch App" target */,
+				61EA34A52F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina HawaiiComplicationsExtension" target */,
+				61EA34A62F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Hawaii MenuBar" target */,
 			);
 			path = Mahina;
 			sourceTree = "<group>";
@@ -215,7 +215,7 @@
 		6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina MenuBar" target */,
+				6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina Hawaii MenuBar" target */,
 			);
 			path = "Mahina MenuBar";
 			sourceTree = "<group>";
@@ -223,7 +223,7 @@
 		61C8DFC22EDE57D70034DF62 /* MahinaComplications */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				61C8DFD22EDE57D80034DF62 /* Exceptions for "MahinaComplications" folder in "MahinaComplicationsExtension" target */,
+				61C8DFD22EDE57D80034DF62 /* Exceptions for "MahinaComplications" folder in "Mahina HawaiiComplicationsExtension" target */,
 			);
 			path = MahinaComplications;
 			sourceTree = "<group>";
@@ -303,11 +303,11 @@
 		613480082ECCE855000D7A53 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				613480072ECCE855000D7A53 /* Mahina.app */,
-				611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */,
-				6129C1AF2EDE357100684393 /* Mahina Watch App.app */,
-				61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */,
-				6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */,
+				613480072ECCE855000D7A53 /* Mahina Hawaii.app */,
+				611AF8942ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension.appex */,
+				6129C1AF2EDE357100684393 /* Mahina Hawaii Watch App.app */,
+				61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */,
+				6138DC192EF4C59000DCB3DC /* Mahina Hawaii MenuBar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -315,9 +315,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */ = {
+		611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 611AF8A72ED7C4BC00CB610E /* Build configuration list for PBXNativeTarget "MahinaWidgetExtensionExtension" */;
+			buildConfigurationList = 611AF8A72ED7C4BC00CB610E /* Build configuration list for PBXNativeTarget "Mahina HawaiiWidgetExtensionExtension" */;
 			buildPhases = (
 				611AF8902ED7C4BB00CB610E /* Sources */,
 				611AF8912ED7C4BB00CB610E /* Frameworks */,
@@ -330,17 +330,17 @@
 			fileSystemSynchronizedGroups = (
 				611AF89A2ED7C4BB00CB610E /* MahinaWidgetExtension */,
 			);
-			name = MahinaWidgetExtensionExtension;
+			name = "Mahina HawaiiWidgetExtensionExtension";
 			packageProductDependencies = (
 				618A60D72F11ECB600707800 /* MahinaAssets */,
 			);
 			productName = MahinaWidgetExtensionExtension;
-			productReference = 611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */;
+			productReference = 611AF8942ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		6129C1AE2EDE357100684393 /* Mahina Watch App */ = {
+		6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6129C1B72EDE357200684393 /* Build configuration list for PBXNativeTarget "Mahina Watch App" */;
+			buildConfigurationList = 6129C1B72EDE357200684393 /* Build configuration list for PBXNativeTarget "Mahina Hawaii Watch App" */;
 			buildPhases = (
 				6129C1AB2EDE357100684393 /* Sources */,
 				6129C1AC2EDE357100684393 /* Frameworks */,
@@ -355,17 +355,17 @@
 			fileSystemSynchronizedGroups = (
 				6129C1B02EDE357100684393 /* Mahina Watch App */,
 			);
-			name = "Mahina Watch App";
+			name = "Mahina Hawaii Watch App";
 			packageProductDependencies = (
 				618A60D92F11ECBE00707800 /* MahinaAssets */,
 			);
 			productName = "Mahina Watch App";
-			productReference = 6129C1AF2EDE357100684393 /* Mahina Watch App.app */;
+			productReference = 6129C1AF2EDE357100684393 /* Mahina Hawaii Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		613480062ECCE854000D7A53 /* Mahina */ = {
+		613480062ECCE854000D7A53 /* Mahina Hawaii */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 613480142ECCE857000D7A53 /* Build configuration list for PBXNativeTarget "Mahina" */;
+			buildConfigurationList = 613480142ECCE857000D7A53 /* Build configuration list for PBXNativeTarget "Mahina Hawaii" */;
 			buildPhases = (
 				613480032ECCE854000D7A53 /* Sources */,
 				613480042ECCE854000D7A53 /* Frameworks */,
@@ -378,24 +378,23 @@
 			dependencies = (
 				617CE45A2EDE677D00387E03 /* PBXTargetDependency */,
 				6170A0B92EDE6EBB009E10E4 /* PBXTargetDependency */,
-				611AD8F02EE0D78000B6BFAC /* PBXTargetDependency */,
 				611AD8F32EE0D78000B6BFAC /* PBXTargetDependency */,
 				611AD8F62EE0DB2900B6BFAC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				613480092ECCE855000D7A53 /* Mahina */,
 			);
-			name = Mahina;
+			name = "Mahina Hawaii";
 			packageProductDependencies = (
 				618A60D52F11EC5100707800 /* MahinaAssets */,
 			);
 			productName = Mahina;
-			productReference = 613480072ECCE855000D7A53 /* Mahina.app */;
+			productReference = 613480072ECCE855000D7A53 /* Mahina Hawaii.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6138DC182EF4C59000DCB3DC /* Mahina MenuBar */ = {
+		6138DC182EF4C59000DCB3DC /* Mahina Hawaii MenuBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6138DC232EF4C59100DCB3DC /* Build configuration list for PBXNativeTarget "Mahina MenuBar" */;
+			buildConfigurationList = 6138DC232EF4C59100DCB3DC /* Build configuration list for PBXNativeTarget "Mahina Hawaii MenuBar" */;
 			buildPhases = (
 				6138DC152EF4C59000DCB3DC /* Sources */,
 				6138DC162EF4C59000DCB3DC /* Frameworks */,
@@ -408,17 +407,17 @@
 			fileSystemSynchronizedGroups = (
 				6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */,
 			);
-			name = "Mahina MenuBar";
+			name = "Mahina Hawaii MenuBar";
 			packageProductDependencies = (
 				618A60DD2F11ECCA00707800 /* MahinaAssets */,
 			);
 			productName = "Mahina MenuBar";
-			productReference = 6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */;
+			productReference = 6138DC192EF4C59000DCB3DC /* Mahina Hawaii MenuBar.app */;
 			productType = "com.apple.product-type.application";
 		};
-		61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */ = {
+		61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 61C8DFCF2EDE57D80034DF62 /* Build configuration list for PBXNativeTarget "MahinaComplicationsExtension" */;
+			buildConfigurationList = 61C8DFCF2EDE57D80034DF62 /* Build configuration list for PBXNativeTarget "Mahina HawaiiComplicationsExtension" */;
 			buildPhases = (
 				61C8DFBB2EDE57D70034DF62 /* Sources */,
 				61C8DFBC2EDE57D70034DF62 /* Frameworks */,
@@ -431,12 +430,12 @@
 			fileSystemSynchronizedGroups = (
 				61C8DFC22EDE57D70034DF62 /* MahinaComplications */,
 			);
-			name = MahinaComplicationsExtension;
+			name = "Mahina HawaiiComplicationsExtension";
 			packageProductDependencies = (
 				618A60DB2F11ECC300707800 /* MahinaAssets */,
 			);
 			productName = MahinaComplicationsExtension;
-			productReference = 61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */;
+			productReference = 61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -466,7 +465,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 613480022ECCE854000D7A53 /* Build configuration list for PBXProject "Mahina" */;
+			buildConfigurationList = 613480022ECCE854000D7A53 /* Build configuration list for PBXProject "Mahina Hawaii" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -483,11 +482,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				613480062ECCE854000D7A53 /* Mahina */,
-				611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */,
-				6129C1AE2EDE357100684393 /* Mahina Watch App */,
-				61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */,
-				6138DC182EF4C59000DCB3DC /* Mahina MenuBar */,
+				613480062ECCE854000D7A53 /* Mahina Hawaii */,
+				611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */,
+				6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */,
+				61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */,
+				6138DC182EF4C59000DCB3DC /* Mahina Hawaii MenuBar */,
 			);
 		};
 /* End PBXProject section */
@@ -571,32 +570,32 @@
 /* Begin PBXTargetDependency section */
 		611AD8EC2EE0D77300B6BFAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
+			target = 61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */;
 			targetProxy = 611AD8EB2EE0D77300B6BFAC /* PBXContainerItemProxy */;
 		};
 		611AD8F02EE0D78000B6BFAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
+			target = 61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */;
 			targetProxy = 611AD8EF2EE0D78000B6BFAC /* PBXContainerItemProxy */;
 		};
 		611AD8F32EE0D78000B6BFAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
+			target = 611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */;
 			targetProxy = 611AD8F22EE0D78000B6BFAC /* PBXContainerItemProxy */;
 		};
 		611AD8F62EE0DB2900B6BFAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
+			target = 6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */;
 			targetProxy = 611AD8F52EE0DB2900B6BFAC /* PBXContainerItemProxy */;
 		};
 		6170A0B92EDE6EBB009E10E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
+			target = 611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */;
 			targetProxy = 6170A0B82EDE6EBB009E10E4 /* PBXContainerItemProxy */;
 		};
 		617CE45A2EDE677D00387E03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
+			target = 611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */;
 			targetProxy = 617CE4592EDE677D00387E03 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -690,7 +689,7 @@
 				INFOPLIST_FILE = "Mahina Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mahina;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.jaredpdesigns.Mahina;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.jaredpdesigns.Mahina";
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -728,7 +727,7 @@
 				INFOPLIST_FILE = "Mahina Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Mahina;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.jaredpdesigns.Mahina;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.jaredpdesigns.Mahina";
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -889,6 +888,7 @@
 				INFOPLIST_FILE = Mahina/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mahina;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -938,6 +938,7 @@
 				INFOPLIST_FILE = Mahina/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mahina;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -975,6 +976,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = MahinaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -985,7 +987,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Mahina-MenuBar-Info.plist";
+				INFOPLIST_FILE = "Mahina MenuBar/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -994,7 +996,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaredpdesigns.Mahina-MenuBar";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jaredpdesigns.MahinaMenuBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
@@ -1012,6 +1014,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = MahinaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1022,7 +1025,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Mahina-MenuBar-Info.plist";
+				INFOPLIST_FILE = "Mahina MenuBar/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1031,7 +1034,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaredpdesigns.Mahina-MenuBar";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jaredpdesigns.MahinaMenuBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
@@ -1116,7 +1119,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		611AF8A72ED7C4BC00CB610E /* Build configuration list for PBXNativeTarget "MahinaWidgetExtensionExtension" */ = {
+		611AF8A72ED7C4BC00CB610E /* Build configuration list for PBXNativeTarget "Mahina HawaiiWidgetExtensionExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				611AF8A82ED7C4BC00CB610E /* Debug */,
@@ -1125,7 +1128,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6129C1B72EDE357200684393 /* Build configuration list for PBXNativeTarget "Mahina Watch App" */ = {
+		6129C1B72EDE357200684393 /* Build configuration list for PBXNativeTarget "Mahina Hawaii Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6129C1B82EDE357200684393 /* Debug */,
@@ -1134,7 +1137,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		613480022ECCE854000D7A53 /* Build configuration list for PBXProject "Mahina" */ = {
+		613480022ECCE854000D7A53 /* Build configuration list for PBXProject "Mahina Hawaii" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				613480122ECCE857000D7A53 /* Debug */,
@@ -1143,7 +1146,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		613480142ECCE857000D7A53 /* Build configuration list for PBXNativeTarget "Mahina" */ = {
+		613480142ECCE857000D7A53 /* Build configuration list for PBXNativeTarget "Mahina Hawaii" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				613480152ECCE857000D7A53 /* Debug */,
@@ -1152,7 +1155,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6138DC232EF4C59100DCB3DC /* Build configuration list for PBXNativeTarget "Mahina MenuBar" */ = {
+		6138DC232EF4C59100DCB3DC /* Build configuration list for PBXNativeTarget "Mahina Hawaii MenuBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6138DC242EF4C59100DCB3DC /* Debug */,
@@ -1161,7 +1164,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		61C8DFCF2EDE57D80034DF62 /* Build configuration list for PBXNativeTarget "MahinaComplicationsExtension" */ = {
+		61C8DFCF2EDE57D80034DF62 /* Build configuration list for PBXNativeTarget "Mahina HawaiiComplicationsExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				61C8DFD02EDE57D80034DF62 /* Debug */,

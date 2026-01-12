@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "61C8DFBE2EDE57D70034DF62"
-               BuildableName = "MahinaComplicationsExtension.appex"
-               BlueprintName = "MahinaComplicationsExtension"
-               ReferencedContainer = "container:Mahina.xcodeproj">
+               BuildableName = "Mahina HawaiiComplicationsExtension.appex"
+               BlueprintName = "Mahina HawaiiComplicationsExtension"
+               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,9 +31,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6129C1AE2EDE357100684393"
-               BuildableName = "Mahina Watch App.app"
-               BlueprintName = "Mahina Watch App"
-               ReferencedContainer = "container:Mahina.xcodeproj">
+               BuildableName = "Mahina Hawaii Watch App.app"
+               BlueprintName = "Mahina Hawaii Watch App"
+               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,18 +62,18 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "61C8DFBE2EDE57D70034DF62"
-            BuildableName = "MahinaComplicationsExtension.appex"
-            BlueprintName = "MahinaComplicationsExtension"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BuildableName = "Mahina HawaiiComplicationsExtension.appex"
+            BlueprintName = "Mahina HawaiiComplicationsExtension"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6129C1AE2EDE357100684393"
-            BuildableName = "Mahina Watch App.app"
-            BlueprintName = "Mahina Watch App"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BuildableName = "Mahina Hawaii Watch App.app"
+            BlueprintName = "Mahina Hawaii Watch App"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <EnvironmentVariables>
@@ -105,9 +105,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "61C8DFBE2EDE57D70034DF62"
-            BuildableName = "MahinaComplicationsExtension.appex"
-            BlueprintName = "MahinaComplicationsExtension"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BuildableName = "Mahina HawaiiComplicationsExtension.appex"
+            BlueprintName = "Mahina HawaiiComplicationsExtension"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

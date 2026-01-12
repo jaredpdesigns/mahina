@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "611AF8932ED7C4BB00CB610E"
-               BuildableName = "MahinaWidgetExtensionExtension.appex"
-               BlueprintName = "MahinaWidgetExtensionExtension"
-               ReferencedContainer = "container:Mahina.xcodeproj">
+               BuildableName = "Mahina HawaiiWidgetExtensionExtension.appex"
+               BlueprintName = "Mahina HawaiiWidgetExtensionExtension"
+               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,9 +31,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "613480062ECCE854000D7A53"
-               BuildableName = "Mahina.app"
-               BlueprintName = "Mahina"
-               ReferencedContainer = "container:Mahina.xcodeproj">
+               BuildableName = "Mahina Hawaii.app"
+               BlueprintName = "Mahina Hawaii"
+               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "613480062ECCE854000D7A53"
-            BuildableName = "Mahina.app"
-            BlueprintName = "Mahina"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BuildableName = "Mahina Hawaii.app"
+            BlueprintName = "Mahina Hawaii"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -98,9 +98,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "613480062ECCE854000D7A53"
-            BuildableName = "Mahina.app"
-            BlueprintName = "Mahina"
-            ReferencedContainer = "container:Mahina.xcodeproj">
+            BuildableName = "Mahina Hawaii.app"
+            BlueprintName = "Mahina Hawaii"
+            ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

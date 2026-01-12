@@ -23,6 +23,22 @@ public struct DayCard: View {
 #endif
     }
 
+    private var isIPad: Bool {
+#if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .pad
+#else
+        return false
+#endif
+    }
+
+    private var isIPadLandscape: Bool {
+#if os(iOS)
+        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
+#else
+        return false
+#endif
+    }
+
     private var cardBackgroundColor: Color {
 #if os(watchOS)
         return Color(.darkGray).opacity(0.3)
@@ -33,33 +49,36 @@ public struct DayCard: View {
 #endif
     }
 
+    private var cardPadding: CGFloat {
+        if isWatchOS {
+            return 12
+        } else if isIPad {
+            return 32
+        } else {
+            return 16
+        }
+    }
+
     public var body: some View {
-        VStack(alignment: .leading, spacing: isWatchOS ? 12 : 24) {
-            /*
-             * Date header at the top of each card
-             */
-            DateHeader(date: date, enablePopover: !isWatchOS)
-                .padding(.horizontal, isWatchOS ? 12 : 16)
-                .padding(.top, isWatchOS ? 12 : 16)
-
-            /*
-             * Phase details in the middle
-             */
-            if let phase {
-                DayDetail(
-                    date: date,
-                    phase: phase,
-                    displayMode: displayMode
-                )
-                .padding(.horizontal, isWatchOS ? 12 : 16)
-                .padding(.bottom, isWatchOS ? 12 : 0)
-            }
-
-            if !isWatchOS {
-                Spacer(minLength: 0)
+        Group {
+            if isIPadLandscape {
+                HStack( spacing: 32) {
+                    dateHeader
+                    Divider()
+                    phaseDetail
+                }
+            } else {
+                VStack(alignment: .leading, spacing: isWatchOS ? 12 : 24) {
+                    dateHeader
+                    phaseDetail
+                    if !isWatchOS {
+                        Spacer(minLength: 0)
+                    }
+                }
             }
         }
-        .frame(maxWidth: .infinity)
+        .padding(cardPadding)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: isWatchOS ? 12 : 24)
                 .fill(cardBackgroundColor)
@@ -67,6 +86,28 @@ public struct DayCard: View {
         .padding(.horizontal, isWatchOS ? 4 : 16)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Day card for \(date.formatted(date: .long, time: .omitted))")
+    }
+
+    /*
+     * Date header at the top of each card
+     */
+    @ViewBuilder
+    private var dateHeader: some View {
+        DateHeader(date: date, enablePopover: !isWatchOS)
+    }
+
+    /*
+     * Phase details section
+     */
+    @ViewBuilder
+    private var phaseDetail: some View {
+        if let phase {
+            DayDetail(
+                date: date,
+                phase: phase,
+                displayMode: displayMode
+            )
+        }
     }
 }
 

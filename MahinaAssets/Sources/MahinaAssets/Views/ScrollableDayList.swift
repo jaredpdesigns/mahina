@@ -95,6 +95,32 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
 #endif
     }
 
+    private var isIPad: Bool {
+#if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .pad
+#else
+        return false
+#endif
+    }
+
+    private var isIPadLandscape: Bool {
+#if os(iOS)
+        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
+#else
+        return false
+#endif
+    }
+
+    private var contentMaxWidth: CGFloat {
+        if isIPadLandscape {
+            return 960
+        } else if isIPad {
+            return 720
+        } else {
+            return .infinity
+        }
+    }
+
     // MARK: - Initialization
 
     public init(
@@ -158,6 +184,8 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
                 }
                 .scrollTargetLayout()
                 .padding(.vertical, isWatchOS ? 8 : 16)
+                .frame(maxWidth: contentMaxWidth)
+                .frame(maxWidth: .infinity)
             }
             .scrollTargetBehavior(.viewAligned)
             .coordinateSpace(name: "scroll")

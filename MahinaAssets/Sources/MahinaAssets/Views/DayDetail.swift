@@ -67,14 +67,6 @@ private struct PhaseDetailHeader: View {
 #endif
     }
 
-    private var isMacOS: Bool {
-#if os(macOS)
-        return true
-#else
-        return false
-#endif
-    }
-
     // MARK: - Body
 
     public var body: some View {
@@ -140,7 +132,7 @@ private struct PhaseDetailHeader: View {
      */
     private var phaseTitleFont: Font {
         if displayMode.isFullApp {
-            return isMacOS ? .title2 : .headline
+            return .headline
         } else {
             return .title3
         }

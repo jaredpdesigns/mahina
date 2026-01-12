@@ -201,7 +201,8 @@ private struct LoadingView: View {
             )
 
             Text(currentPhase.name)
-                .font(.headline)
+                .font(.largeTitle)
+                .fontWeight(.bold)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))

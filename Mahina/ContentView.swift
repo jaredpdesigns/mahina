@@ -1,4 +1,5 @@
 import SwiftUI
+import MahinaAssets
 
 /// Main view for the Mahina lunar calendar application.
 ///

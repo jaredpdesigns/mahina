@@ -4,10 +4,16 @@ import SwiftUI
 ///
 /// Combines the DateHeader and DayDetail into a cohesive carousel card
 /// with scroll transition effects. Each card represents one day in the lunar calendar.
-struct DayCard: View {
-    let date: Date
-    let phase: MoonPhase?
-    var displayMode: DayDetail.DisplayMode = .full
+public struct DayCard: View {
+    public let date: Date
+    public let phase: MoonPhase?
+    public var displayMode: DayDetail.DisplayMode = .full
+
+    public init(date: Date, phase: MoonPhase?, displayMode: DayDetail.DisplayMode = .full) {
+        self.date = date
+        self.phase = phase
+        self.displayMode = displayMode
+    }
 
     private var isWatchOS: Bool {
 #if os(watchOS)
@@ -20,12 +26,14 @@ struct DayCard: View {
     private var cardBackgroundColor: Color {
 #if os(watchOS)
         return Color(.darkGray).opacity(0.3)
-#else
+#elseif os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+#else // iOS
         return Color(uiColor: .systemBackground)
 #endif
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: isWatchOS ? 12 : 24) {
             /*
              * Date header at the top of each card

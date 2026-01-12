@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import MahinaAssets
 
 @main
 struct MahinaWidgetExtensionBundle: WidgetBundle {

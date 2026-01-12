@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import MahinaAssets
 
 struct MenuBarView: View {
     @ObservedObject var moonController: MoonController

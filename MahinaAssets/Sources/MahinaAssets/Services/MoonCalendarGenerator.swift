@@ -5,7 +5,7 @@ import Foundation
 /// Uses a continuous lunar age model based on synodic month calculations to map
 /// Gregorian dates to the traditional 30-day Hawaiian lunar calendar system.
 /// Provides calendar grid generation and phase group organization functionality.
-enum MoonCalendarGenerator {
+public enum MoonCalendarGenerator {
     
     // MARK: - Constants
     
@@ -19,7 +19,7 @@ enum MoonCalendarGenerator {
     ///
     /// This uses a fixed reference new moon (2024-01-11) and advances continuously,
     /// independent of Gregorian month boundaries.
-    static func lunarAge(for date: Date) -> Double {
+    public static func lunarAge(for date: Date) -> Double {
         let cal = Calendar.current
         // Reference new moon anchored to 2024-01-11.
         var ref = DateComponents()
@@ -43,7 +43,7 @@ enum MoonCalendarGenerator {
     ///   leading and trailing days from adjacent months to form a padded calendar grid.
     ///   When `false`, only the days that fall within the target Gregorian month are
     ///   included.
-    static func buildMonthData(for monthDate: Date, includeOverlap: Bool = true) -> MonthData {
+    public static func buildMonthData(for monthDate: Date, includeOverlap: Bool = true) -> MonthData {
         return buildMonthData(for: monthDate, includeOverlap: includeOverlap, newMoonProvider: { _, _ in 0 })
     }
     
@@ -57,7 +57,7 @@ enum MoonCalendarGenerator {
     ///     included.
     ///   - newMoonProvider: Retained for API compatibility but ignored; phases are
     ///     derived from the continuous `lunarAge(for:)` model.
-    static func buildMonthData(for monthDate: Date, includeOverlap: Bool, newMoonProvider: (Int, Int) -> Int) -> MonthData {
+    public static func buildMonthData(for monthDate: Date, includeOverlap: Bool, newMoonProvider: (Int, Int) -> Int) -> MonthData {
         let cal = Calendar.current
         let comps = cal.dateComponents([.year, .month], from: monthDate)
         let safeMonthDate = cal.date(from: comps) ?? monthDate
@@ -130,7 +130,7 @@ enum MoonCalendarGenerator {
     /// Generates an array of `MoonDay` objects representing the lunar days in the
     /// Gregorian month anchored at `refDate`.  If `overlap` is true, the days are
     /// labelled as overlaps when constructing padded calendar grids.
-    static func builtMonth(for refDate: Date, overlap: Bool = false) -> [MoonDay] {
+    public static func builtMonth(for refDate: Date, overlap: Bool = false) -> [MoonDay] {
         let cal = Calendar.current
         let range = cal.range(of: .day, in: .month, for: refDate) ?? 1..<29
         let days = Array(range)
@@ -154,20 +154,20 @@ enum MoonCalendarGenerator {
     
     /// Calculates the zero-based index of the weekday for the first day of the
     /// month containing `date` (0 = Sunday).
-    static func startOfMonthIndex(for date: Date) -> Int {
+    public static func startOfMonthIndex(for date: Date) -> Int {
         let cal = Calendar.current
         let weekday = cal.component(.weekday, from: date)
         return (weekday + 6) % 7
     }
     
     /// Returns the number of days in the month containing `date`.
-    static func daysInMonth(for date: Date) -> Int {
+    public static func daysInMonth(for date: Date) -> Int {
         let cal = Calendar.current
         return cal.range(of: .day, in: .month, for: date)?.count ?? 30
     }
     
     /// Provides the localized month name for the month containing `date`.
-    static func monthName(for date: Date) -> String {
+    public static func monthName(for date: Date) -> String {
         let df = DateFormatter()
         df.locale = Locale.current
         return df.monthSymbols[Calendar.current.component(.month, from: date) - 1]
@@ -176,7 +176,7 @@ enum MoonCalendarGenerator {
     // MARK: - Phase Lookup Functions
     
     /// Returns the `MoonPhase` corresponding to a specific lunar day index (1...30).
-    static func moonPhase(for dayRef: Int) -> MoonPhase {
+    public static func moonPhase(for dayRef: Int) -> MoonPhase {
         let normalized = max(1, min(30, dayRef))
         let phase = LunarPhases.phase(for: normalized)
         
@@ -216,7 +216,7 @@ enum MoonCalendarGenerator {
     
     /// Builds three group rows (Hoʻonui, Poepoe, Emi) with day fill state for the
     /// given month and active date.
-    static func buildGroupRows(
+    public static func buildGroupRows(
         monthData: MonthData,
         activeDate: Date,
         calendar: Calendar = .current
@@ -278,7 +278,7 @@ enum MoonCalendarGenerator {
     ///
     /// This uses the continuous lunar age model (`lunarAge(for:)`) rather than
     /// any month-local new moon provider.
-    static func phase(for date: Date) -> MoonPhase {
+    public static func phase(for date: Date) -> MoonPhase {
         // Normalize to the start of the local day so that "today" is
         // interpreted consistently regardless of the current time.
         let cal = Calendar.current

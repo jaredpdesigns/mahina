@@ -2,24 +2,34 @@ import SwiftUI
 
 /// A reusable moon image component that displays moon phase images with consistent styling.
 /// Supports different visual variants and platform-specific adaptations.
-struct MoonImage: View {
-    enum Variant {
+public struct MoonImage: View {
+    public enum Variant {
         case simple   // Current white/black appearance
         // case detailed // Future textured appearance
     }
-    
-    let day: Int
-    var variant: Variant = .simple
-    var isDetailed: Bool = false
-    var isOverlap: Bool = false
-    var isAccentedRendering: Bool = false
-    var accessibilityLabel: String? = nil
-    var accessibilityValue: String? = nil
-    
+
+    public let day: Int
+    public var variant: Variant = .simple
+    public var isDetailed: Bool = false
+    public var isOverlap: Bool = false
+    public var isAccentedRendering: Bool = false
+    public var accessibilityLabel: String? = nil
+    public var accessibilityValue: String? = nil
+
+    public init(day: Int, variant: Variant = .simple, isDetailed: Bool = false, isOverlap: Bool = false, isAccentedRendering: Bool = false, accessibilityLabel: String? = nil, accessibilityValue: String? = nil) {
+        self.day = day
+        self.variant = variant
+        self.isDetailed = isDetailed
+        self.isOverlap = isOverlap
+        self.isAccentedRendering = isAccentedRendering
+        self.accessibilityLabel = accessibilityLabel
+        self.accessibilityValue = accessibilityValue
+    }
+
     @Environment(\.colorScheme) private var colorScheme
-    
+
     @ViewBuilder
-    var img: some View {
+    public var img: some View {
         if isDetailed {
             Image("moon-detailed-\(day)")
                 .resizable()
@@ -42,8 +52,8 @@ struct MoonImage: View {
                 .opacity(isOverlap ? 0.5 : 1.0)
         }
     }
-    
-    var body: some View {
+
+    public var body: some View {
         img
             .if(accessibilityLabel != nil) { view in
                 view.accessibilityLabel(accessibilityLabel!)
@@ -52,9 +62,9 @@ struct MoonImage: View {
                 view.accessibilityValue(accessibilityValue!)
             }
     }
-    
+
     // MARK: - Computed Properties
-    
+
     private var moonForegroundColor: Color {
         switch colorScheme {
         case .dark:
@@ -87,10 +97,10 @@ private extension View {
                 isDetailed: true,
                 accessibilityLabel: "Lunar day 15",
                 accessibilityValue: "Full Moon"
-                
+
             )
             .frame(width: 64, height: 64)
-            
+
             MoonImage(
                 day: 15,
                 accessibilityLabel: "Lunar day 15",
@@ -98,7 +108,7 @@ private extension View {
             )
             .frame(width: 40, height: 40)
         }
-        
+
         Text("Different moon image sizes")
             .font(.caption)
             .foregroundStyle(.secondary)

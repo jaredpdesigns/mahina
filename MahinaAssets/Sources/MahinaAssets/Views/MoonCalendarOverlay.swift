@@ -1,14 +1,14 @@
 import SwiftUI
 import Foundation
 
-struct MoonCalendarOverlay: View {
-    let initialMonth: Date
-    let initialActiveDate: Date
-    var onSelect: (Date, Date) -> Void
-    @State private var monthAnchor: Date
-    @State private var selection: Date
+public struct MoonCalendarOverlay: View {
+    public let initialMonth: Date
+    public let initialActiveDate: Date
+    public var onSelect: (Date, Date) -> Void
+@State public var monthAnchor: Date
+@State public var selection: Date
     
-    init(initialMonth: Date, initialActiveDate: Date, onSelect: @escaping (Date, Date) -> Void) {
+    public init(initialMonth: Date, initialActiveDate: Date, onSelect: @escaping (Date, Date) -> Void) {
         self.initialMonth = initialMonth
         self.initialActiveDate = initialActiveDate
         self.onSelect = onSelect
@@ -20,7 +20,7 @@ struct MoonCalendarOverlay: View {
         MoonCalendarGenerator.buildMonthData(for: monthAnchor)
     }
     
-    var body: some View {
+    public var body: some View {
         MoonCalendar(
             monthData: monthData,
             displayedMonth: $monthAnchor,

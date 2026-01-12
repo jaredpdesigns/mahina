@@ -12,6 +12,11 @@
 		611AD8F12EE0D78000B6BFAC /* MahinaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		611AF8972ED7C4BB00CB610E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8962ED7C4BB00CB610E /* WidgetKit.framework */; };
 		611AF8992ED7C4BB00CB610E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8982ED7C4BB00CB610E /* SwiftUI.framework */; };
+		618A60D62F11EC5100707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D52F11EC5100707800 /* MahinaAssets */; };
+		618A60D82F11ECB600707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D72F11ECB600707800 /* MahinaAssets */; };
+		618A60DA2F11ECBE00707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D92F11ECBE00707800 /* MahinaAssets */; };
+		618A60DC2F11ECC300707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60DB2F11ECC300707800 /* MahinaAssets */; };
+		618A60DE2F11ECCA00707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60DD2F11ECCA00707800 /* MahinaAssets */; };
 		61C8DFC02EDE57D70034DF62 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8962ED7C4BB00CB610E /* WidgetKit.framework */; };
 		61C8DFC12EDE57D70034DF62 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8982ED7C4BB00CB610E /* SwiftUI.framework */; };
 		61C8DFDD2EDE62520034DF62 /* Mahina Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6129C1AF2EDE357100684393 /* Mahina Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -124,76 +129,12 @@
 			);
 			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
 		};
-		611AF8AD2ED7C62A00CB610E /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-				MahinaIcon.icon,
-				Models/LunarPhases.swift,
-				Models/MonthData.swift,
-				Models/MoonDay.swift,
-				Models/MoonGroup.swift,
-				Models/MoonGroupRow.swift,
-				Models/MoonPhase.swift,
-				Services/MoonCalendarGenerator.swift,
-				Views/DayDetail.swift,
-				Views/MoonImage.swift,
-				Views/PhaseGroups.swift,
-			);
-			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
-		};
-		6129C1BB2EDE35A400684393 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-				MahinaIcon.icon,
-				Models/HawaiianLocalization.swift,
-				Models/LunarPhases.swift,
-				Models/MonthData.swift,
-				Models/MoonDay.swift,
-				Models/MoonGroup.swift,
-				Models/MoonGroupRow.swift,
-				Models/MoonPhase.swift,
-				Services/MoonCalendarGenerator.swift,
-				Views/DateHeader.swift,
-				Views/DayCard.swift,
-				Views/DayDetail.swift,
-				Views/MoonCalendar.swift,
-				Views/MoonCalendarOverlay.swift,
-				Views/MoonImage.swift,
-				Views/ScrollableDayList.swift,
-			);
-			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
-		};
 		6129C1BC2EDE35A400684393 /* Exceptions for "Mahina Watch App" folder in "Mahina Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
-		};
-		6138DC3B2EF4CB8300DCB3DC /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-				MahinaIcon.icon,
-				Models/HawaiianLocalization.swift,
-				Models/LunarPhases.swift,
-				Models/MonthData.swift,
-				Models/MoonDay.swift,
-				Models/MoonGroup.swift,
-				Models/MoonGroupRow.swift,
-				Models/MoonPhase.swift,
-				Services/MoonCalendarGenerator.swift,
-				Views/DateHeader.swift,
-				Views/DayDetail.swift,
-				Views/MoonCalendar.swift,
-				Views/MoonCalendarOverlay.swift,
-				Views/MoonImage.swift,
-				Views/PhaseGroups.swift,
-				Views/PhaseGroupsWithPopover.swift,
-			);
-			target = 6138DC182EF4C59000DCB3DC /* Mahina MenuBar */;
 		};
 		6138DC3E2EF4CD5D00DCB3DC /* Exceptions for "Mahina MenuBar" folder in "Mahina MenuBar" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -210,21 +151,35 @@
 			);
 			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
 		};
-		61C8DFDB2EDE5BB10034DF62 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */ = {
+		61EA34A32F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 611AF8932ED7C4BB00CB610E /* MahinaWidgetExtensionExtension */;
+		};
+		61EA34A42F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
 				MahinaIcon.icon,
-				Models/LunarPhases.swift,
-				Models/MonthData.swift,
-				Models/MoonDay.swift,
-				Models/MoonGroup.swift,
-				Models/MoonGroupRow.swift,
-				Models/MoonPhase.swift,
-				Services/MoonCalendarGenerator.swift,
-				Views/MoonImage.swift,
+			);
+			target = 6129C1AE2EDE357100684393 /* Mahina Watch App */;
+		};
+		61EA34A52F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
 			);
 			target = 61C8DFBE2EDE57D70034DF62 /* MahinaComplicationsExtension */;
+		};
+		61EA34A62F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				MahinaIcon.icon,
+			);
+			target = 6138DC182EF4C59000DCB3DC /* Mahina MenuBar */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -249,10 +204,10 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				611AF88F2ED7BB1800CB610E /* Exceptions for "Mahina" folder in "Mahina" target */,
-				611AF8AD2ED7C62A00CB610E /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */,
-				6129C1BB2EDE35A400684393 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */,
-				61C8DFDB2EDE5BB10034DF62 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */,
-				6138DC3B2EF4CB8300DCB3DC /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */,
+				61EA34A32F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaWidgetExtensionExtension" target */,
+				61EA34A42F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina Watch App" target */,
+				61EA34A52F1566B9006D39D3 /* Exceptions for "Mahina" folder in "MahinaComplicationsExtension" target */,
+				61EA34A62F1566B9006D39D3 /* Exceptions for "Mahina" folder in "Mahina MenuBar" target */,
 			);
 			path = Mahina;
 			sourceTree = "<group>";
@@ -282,6 +237,7 @@
 			files = (
 				611AF8992ED7C4BB00CB610E /* SwiftUI.framework in Frameworks */,
 				611AF8972ED7C4BB00CB610E /* WidgetKit.framework in Frameworks */,
+				618A60D82F11ECB600707800 /* MahinaAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618A60DA2F11ECBE00707800 /* MahinaAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618A60D62F11EC5100707800 /* MahinaAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618A60DE2F11ECCA00707800 /* MahinaAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +271,7 @@
 			files = (
 				61C8DFC12EDE57D70034DF62 /* SwiftUI.framework in Frameworks */,
 				61C8DFC02EDE57D70034DF62 /* WidgetKit.framework in Frameworks */,
+				618A60DC2F11ECC300707800 /* MahinaAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +332,7 @@
 			);
 			name = MahinaWidgetExtensionExtension;
 			packageProductDependencies = (
+				618A60D72F11ECB600707800 /* MahinaAssets */,
 			);
 			productName = MahinaWidgetExtensionExtension;
 			productReference = 611AF8942ED7C4BB00CB610E /* MahinaWidgetExtensionExtension.appex */;
@@ -396,6 +357,7 @@
 			);
 			name = "Mahina Watch App";
 			packageProductDependencies = (
+				618A60D92F11ECBE00707800 /* MahinaAssets */,
 			);
 			productName = "Mahina Watch App";
 			productReference = 6129C1AF2EDE357100684393 /* Mahina Watch App.app */;
@@ -425,6 +387,7 @@
 			);
 			name = Mahina;
 			packageProductDependencies = (
+				618A60D52F11EC5100707800 /* MahinaAssets */,
 			);
 			productName = Mahina;
 			productReference = 613480072ECCE855000D7A53 /* Mahina.app */;
@@ -447,6 +410,7 @@
 			);
 			name = "Mahina MenuBar";
 			packageProductDependencies = (
+				618A60DD2F11ECCA00707800 /* MahinaAssets */,
 			);
 			productName = "Mahina MenuBar";
 			productReference = 6138DC192EF4C59000DCB3DC /* Mahina MenuBar.app */;
@@ -469,6 +433,7 @@
 			);
 			name = MahinaComplicationsExtension;
 			packageProductDependencies = (
+				618A60DB2F11ECC300707800 /* MahinaAssets */,
 			);
 			productName = MahinaComplicationsExtension;
 			productReference = 61C8DFBF2EDE57D70034DF62 /* MahinaComplicationsExtension.appex */;
@@ -510,6 +475,9 @@
 			);
 			mainGroup = 61347FFE2ECCE854000D7A53;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 613480082ECCE855000D7A53 /* Products */;
 			projectDirPath = "";
@@ -1203,6 +1171,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MahinaAssets;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		618A60D52F11EC5100707800 /* MahinaAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MahinaAssets;
+		};
+		618A60D72F11ECB600707800 /* MahinaAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */;
+			productName = MahinaAssets;
+		};
+		618A60D92F11ECBE00707800 /* MahinaAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */;
+			productName = MahinaAssets;
+		};
+		618A60DB2F11ECC300707800 /* MahinaAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */;
+			productName = MahinaAssets;
+		};
+		618A60DD2F11ECCA00707800 /* MahinaAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */;
+			productName = MahinaAssets;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 61347FFF2ECCE854000D7A53 /* Project object */;
 }

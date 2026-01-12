@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import MahinaAssets
 
 @main
 struct ContentView: App {

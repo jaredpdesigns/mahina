@@ -1,20 +1,25 @@
 import SwiftUI
 
 /// Preference key for tracking scroll positions of day items in the list
-struct DayPositionPreferenceKey: PreferenceKey {
-    static var defaultValue: [Date: CGFloat] = [:]
+public struct DayPositionPreferenceKey: PreferenceKey {
+    nonisolated(unsafe) public static var defaultValue: [Date: CGFloat] = [:]
 
-    static func reduce(value: inout [Date: CGFloat], nextValue: () -> [Date: CGFloat]) {
+    public static func reduce(value: inout [Date: CGFloat], nextValue: () -> [Date: CGFloat]) {
         value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
 }
 
 /// Invisible view that tracks and reports the vertical position of a day item in the scroll view
-struct DayPositionTracker: View {
-    let date: Date
-    let anchorPoint: UnitPoint
+public struct DayPositionTracker: View {
+    public let date: Date
+    public let anchorPoint: UnitPoint
 
-    var body: some View {
+    public init(date: Date, anchorPoint: UnitPoint) {
+        self.date = date
+        self.anchorPoint = anchorPoint
+    }
+
+    public var body: some View {
         GeometryReader { proxy in
             let frame = proxy.frame(in: .named("scroll"))
             /*
@@ -35,30 +40,50 @@ struct DayPositionTracker: View {
 /// Provides a vertically scrollable list of items with automatic scroll-to-date functionality.
 /// Tracks which day is currently at the activation threshold and updates the active date accordingly.
 /// Includes position tracking for smooth programmatic scrolling to specific dates with configurable offset.
-struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
+public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
     // MARK: - Properties
 
-    let items: [Item]
-    @Binding var activeDate: Date
-    @Binding var scrollTarget: Date?
+    public let items: [Item]
+@Binding public var activeDate: Date
+@Binding public var scrollTarget: Date?
 
     /// Function to extract date from each item
-    let dateForItem: (Item) -> Date
+    public let dateForItem: (Item) -> Date
     /// View builder for each row's content
-    let rowContent: (Item) -> RowContent
+    public let rowContent: (Item) -> RowContent
     /// View builder for bottom spacer/content
-    let bottomContent: () -> BottomContent
+    public let bottomContent: () -> BottomContent
 
     /// Vertical position (in points from top) where an item becomes "active"
     /// Default: 100 points from top, which typically positions content nicely visible
-    var activationThreshold: CGFloat = 100
+    public var activationThreshold: CGFloat = 100
 
     /// Anchor point within each item to track (0 = top, 0.5 = center, 1 = bottom)
-    var trackingAnchor: UnitPoint = UnitPoint(x: 0.5, y: 0.2)
+    public var trackingAnchor: UnitPoint = UnitPoint(x: 0.5, y: 0.2)
+
+    public init(
+        items: [Item],
+        activeDate: Binding<Date>,
+        scrollTarget: Binding<Date?>,
+        dateForItem: @escaping (Item) -> Date,
+        activationThreshold: CGFloat = 100,
+        trackingAnchor: UnitPoint = UnitPoint(x: 0.5, y: 0.2),
+        @ViewBuilder rowContent: @escaping (Item) -> RowContent,
+        @ViewBuilder bottomContent: @escaping () -> BottomContent = { EmptyView() }
+    ) {
+        self.items = items
+        self._activeDate = activeDate
+        self._scrollTarget = scrollTarget
+        self.dateForItem = dateForItem
+        self.activationThreshold = activationThreshold
+        self.trackingAnchor = trackingAnchor
+        self.rowContent = rowContent
+        self.bottomContent = bottomContent
+    }
 
     // MARK: - State
 
-    @State private var hasAutoScrolled = false
+@State public var hasAutoScrolled = false
 
     private var calendar: Calendar { Calendar.current }
 
@@ -72,7 +97,7 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
 
     // MARK: - Initialization
 
-    init(
+    public init(
         items: [Item],
         activeDate: Binding<Date>,
         scrollTarget: Binding<Date?>,
@@ -124,7 +149,7 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
         }
     }
 
-    var body: some View {
+    public var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.vertical) {
                 LazyVStack(alignment: .leading, spacing: isWatchOS ? 16 : 24) {
@@ -197,8 +222,8 @@ struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
 
 // MARK: - Convenience Extension for No Bottom Content
 
-extension ScrollableDayList where BottomContent == EmptyView {
-    init(
+public extension ScrollableDayList where BottomContent == EmptyView {
+    public init(
         items: [Item],
         activeDate: Binding<Date>,
         scrollTarget: Binding<Date?>,

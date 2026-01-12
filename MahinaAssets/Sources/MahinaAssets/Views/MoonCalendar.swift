@@ -5,15 +5,21 @@ import SwiftUI
 /// Displays a traditional month grid with lunar phase indicators, supporting
 /// both iOS and watchOS layouts. Highlights the currently selected date and
 /// provides month navigation controls.
-struct MoonCalendar: View {
+public struct MoonCalendar: View {
     // MARK: - Properties
 
-    let monthData: MonthData
-    @Binding var displayedMonth: Date
-    @Binding var activeDate: Date
+    public let monthData: MonthData
+@Binding public var displayedMonth: Date
+@Binding public var activeDate: Date
 
-    @State private var dragOffset: CGFloat = 0
-    @State private var showEnglishTranslation = false
+@State public var dragOffset: CGFloat = 0
+@State public var showEnglishTranslation = false
+
+    public init(monthData: MonthData, displayedMonth: Binding<Date>, activeDate: Binding<Date>) {
+        self.monthData = monthData
+        self._displayedMonth = displayedMonth
+        self._activeDate = activeDate
+    }
 
     // MARK: - Platform Detection
 
@@ -30,7 +36,7 @@ struct MoonCalendar: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: isWatchOS ? 4 : 8) {
             HStack(spacing: 0) {
                 Button(action: { shiftMonth(-1) }) {
@@ -197,7 +203,7 @@ struct MoonCalendar: View {
 private struct MonthTranslationPopoverView: View {
     let englishMonth: String
 
-    var body: some View {
+    public var body: some View {
         Text(englishMonth)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)

@@ -1,20 +1,28 @@
 import SwiftUI
 
-struct DayDetail: View {
-    enum DisplayMode {
+public struct DayDetail: View {
+    public enum DisplayMode {
         case full
         case smallWidget
         case mediumWidget
         case largeWidget
     }
 
-    let date: Date
-    let phase: MoonPhase?
-    var displayMode: DisplayMode = .full
-    var isAccentedRendering: Bool = false
-    var showDescription: Bool = true
+    public let date: Date
+    public let phase: MoonPhase?
+    public var displayMode: DisplayMode = .full
+    public var isAccentedRendering: Bool = false
+    public var showDescription: Bool = true
 
-    var body: some View {
+    public init(date: Date, phase: MoonPhase?, displayMode: DisplayMode = .full, isAccentedRendering: Bool = false, showDescription: Bool = true) {
+        self.date = date
+        self.phase = phase
+        self.displayMode = displayMode
+        self.isAccentedRendering = isAccentedRendering
+        self.showDescription = showDescription
+    }
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: displayMode.isMediumWidget ? 8: 24) {
             if let phase {
                 PhaseDetailHeader(
@@ -36,11 +44,11 @@ struct DayDetail: View {
 }
 
 // MARK: - Display Mode Helpers
-extension DayDetail.DisplayMode {
-    var isSmallWidget: Bool { self == .smallWidget }
-    var isMediumWidget: Bool { self == .mediumWidget }
-    var isLargeWidget: Bool { self == .largeWidget }
-    var isFullApp: Bool { self == .full }
+public extension DayDetail.DisplayMode {
+    public var isSmallWidget: Bool { self == .smallWidget }
+    public var isMediumWidget: Bool { self == .mediumWidget }
+    public var isLargeWidget: Bool { self == .largeWidget }
+    public var isFullApp: Bool { self == .full }
 }
 
 // MARK: - Header
@@ -69,7 +77,7 @@ private struct PhaseDetailHeader: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         if displayMode.isSmallWidget {
             VStack(alignment: .leading, spacing: 12) {
                 headerImage
@@ -146,7 +154,7 @@ private struct PhaseDetailSection: View {
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: displayMode.isFullApp ? 16 : displayMode.isMediumWidget ? 0 : 8) {
             GuidanceItem(
                 title: "Planting",
@@ -187,7 +195,7 @@ private struct GuidanceItem: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         Group {
             if displayMode.isSmallWidget {
                 VStack(alignment: .leading, spacing: 8) {

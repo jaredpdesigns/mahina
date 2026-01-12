@@ -8,6 +8,7 @@
 import AppIntents
 import SwiftUI
 import WidgetKit
+import MahinaAssets
 
 struct MahinaComplicationsControl: ControlWidget {
     var body: some ControlWidgetConfiguration {

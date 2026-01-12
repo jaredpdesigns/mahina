@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import MahinaAssets
 
 /// Timeline entry for the Mahina widget containing moon phase information for a specific date
 struct DayEntry: TimelineEntry {
@@ -14,23 +15,23 @@ struct DayEntry: TimelineEntry {
 struct Provider: TimelineProvider {
 
     // MARK: - TimelineProvider Implementation
-    
+
     func placeholder(in context: Context) -> DayEntry {
         DayEntry(date: Date(), phase: previewPhase())
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (DayEntry) -> Void) {
         let phase = MoonCalendarGenerator.phase(for: Date())
         completion(DayEntry(date: Date(), phase: phase))
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<DayEntry>) -> Void) {
         let today = Date()
         let phase = MoonCalendarGenerator.phase(for: today)
-        
+
         // Refresh every 6 hours
         let next = Calendar.current.date(byAdding: .hour, value: 6, to: today)!
-        
+
         let entry = DayEntry(date: today, phase: phase)
         let timeline = Timeline(entries: [entry], policy: .after(next))
         completion(timeline)
@@ -52,7 +53,7 @@ struct DayWidgetView: View {
     @Environment(\.widgetFamily) var family
     @Environment(\.widgetRenderingMode) private var widgetRenderingMode
     let entry: DayEntry
-    
+
     private var groupRows: [MoonGroupRow] {
         let monthData = MoonCalendarGenerator.buildMonthData(for: entry.date)
         return MoonCalendarGenerator.buildGroupRows(
@@ -60,7 +61,7 @@ struct DayWidgetView: View {
             activeDate: entry.date
         )
     }
-    
+
     private var isAccentedRendering: Bool {
         if #available(iOSApplicationExtension 17.0, *) {
             return widgetRenderingMode != .fullColor
@@ -68,7 +69,7 @@ struct DayWidgetView: View {
             return false
         }
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             DayDetail(
@@ -89,7 +90,7 @@ struct DayWidgetView: View {
         }
         .padding(.bottom, displayModeForFamily == .largeWidget ? 16 : 0)
     }
-    
+
     private var displayModeForFamily: DayDetail.DisplayMode {
         switch family {
         case .systemSmall:
@@ -106,7 +107,7 @@ struct DayWidgetView: View {
 
 struct MahinaWidgetExtension: Widget {
     let kind = "MahinaWidgetExtension"
-    
+
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             DayWidgetView(entry: entry)

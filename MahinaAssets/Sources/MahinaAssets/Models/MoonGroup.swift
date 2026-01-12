@@ -4,7 +4,7 @@ import Foundation
 ///
 /// The Hawaiian lunar calendar organizes the 30 days into three main groups,
 /// each representing different energetic qualities and traditional activities.
-enum MoonGroup {
+public enum MoonGroup {
     /// Growing/waxing moon phases - time of increase and expansion
     case hoonui
     /// Full moon phases - time of abundance and peak energy
@@ -13,7 +13,7 @@ enum MoonGroup {
     case emi
 
     /// Returns the Hawaiian name, cultural description, and English translation for each group
-    var metadata: (name: String, description: String, englishMeaning: String) {
+    public var metadata: (name: String, description: String, englishMeaning: String) {
         switch self {
         case .hoonui:
             return ("Hoʻonui", "Growing moon phases, a time of increase and expansion", "to grow bigger")

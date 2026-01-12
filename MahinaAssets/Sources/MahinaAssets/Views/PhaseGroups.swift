@@ -4,25 +4,31 @@ import SwiftUI
 ///
 /// Displays progress through each group using pill-shaped indicators that show completion
 /// status relative to the current lunar day. Supports both horizontal and vertical layouts.
-struct PhaseGroups: View {
+public struct PhaseGroups: View {
     // MARK: - Properties
-    
-    let rows: [MoonGroupRow]
+
+    public let rows: [MoonGroupRow]
     /// Callback when a group row is tapped for more information
-    var onSelectRow: (MoonGroupRow) -> Void = { _ in }
+    public var onSelectRow: (MoonGroupRow) -> Void = { _ in }
     /// Whether to display groups vertically or horizontally
-    var isVertical: Bool = false
-    
+    public var isVertical: Bool = false
+
+    public init(rows: [MoonGroupRow], onSelectRow: @escaping (MoonGroupRow) -> Void = { _ in }, isVertical: Bool = false) {
+        self.rows = rows
+        self.onSelectRow = onSelectRow
+        self.isVertical = isVertical
+    }
+
     // MARK: - Body
-    
-    var body: some View {
+
+    public var body: some View {
         content
             .accessibilityElement(children: .contain)
             .accessibilityLabel("Moon groups progress")
     }
-    
+
     // MARK: - View Components
-    
+
     /// Adaptive layout that switches between horizontal and vertical arrangements
     @ViewBuilder
     private var content: some View {
@@ -37,12 +43,12 @@ struct PhaseGroups: View {
             }
         }
     }
-    
+
     /// Collection of interactive group pills showing phase progress
     private var pills: some View {
         ForEach(rows.indices, id: \.self) { index in
             let row = rows[index]
-            
+
             Button {
                 onSelectRow(row)
             } label: {
@@ -57,8 +63,8 @@ struct PhaseGroups: View {
 private struct PhaseGroupRowView: View {
     let row: MoonGroupRow
     let isVertical: Bool
-    
-    var body: some View {
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(row.name)
                 .font(
@@ -67,7 +73,7 @@ private struct PhaseGroupRowView: View {
                 )
                 .textCase(.uppercase)
                 .opacity(row.isActiveGroup ? 1.0 : 0.75)
-            
+
             FlowDotsView(days: row.days, isVertical: isVertical)
         }
         .accessibilityElement(children: .combine)
@@ -81,10 +87,10 @@ private struct PhaseGroupRowView: View {
 private struct FlowDotsView: View {
     let days: [MoonGroupRow.Day]
     let isVertical: Bool
-    
+
     @Environment(\.colorScheme) private var colorScheme
-    
-    var body: some View {
+
+    public var body: some View {
         HStack(spacing: 4) {
             ForEach(days) { day in
                 Capsule()
@@ -99,7 +105,7 @@ private struct FlowDotsView: View {
         .accessibilityLabel("Group progress indicators")
         .accessibilityValue("\(days.filter(\.isFilled).count) of \(days.count) days completed")
     }
-    
+
     private var capsuleForegroundColor: Color {
         switch colorScheme {
         case .dark:

@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import MahinaAssets
 
 /// Timeline provider for Apple Watch complications displaying current moon phase information.
 ///

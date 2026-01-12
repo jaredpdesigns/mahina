@@ -1,4 +1,5 @@
 import SwiftUI
+import MahinaAssets
 
 /// Main interface for the Mahina lunar calendar Apple Watch application.
 ///

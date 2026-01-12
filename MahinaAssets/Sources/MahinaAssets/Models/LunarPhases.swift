@@ -4,13 +4,13 @@ import Foundation
 ///
 /// Contains all 30 phases of the Hawaiian lunar calendar system with their names,
 /// descriptions, and traditional guidance for planting and fishing activities.
-struct LunarPhases {
-    
+public struct LunarPhases {
+
     // MARK: - Phase Data
-    
+
     /// Phase information for each of the 30 lunar days
     /// Each entry contains: (day, name, description, planting guidance, fishing guidance)
-    static let phases: [(day: Int, name: String, description: String, planting: String, fishing: String)] = [
+    public static let phases: [(day: Int, name: String, description: String, planting: String, fishing: String)] = [
         (1, "Hilo",
          "Slender new-moon, sliver at sunset",
          "Plant underground crops that 'hide' in the soil",
@@ -162,11 +162,11 @@ struct LunarPhases {
          "Fishing considered good on this dark moon"
         )
     ]
-    
+
     // MARK: - Helper Methods
-    
+
     /// Get phase data for a specific lunar day (1-30)
-    static func phase(for day: Int) -> (day: Int, name: String, description: String, planting: String, fishing: String)? {
+    public static func phase(for day: Int) -> (day: Int, name: String, description: String, planting: String, fishing: String)? {
         return phases.first(where: { $0.day == day })
     }
 }

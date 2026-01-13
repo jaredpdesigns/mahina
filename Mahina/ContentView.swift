@@ -181,7 +181,7 @@ private struct LoadingView: View {
     let today = Date()
 
     private var currentPhase: MoonPhase {
-        MoonCalendarGenerator.phase(for: today)
+        MoonCalendarGenerator.phase(for: today).primary
     }
 
     var body: some View {

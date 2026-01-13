@@ -103,17 +103,39 @@ public struct MoonCalendar: View {
                             Text("\(day.calendarDay)")
                                 .font(isWatchOS ? .footnote : .caption)
                                 .frame(maxWidth: .infinity)
-                            MoonImage(
-                                day: day.day,
-                                isOverlap: day.isOverlap
-                            )
-                            .frame(width: moonImageSize, height: moonImageSize)
-                            .shadow(
-                                color: day.isOverlap ? Color.clear : Color.black.opacity(0.1),
-                                radius: 4,
-                                x: 0,
-                                y: 1
-                            )
+                            ZStack(alignment: .topTrailing) {
+                                MoonImage(
+                                    day: day.day,
+                                    isOverlap: day.isOverlap
+                                )
+                                .frame(width: moonImageSize, height: moonImageSize)
+                                .shadow(
+                                    color: day.isOverlap ? Color.clear : Color.black.opacity(0.1),
+                                    radius: 4,
+                                    x: 0,
+                                    y: 1
+                                )
+                                /*
+                                 * Transition day indicator - subtle dot for days spanning two phases
+                                 */
+                                if day.phase.isTransitionDay && !day.isOverlap {
+                                    ZStack {
+                                        /*
+                                         * Border circle (slightly larger, behind)
+                                         */
+                                        Circle()
+                                            .fill(transitionIndicatorBorderColor)
+                                            .frame(width: 12, height: 12)
+                                        /*
+                                         * Fill circle (smaller, on top)
+                                         */
+                                        Circle()
+                                            .fill(Color.gray)
+                                            .frame(width: 10, height: 10)
+                                    }
+                                    .offset(x: 4, y: -4)
+                                }
+                            }
                         }
                         .padding(.vertical, isWatchOS ? 2 : 4)
                         .padding(.horizontal, 4)
@@ -167,6 +189,17 @@ public struct MoonCalendar: View {
     /// Platform-specific moon image size
     private var moonImageSize: CGFloat {
         isWatchOS ? 20 : 24
+    }
+
+    /// Platform-specific system background color for transition indicator border
+    private var transitionIndicatorBorderColor: Color {
+#if os(watchOS)
+        return Color.black
+#elseif os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+#else
+        return Color(uiColor: .systemBackground)
+#endif
     }
 
     /// Month title text view

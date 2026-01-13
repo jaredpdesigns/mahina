@@ -9,30 +9,50 @@ public struct DayDetail: View {
     }
 
     public let date: Date
-    public let phase: MoonPhase?
+    public let phase: PhaseResult?
     public var displayMode: DisplayMode = .full
     public var isAccentedRendering: Bool = false
     public var showDescription: Bool = true
+    /// When true and phase is a transition day, displays secondary phase info
+    public var showSecondaryPhase: Bool = false
 
-    public init(date: Date, phase: MoonPhase?, displayMode: DisplayMode = .full, isAccentedRendering: Bool = false, showDescription: Bool = true) {
+    public init(
+        date: Date,
+        phase: PhaseResult?,
+        displayMode: DisplayMode = .full,
+        isAccentedRendering: Bool = false,
+        showDescription: Bool = true,
+        showSecondaryPhase: Bool = false
+    ) {
         self.date = date
         self.phase = phase
         self.displayMode = displayMode
         self.isAccentedRendering = isAccentedRendering
         self.showDescription = showDescription
+        self.showSecondaryPhase = showSecondaryPhase
     }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: displayMode.isMediumWidget ? 8: 24) {
             if let phase {
                 PhaseDetailHeader(
-                    phase: phase,
+                    phaseResult: phase,
                     displayMode: displayMode,
                     isAccentedRendering: isAccentedRendering
                 )
                 if showDescription {
                     PhaseDetailSection(
-                        phase: phase,
+                        phase: phase.primary,
+                        displayMode: displayMode,
+                        isAccentedRendering: isAccentedRendering
+                    )
+                }
+                /*
+                 * Show secondary phase text info when enabled and this is a transition day
+                 */
+                if showSecondaryPhase, let secondary = phase.secondary {
+                    SecondaryPhaseSection(
+                        phase: secondary,
                         displayMode: displayMode,
                         isAccentedRendering: isAccentedRendering
                     )
@@ -53,9 +73,13 @@ public extension DayDetail.DisplayMode {
 
 // MARK: - Header
 private struct PhaseDetailHeader: View {
-    let phase: MoonPhase
+    let phaseResult: PhaseResult
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
+
+    private var phase: MoonPhase { phaseResult.primary }
+    private var secondaryPhase: MoonPhase? { phaseResult.secondary }
+    private var isTransitionDay: Bool { phaseResult.isTransitionDay }
 
     // MARK: - Platform Detection
 
@@ -93,13 +117,27 @@ private struct PhaseDetailHeader: View {
 
     @ViewBuilder
     private var headerImage: some View {
-        MoonImage(
-            day: phase.day,
-            isDetailed: !isAccentedRendering,
-            isAccentedRendering: isAccentedRendering,
-            accessibilityLabel: "Lunar day \(phase.day)",
-            accessibilityValue: phase.name
-        )
+        Group {
+            if isTransitionDay, let secondary = secondaryPhase {
+                /*
+                 * Overlapping moon images for transition days
+                 */
+                SplitMoonImage(
+                    primaryDay: phase.day,
+                    secondaryDay: secondary.day,
+                    isDetailed: !isAccentedRendering
+                )
+                .accessibilityLabel("Transition day: \(phase.name) to \(secondary.name)")
+            } else {
+                MoonImage(
+                    day: phase.day,
+                    isDetailed: !isAccentedRendering,
+                    isAccentedRendering: isAccentedRendering,
+                    accessibilityLabel: "Lunar day \(phase.day)",
+                    accessibilityValue: phase.name
+                )
+            }
+        }
         .frame(width: imageSize, height: imageSize)
         .shadow(color: shadowColor, radius: shadowRadius, x: 0, y: shadowOffset)
     }
@@ -122,12 +160,32 @@ private struct PhaseDetailHeader: View {
 
     private var headerText: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(phase.name)
-                .font(phaseTitleFont)
-                .fontWeight(.semibold)
-            Text(phase.description)
-                .font(displayMode.isFullApp ? .body : .footnote)
-                .fixedSize(horizontal: false, vertical: true)
+            if isTransitionDay, let secondary = secondaryPhase {
+                /*
+                 * Show both phase names for transition days
+                 */
+                HStack(spacing: 4) {
+                    Text(phase.name)
+                        .font(phaseTitleFont)
+                        .fontWeight(.semibold)
+                    Text("→")
+                        .font(phaseTitleFont)
+                        .foregroundStyle(.secondary)
+                    Text(secondary.name)
+                        .font(phaseTitleFont)
+                        .fontWeight(.semibold)
+                }
+                Text(phase.description)
+                    .font(displayMode.isFullApp ? .body : .footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                Text(phase.name)
+                    .font(phaseTitleFont)
+                    .fontWeight(.semibold)
+                Text(phase.description)
+                    .font(displayMode.isFullApp ? .body : .footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
@@ -174,6 +232,44 @@ private struct PhaseDetailSection: View {
                 isAccentedRendering: isAccentedRendering
             )
         }
+    }
+}
+
+// MARK: - Secondary Phase Section
+private struct SecondaryPhaseSection: View {
+    let phase: MoonPhase
+    let displayMode: DayDetail.DisplayMode
+    let isAccentedRendering: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Divider()
+                .padding(.vertical, 8)
+
+            HStack(spacing: 12) {
+                MoonImage(
+                    day: phase.day,
+                    isDetailed: !isAccentedRendering,
+                    isAccentedRendering: isAccentedRendering,
+                    accessibilityLabel: "Secondary lunar day \(phase.day)",
+                    accessibilityValue: phase.name
+                )
+                .frame(width: 32, height: 32)
+                .opacity(0.7)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Also: \(phase.name)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                    Text(phase.description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .opacity(0.8)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Transition day also includes \(phase.name)")
     }
 }
 
@@ -270,6 +366,6 @@ private struct GuidanceItem: View {
 
 #Preview {
     let today = Date()
-    let phase = MoonCalendarGenerator.phase(for: today)
-    return DayDetail(date: today, phase: phase)
+    let phaseResult = MoonCalendarGenerator.phase(for: today)
+    return DayDetail(date: today, phase: phaseResult)
 }

@@ -6,10 +6,10 @@ import SwiftUI
 /// with scroll transition effects. Each card represents one day in the lunar calendar.
 public struct DayCard: View {
     public let date: Date
-    public let phase: MoonPhase?
+    public let phase: PhaseResult?
     public var displayMode: DayDetail.DisplayMode = .full
 
-    public init(date: Date, phase: MoonPhase?, displayMode: DayDetail.DisplayMode = .full) {
+    public init(date: Date, phase: PhaseResult?, displayMode: DayDetail.DisplayMode = .full) {
         self.date = date
         self.phase = phase
         self.displayMode = displayMode
@@ -97,7 +97,8 @@ public struct DayCard: View {
     }
 
     /*
-     * Phase details section
+     * Phase details section - now uses DayDetail directly for all days
+     * Transition days show split moon image within DayDetail
      */
     @ViewBuilder
     private var phaseDetail: some View {
@@ -113,6 +114,6 @@ public struct DayCard: View {
 
 #Preview {
     let today = Date()
-    let phase = MoonCalendarGenerator.phase(for: today)
-    return DayCard(date: today, phase: phase)
+    let phaseResult = MoonCalendarGenerator.phase(for: today)
+    return DayCard(date: today, phase: phaseResult)
 }

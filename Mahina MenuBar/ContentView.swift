@@ -12,14 +12,14 @@ struct ContentView: App {
             MenuBarView(moonController: moonController)
         } label: {
             if let phase = moonController.currentPhase {
-                if let nsImage = renderedMoonImage(for: phase.day) {
+                if let nsImage = renderedMoonImage(for: phase.primary.day) {
                     Image(nsImage: nsImage)
-                        .accessibilityLabel("Current moon phase: \(phase.name)")
-                        .accessibilityValue("Lunar day \(phase.day)")
+                        .accessibilityLabel("Current moon phase: \(phase.primary.name)")
+                        .accessibilityValue("Lunar day \(phase.primary.day)")
                 } else {
                     Image(systemName: "moon.fill")
                         .font(.system(size: 14))
-                        .accessibilityLabel("Current moon phase: \(phase.name)")
+                        .accessibilityLabel("Current moon phase: \(phase.primary.name)")
                 }
             } else {
                 Image(systemName: "moon.fill")
@@ -64,7 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 // MARK: - Moon Controller
 
 class MoonController: ObservableObject {
-    @Published var currentPhase: MoonPhase?
+    @Published var currentPhase: PhaseResult?
     private var midnightTimer: Timer?
 
     init() {

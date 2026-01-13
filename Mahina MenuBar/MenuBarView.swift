@@ -18,7 +18,7 @@ struct MenuBarView: View {
         MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: activeDate)
     }
 
-    private var currentPhase: MoonPhase? {
+    private var currentPhase: PhaseResult? {
         MoonCalendarGenerator.phase(for: activeDate)
     }
 

@@ -5,7 +5,7 @@ import MahinaAssets
 /// Timeline entry for the Mahina widget containing moon phase information for a specific date
 struct DayEntry: TimelineEntry {
     let date: Date
-    let phase: MoonPhase?
+    let phase: PhaseResult?
 }
 
 /// Timeline provider that supplies moon phase data to the iOS home screen widget.
@@ -21,18 +21,18 @@ struct Provider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (DayEntry) -> Void) {
-        let phase = MoonCalendarGenerator.phase(for: Date())
-        completion(DayEntry(date: Date(), phase: phase))
+        let phaseResult = MoonCalendarGenerator.phase(for: Date())
+        completion(DayEntry(date: Date(), phase: phaseResult))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<DayEntry>) -> Void) {
         let today = Date()
-        let phase = MoonCalendarGenerator.phase(for: today)
+        let phaseResult = MoonCalendarGenerator.phase(for: today)
 
         // Refresh every 6 hours
         let next = Calendar.current.date(byAdding: .hour, value: 6, to: today)!
 
-        let entry = DayEntry(date: today, phase: phase)
+        let entry = DayEntry(date: today, phase: phaseResult)
         let timeline = Timeline(entries: [entry], policy: .after(next))
         completion(timeline)
     }
@@ -40,7 +40,7 @@ struct Provider: TimelineProvider {
     // MARK: - Helper Methods
 
     /// Fallback phase for previews if no data available
-    private func previewPhase() -> MoonPhase? {
+    private func previewPhase() -> PhaseResult? {
         MoonCalendarGenerator.phase(for: Date())
     }
 }
@@ -126,5 +126,11 @@ struct MahinaWidgetExtension: Widget {
 #Preview(as: .systemLarge) {
     MahinaWidgetExtension()
 } timeline: {
-    DayEntry(date: Date(), phase: MoonCalendarGenerator.phase(for: Date()))
+    /*
+     * Change date string to test specific dates (e.g., "2025-02-27" for transition day)
+     */
+    DayEntry(
+        date: Date(),
+        phase: MoonCalendarGenerator.phase(for: Date())
+    )
 }

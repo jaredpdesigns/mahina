@@ -87,9 +87,90 @@ private extension View {
     }
 }
 
+// MARK: - Split Moon Image for Transition Days
+
+/// An overlapping moon image showing two phases.
+/// Used on transition days to show both the ending and beginning phases.
+/// Primary phase in top-left, secondary phase in bottom-right (overlapping).
+public struct SplitMoonImage: View {
+    public let primaryDay: Int
+    public let secondaryDay: Int
+    public var isDetailed: Bool = false
+
+    public init(primaryDay: Int, secondaryDay: Int, isDetailed: Bool = false, dividerColor: Color = .clear) {
+        self.primaryDay = primaryDay
+        self.secondaryDay = secondaryDay
+        self.isDetailed = isDetailed
+    }
+
+    public var body: some View {
+        GeometryReader { geometry in
+            let totalSize = min(geometry.size.width, geometry.size.height)
+            /*
+             * Each moon is 75% of total frame (48px when frame is 64px)
+             */
+            let moonSize = totalSize * 0.75
+            /*
+             * Offset to position in corners
+             */
+            let offset = totalSize - moonSize
+
+            ZStack(alignment: .topLeading) {
+                /*
+                 * Primary phase - top-left corner (bottom layer)
+                 */
+                MoonImage(day: primaryDay, isDetailed: isDetailed)
+                    .frame(width: moonSize, height: moonSize)
+
+                /*
+                 * Secondary phase - bottom-right corner (top layer)
+                 */
+                MoonImage(day: secondaryDay, isDetailed: isDetailed)
+                    .frame(width: moonSize, height: moonSize)
+                    .offset(x: offset, y: offset)
+            }
+            .frame(width: totalSize, height: totalSize)
+        }
+        .aspectRatio(1, contentMode: .fit)
+    }
+}
+
 // MARK: - Preview
 
-#Preview {
+#Preview("Split Moon") {
+    VStack(spacing: 20) {
+        HStack(spacing: 32) {
+            VStack {
+                SplitMoonImage(
+                    primaryDay: 30,
+                    secondaryDay: 1
+                )
+                .frame(width: 64, height: 64)
+                Text("Muku → Hilo")
+                    .font(.caption)
+            }
+
+            VStack {
+                SplitMoonImage(
+                    primaryDay: 13,
+                    secondaryDay: 14
+                )
+                .frame(width: 64, height: 64)
+                Text("Māhealani → Akua")
+                    .font(.caption)
+            }
+        }
+        .padding()
+        .background(Color.black)
+
+        Text("Top-left = primary, Bottom-right = secondary (overlapping)")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+    }
+    .padding()
+}
+
+#Preview("Moon Image") {
     VStack(spacing: 20) {
         HStack(spacing: 16) {
             MoonImage(

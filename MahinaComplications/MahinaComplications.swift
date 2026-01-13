@@ -35,10 +35,10 @@ struct MoonComplicationProvider: TimelineProvider {
     }
 
     private func entry(for date: Date) -> MoonComplicationEntry {
-        let phase = MoonCalendarGenerator.phase(for: date)
+        let phaseResult = MoonCalendarGenerator.phase(for: date)
         return MoonComplicationEntry(
             date: date,
-            phase: phase
+            phase: phaseResult.primary
         )
     }
 }
@@ -106,9 +106,9 @@ struct MahinaComplications: Widget {
     MahinaComplications()
 } timeline: {
     let today = Date()
-    let phase = MoonCalendarGenerator.phase(for: today)
+    let phaseResult = MoonCalendarGenerator.phase(for: today)
     MoonComplicationEntry(
         date: today,
-        phase: phase
+        phase: phaseResult.primary
     )
 }

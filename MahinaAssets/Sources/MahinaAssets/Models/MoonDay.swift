@@ -9,19 +9,19 @@ public struct MoonDay: Identifiable, Hashable {
     public let id = UUID()
     /// The Gregorian date for this entry.
     public let date: Date
-    /// The lunar day index (1...30) used for selecting icons.
-    public let day: Int
     /// The day of the Gregorian month used for calendar labelling.
     public let calendarDay: Int
     /// Indicates if this day belongs to an overlapping month when constructing
     /// calendar grids.
     public let isOverlap: Bool
-    /// The lunar phase for this day.
-    public let phase: MoonPhase
+    /// The lunar phase result for this day (includes transition info).
+    public let phase: PhaseResult
 
-    public init(date: Date, day: Int, calendarDay: Int, isOverlap: Bool, phase: MoonPhase) {
+    /// Convenience: the primary lunar day index (1...30) used for selecting icons.
+    public var day: Int { phase.primary.day }
+
+    public init(date: Date, calendarDay: Int, isOverlap: Bool, phase: PhaseResult) {
         self.date = date
-        self.day = day
         self.calendarDay = calendarDay
         self.isOverlap = isOverlap
         self.phase = phase

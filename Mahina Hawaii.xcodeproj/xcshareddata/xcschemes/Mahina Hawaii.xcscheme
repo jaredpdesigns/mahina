@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "2620"
-   wasCreatedForAppExtension = "YES"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -19,48 +18,6 @@
                BlueprintIdentifier = "613480062ECCE854000D7A53"
                BuildableName = "Mahina Hawaii.app"
                BlueprintName = "Mahina Hawaii"
-               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6129C1AE2EDE357100684393"
-               BuildableName = "Mahina Hawaii Watch App.app"
-               BlueprintName = "Mahina Hawaii Watch App"
-               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "61C8DFBE2EDE57D70034DF62"
-               BuildableName = "Mahina HawaiiComplicationsExtension.appex"
-               BlueprintName = "Mahina HawaiiComplicationsExtension"
-               ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "611AF8932ED7C4BB00CB610E"
-               BuildableName = "Mahina HawaiiWidgetExtensionExtension.appex"
-               BlueprintName = "Mahina HawaiiWidgetExtensionExtension"
                ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

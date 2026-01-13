@@ -31,12 +31,12 @@ public struct MoonImage: View {
     @ViewBuilder
     public var img: some View {
         if isDetailed {
-            Image("moon-detailed-\(day)")
+            Image("moon-detailed-\(day)", bundle: .module)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(Circle())
         } else {
-            Image("moon-\(day)")
+            Image("moon-\(day)", bundle: .module)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundStyle(moonForegroundColor)

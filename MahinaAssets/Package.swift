@@ -18,7 +18,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "MahinaAssets"
+            name: "MahinaAssets",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "MahinaAssetsTests",

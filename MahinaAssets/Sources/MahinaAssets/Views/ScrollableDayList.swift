@@ -251,7 +251,7 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
 // MARK: - Convenience Extension for No Bottom Content
 
 public extension ScrollableDayList where BottomContent == EmptyView {
-    public init(
+    init(
         items: [Item],
         activeDate: Binding<Date>,
         scrollTarget: Binding<Date?>,

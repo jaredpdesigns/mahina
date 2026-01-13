@@ -20,5 +20,10 @@ let package = Package(
         .target(
             name: "MahinaAssets"
         ),
+        .testTarget(
+            name: "MahinaAssetsTests",
+            dependencies: ["MahinaAssets"],
+            path: "Tests"
+        ),
     ]
 )

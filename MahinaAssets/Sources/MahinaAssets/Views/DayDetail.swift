@@ -65,10 +65,10 @@ public struct DayDetail: View {
 
 // MARK: - Display Mode Helpers
 public extension DayDetail.DisplayMode {
-    public var isSmallWidget: Bool { self == .smallWidget }
-    public var isMediumWidget: Bool { self == .mediumWidget }
-    public var isLargeWidget: Bool { self == .largeWidget }
-    public var isFullApp: Bool { self == .full }
+    var isSmallWidget: Bool { self == .smallWidget }
+    var isMediumWidget: Bool { self == .mediumWidget }
+    var isLargeWidget: Bool { self == .largeWidget }
+    var isFullApp: Bool { self == .full }
 }
 
 // MARK: - Header

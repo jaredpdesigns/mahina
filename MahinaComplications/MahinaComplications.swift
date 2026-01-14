@@ -58,9 +58,6 @@ struct MahinaComplicationsEntryView: View {
         switch family {
 
         case .accessoryCorner:
-            /*
-             * Corner complication: curved text label with moon image
-             */
             ZStack {
                 AccessoryWidgetBackground()
                 moonImage(for: entry.phase.day)
@@ -84,9 +81,6 @@ struct MahinaComplicationsEntryView: View {
             }
 
         case .accessoryInline:
-            /*
-             * Inline complication: text only (no images supported)
-             */
             Label {
                 Text(entry.phase.name)
             } icon: {
@@ -94,9 +88,6 @@ struct MahinaComplicationsEntryView: View {
             }
 
         case .accessoryCircular:
-            /*
-             * Circular complication: moon image only
-             */
             ZStack {
                 AccessoryWidgetBackground()
                 moonImage(for: entry.phase.day)
@@ -104,16 +95,11 @@ struct MahinaComplicationsEntryView: View {
                     .renderingMode(.template)
                     .widgetAccentable()
                     .aspectRatio(contentMode: .fit)
-                    .padding(4)
+                    .frame(width: 36, height: 36)
             }
 
         default:
-            moonImage(for: entry.phase.day)
-                .resizable()
-                .renderingMode(.template)
-                .widgetAccentable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 28, height: 28)
+            EmptyView()
         }
     }
 }

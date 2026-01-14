@@ -57,18 +57,58 @@ struct MahinaComplicationsEntryView: View {
     var body: some View {
         switch family {
 
+        case .accessoryCorner:
+            /*
+             * Corner complication: curved text label with moon image
+             */
+            ZStack {
+                AccessoryWidgetBackground()
+                moonImage(for: entry.phase.day)
+                    .resizable()
+                    .renderingMode(.template)
+                    .widgetAccentable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(4)
+            }
+            .widgetLabel {
+                Text(entry.phase.name)
+            }
+
         case .accessoryRectangular:
             HStack(alignment: .center, spacing: 16) {
-                Image("moon-\(entry.phase.day)")
+                moonImage(for: entry.phase.day)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
                 DateHeader(date: entry.date)
             }
 
+        case .accessoryInline:
+            /*
+             * Inline complication: text only (no images supported)
+             */
+            Label {
+                Text(entry.phase.name)
+            } icon: {
+                Image(systemName: "moon.fill")
+            }
+
+        case .accessoryCircular:
+            /*
+             * Circular complication: moon image only
+             */
+            ZStack {
+                AccessoryWidgetBackground()
+                moonImage(for: entry.phase.day)
+                    .resizable()
+                    .renderingMode(.template)
+                    .widgetAccentable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(4)
+            }
 
         default:
-            Image("moon-\(entry.phase.day)")
+            moonImage(for: entry.phase.day)
                 .resizable()
                 .renderingMode(.template)
                 .widgetAccentable()
@@ -95,6 +135,7 @@ struct MahinaComplications: Widget {
         .configurationDisplayName("Mahina Moon")
         .description("Shows today's moon phase.")
         .supportedFamilies([
+            .accessoryCorner,
             .accessoryCircular,
             .accessoryRectangular,
             .accessoryInline
@@ -102,13 +143,17 @@ struct MahinaComplications: Widget {
     }
 }
 
-#Preview(as: .accessoryRectangular) {
+// MARK: - Previews
+
+#Preview("Rectangular", as: .accessoryRectangular) {
     MahinaComplications()
 } timeline: {
-    let today = Date()
-    let phaseResult = MoonCalendarGenerator.phase(for: today)
     MoonComplicationEntry(
-        date: today,
-        phase: phaseResult.primary
+        date: Date(),
+        phase: MoonCalendarGenerator.phase(for: Date()).primary
+    )
+    MoonComplicationEntry(
+        date: Date(),
+        phase: MoonCalendarGenerator.phase(for: Date()).primary
     )
 }

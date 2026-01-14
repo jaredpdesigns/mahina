@@ -40,138 +40,11 @@ public struct MoonCalendar: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: isWatchOS ? 4 : 8) {
-            HStack(spacing: 0) {
-                Button(action: { shiftMonth(-1) }) {
-                    Image(systemName: "chevron.left")
-                        .frame(width: isWatchOS ? nil : 32, height: isWatchOS ? nil : 32)
-                        .contentShape(Rectangle())
-                }
-                Spacer(minLength: 8)
-                if enablePopover {
-                    Button(action: { showEnglishTranslation.toggle() }) {
-                        monthTitleText
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Month header: \(monthTitle)")
-                    .accessibilityHint("Tap to view English translation")
-                } else {
-                    monthTitleText
-                        .accessibilityLabel("Month header: \(monthTitle)")
-                }
-                Spacer(minLength: 8)
-                Button(action: { shiftMonth(1) }) {
-                    Image(systemName: "chevron.right")
-                        .frame(width: isWatchOS ? nil : 32, height: isWatchOS ? nil : 32)
-                        .contentShape(Rectangle())
-                }
-            }
-            .buttonStyle(.plain)
-            .animation(nil, value: displayedMonth)
-            .padding(.horizontal, 8)
-            .padding(.bottom, isWatchOS ? 0:8)
-#if os(watchOS)
-            .sheet(isPresented: $showEnglishTranslation) {
-                if enablePopover {
-                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
-                }
-            }
-#else
-            .popover(
-                isPresented: $showEnglishTranslation,
-                attachmentAnchor: .rect(.bounds),
-                arrowEdge: .top
-            ) {
-                if enablePopover {
-                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
-                        .presentationCompactAdaptation(.popover)
-                }
-            }
-#endif
-            HStack {
-                ForEach(["S", "M", "T", "W", "T", "F", "S"], id: \.self) { d in
-                    Text(d)
-                        .font(isWatchOS ? .footnote : .caption)
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            LazyVGrid(columns: columns, spacing: isWatchOS ? 0 : 4) {
-                ForEach(monthData.monthCalendar) { day in
-                    Button {
-                        if !day.isOverlap { activeDate = day.date }
-                    } label: {
-                        VStack(spacing: 4) {
-                            Text("\(day.calendarDay)")
-                                .font(isWatchOS ? .footnote : .caption)
-                                .frame(maxWidth: .infinity)
-                            ZStack(alignment: .topTrailing) {
-                                MoonImage(
-                                    day: day.day,
-                                    isOverlap: day.isOverlap
-                                )
-                                .frame(width: moonImageSize, height: moonImageSize)
-                                .shadow(
-                                    color: day.isOverlap ? Color.clear : Color.black.opacity(0.1),
-                                    radius: 4,
-                                    x: 0,
-                                    y: 1
-                                )
-                                /*
-                                 * Transition day indicator - subtle dot for days spanning two phases
-                                 */
-                                if day.phase.isTransitionDay && !day.isOverlap {
-                                    ZStack {
-                                        /*
-                                         * Border circle (slightly larger, behind)
-                                         */
-                                        Circle()
-                                            .fill(transitionIndicatorBorderColor)
-                                            .frame(width: 12, height: 12)
-                                        /*
-                                         * Fill circle (smaller, on top)
-                                         */
-                                        Circle()
-                                            .fill(Color.gray)
-                                            .frame(width: 10, height: 10)
-                                    }
-                                    .offset(x: 4, y: -4)
-                                }
-                            }
-                        }
-                        .padding(.vertical, isWatchOS ? 2 : 4)
-                        .padding(.horizontal, 4)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 48)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(
-                                    Calendar.current.isDate(day.date, inSameDayAs: activeDate)
-                                    ? Color.primary.opacity(0.125)
-                                    : Color.clear
-                                )
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .allowsHitTesting(!day.isOverlap)
-                }
-            }
+            navigationHeader
+            weekdayHeader
+            calendarGrid
         }
-        .gesture(
-            DragGesture(minimumDistance: 30)
-                .onChanged { value in
-                    dragOffset = value.translation.width
-                }
-                .onEnded { value in
-                    let swipeThreshold: CGFloat = 50
-                    if value.translation.width < -swipeThreshold {
-                        /* Swiped left → next month */
-                        shiftMonth(1)
-                    } else if value.translation.width > swipeThreshold {
-                        /* Swiped right → previous month */
-                        shiftMonth(-1)
-                    }
-                    dragOffset = 0
-                }
-        )
+        .gesture(swipeGesture)
         .accessibilityElement(children: .contain)
         .accessibilityAddTraits(.isButton)
         .accessibilityLabel("Calendar for \(monthTitle)")
@@ -182,6 +55,156 @@ public struct MoonCalendar: View {
         .accessibilityAction(named: "Next Month") {
             shiftMonth(1)
         }
+    }
+
+    // MARK: - Subviews
+
+    /// Navigation header with previous/next buttons and month title
+    private var navigationHeader: some View {
+        HStack(spacing: 0) {
+            Button(action: { shiftMonth(-1) }) {
+                Image(systemName: "chevron.left")
+                    .frame(width: isWatchOS ? nil : 32, height: isWatchOS ? nil : 32)
+                    .contentShape(Rectangle())
+            }
+            Spacer(minLength: 8)
+            if enablePopover {
+                Button(action: { showEnglishTranslation.toggle() }) {
+                    monthTitleText
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Month header: \(monthTitle)")
+                .accessibilityHint("Tap to view English translation")
+            } else {
+                monthTitleText
+                    .accessibilityLabel("Month header: \(monthTitle)")
+            }
+            Spacer(minLength: 8)
+            Button(action: { shiftMonth(1) }) {
+                Image(systemName: "chevron.right")
+                    .frame(width: isWatchOS ? nil : 32, height: isWatchOS ? nil : 32)
+                    .contentShape(Rectangle())
+            }
+        }
+        .buttonStyle(.plain)
+        .animation(nil, value: displayedMonth)
+        .padding(.horizontal, 8)
+        .padding(.bottom, isWatchOS ? 0 : 8)
+#if os(watchOS)
+        .sheet(isPresented: $showEnglishTranslation) {
+            if enablePopover {
+                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+            }
+        }
+#else
+        .popover(
+            isPresented: $showEnglishTranslation,
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .top
+        ) {
+            if enablePopover {
+                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+                    .presentationCompactAdaptation(.popover)
+            }
+        }
+#endif
+    }
+
+    /// Weekday header row (S M T W T F S)
+    private var weekdayHeader: some View {
+        HStack {
+            ForEach(["S", "M", "T", "W", "T", "F", "S"], id: \.self) { d in
+                Text(d)
+                    .font(isWatchOS ? .footnote : .caption)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    /// Calendar grid of day cells
+    private var calendarGrid: some View {
+        LazyVGrid(columns: columns, spacing: isWatchOS ? 0 : 4) {
+            ForEach(monthData.monthCalendar) { day in
+                dayCellButton(for: day)
+            }
+        }
+    }
+
+    /// Individual day cell button
+    @ViewBuilder
+    private func dayCellButton(for day: MoonDay) -> some View {
+        Button {
+            if !day.isOverlap { activeDate = day.date }
+        } label: {
+            dayCellContent(for: day)
+        }
+        .buttonStyle(.plain)
+        .allowsHitTesting(!day.isOverlap)
+    }
+
+    /// Content for a day cell (number + moon image)
+    @ViewBuilder
+    private func dayCellContent(for day: MoonDay) -> some View {
+        VStack(spacing: 4) {
+            Text("\(day.calendarDay)")
+                .font(isWatchOS ? .footnote : .caption)
+                .frame(maxWidth: .infinity)
+            ZStack(alignment: .topTrailing) {
+                moonImage(for: day.day)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: moonImageSize, height: moonImageSize)
+                    .opacity(day.isOverlap ? 0.5 : 1.0)
+                if day.phase.isTransitionDay && !day.isOverlap {
+                    transitionIndicator
+                }
+            }
+        }
+        .padding(.vertical, isWatchOS ? 2 : 4)
+        .padding(.horizontal, 4)
+        .frame(maxWidth: .infinity)
+        .frame(height: 48)
+        .background(dayCellBackground(for: day))
+    }
+
+    /// Background for a day cell (highlighted if selected)
+    @ViewBuilder
+    private func dayCellBackground(for day: MoonDay) -> some View {
+        let isSelected = Calendar.current.isDate(day.date, inSameDayAs: activeDate)
+        RoundedRectangle(cornerRadius: 8)
+            .fill(isSelected ? Color.primary.opacity(0.125) : Color.clear)
+    }
+
+    /// Transition day indicator dot
+    private var transitionIndicator: some View {
+        ZStack {
+            Circle()
+                .fill(transitionIndicatorBorderColor)
+            Circle()
+                .inset(by: 1)
+                .fill(Color.gray)
+        }
+        .frame(width: 12, height: 12)
+        .offset(x: 4, y: -4)
+    }
+
+    /// Swipe gesture for month navigation
+    private var swipeGesture: some Gesture {
+        DragGesture(minimumDistance: 30)
+            .onChanged { value in
+                dragOffset = value.translation.width
+            }
+            .onEnded { value in
+                let swipeThreshold: CGFloat = 50
+                if value.translation.width < -swipeThreshold {
+                    /* Swiped left → next month */
+                    shiftMonth(1)
+                } else if value.translation.width > swipeThreshold {
+                    /* Swiped right → previous month */
+                    shiftMonth(-1)
+                }
+                dragOffset = 0
+            }
     }
 
     // MARK: - Helper Properties

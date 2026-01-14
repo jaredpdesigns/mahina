@@ -113,7 +113,7 @@ struct MahinaComplicationsEntryView: View {
                 .renderingMode(.template)
                 .widgetAccentable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
+                .frame(width: 28, height: 28)
         }
     }
 }

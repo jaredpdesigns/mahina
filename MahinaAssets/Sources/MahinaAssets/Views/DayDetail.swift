@@ -77,6 +77,8 @@ private struct PhaseDetailHeader: View {
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
 
+    @State private var showTransitionExplanation = false
+
     private var phase: MoonPhase { phaseResult.primary }
     private var secondaryPhase: MoonPhase? { phaseResult.secondary }
     private var isTransitionDay: Bool { phaseResult.isTransitionDay }
@@ -102,6 +104,40 @@ private struct PhaseDetailHeader: View {
     // MARK: - Body
 
     public var body: some View {
+        headerContent
+#if !os(watchOS)
+            .popover(
+                isPresented: $showTransitionExplanation,
+                attachmentAnchor: .rect(.bounds),
+                arrowEdge: .bottom
+            ) {
+                TransitionDayPopoverView()
+                    .presentationCompactAdaptation(.popover)
+            }
+#endif
+    }
+
+    @ViewBuilder
+    private var headerContent: some View {
+        let content = headerLayout
+
+#if os(watchOS)
+        content
+#else
+        if isTransitionDay {
+            Button(action: { showTransitionExplanation.toggle() }) {
+                content
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint("Tap to learn about transition days")
+        } else {
+            content
+        }
+#endif
+    }
+
+    @ViewBuilder
+    private var headerLayout: some View {
         if displayMode.isSmallWidget {
             VStack(alignment: .leading, spacing: 12) {
                 headerImage
@@ -119,9 +155,6 @@ private struct PhaseDetailHeader: View {
     private var headerImage: some View {
         Group {
             if isTransitionDay, let secondary = secondaryPhase {
-                /*
-                 * Overlapping moon images for transition days
-                 */
                 SplitMoonImage(
                     primaryDay: phase.day,
                     secondaryDay: secondary.day,
@@ -162,7 +195,7 @@ private struct PhaseDetailHeader: View {
         VStack(alignment: .leading, spacing: 4) {
             if isTransitionDay, let secondary = secondaryPhase {
                 /*
-                 * Show both phase names for transition days
+                 * Show both phase names for transition days with info icon
                  */
                 HStack(spacing: 4) {
                     Text(phase.name)
@@ -174,6 +207,11 @@ private struct PhaseDetailHeader: View {
                     Text(secondary.name)
                         .font(phaseTitleFont)
                         .fontWeight(.semibold)
+#if !os(watchOS)
+                    Image(systemName: "info.circle")
+                        .font(phaseTitleFont)
+                        .foregroundStyle(.secondary)
+#endif
                 }
                 Text(phase.description)
                     .font(displayMode.isFullApp ? .body : .footnote)
@@ -312,39 +350,12 @@ private struct GuidanceItem: View {
         .accessibilityValue(content)
     }
 
-    @ViewBuilder
     private var icon: some View {
-        ZStack {
-            if displayMode.isFullApp {
-                Circle()
-                    .fill(iconBackgroundMaterial)
-                    .frame(width: 40, height: 40)
-
-                Image(systemName: systemName.replacingOccurrences(of: ".circle.fill", with: ".fill"))
-                    .symbolRenderingMode(.monochrome)
-                    .font(.system(size: 20))
-                    .foregroundStyle(.primary)
-            } else {
-                Image(systemName: systemName)
-                    .symbolRenderingMode(isAccentedRendering ? .monochrome : .palette)
-                    .font(.system(size: 32))
-                    .foregroundStyle(.primary, .thinMaterial)
-            }
-        }
-        .frame(width: displayMode.isFullApp ? 64 : 36)
-    }
-
-    /*
-     * Icon background material with platform-specific styling
-     */
-    private var iconBackgroundMaterial: AnyShapeStyle {
-#if os(watchOS)
-        return AnyShapeStyle(.primary.opacity(0.2))
-#elseif os(macOS)
-        return AnyShapeStyle(.primary.opacity(0.1))
-#else
-        return AnyShapeStyle(.thinMaterial)
-#endif
+        Image(systemName: systemName)
+            .symbolRenderingMode(isAccentedRendering ? .monochrome : .palette)
+            .font(.system(size: displayMode.isFullApp ? 48 : 40))
+            .foregroundStyle(.primary, .thinMaterial)
+            .frame(width: displayMode.isFullApp ? 64 : 40)
     }
 
     @ViewBuilder
@@ -361,6 +372,21 @@ private struct GuidanceItem: View {
                 .font(displayMode.isFullApp ? .body : .footnote)
                 .fixedSize(horizontal: false, vertical: true)
         }.frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Transition Day Popover
+
+/// Popover content explaining why two moons are displayed on transition days.
+private struct TransitionDayPopoverView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Transition Day")
+                .font(.headline)
+            Text("This day spans two lunar phases in the Hawaiian moon calendar. The overlapping moons show the transition from one phase to the next.")
+        }
+        .padding()
+        .frame(width: 360, alignment: .leading)
     }
 }
 

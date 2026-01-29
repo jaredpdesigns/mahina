@@ -1,6 +1,6 @@
-import WidgetKit
-import SwiftUI
 import MahinaAssets
+import SwiftUI
+import WidgetKit
 
 /// Timeline provider for Apple Watch complications displaying current moon phase information.
 ///
@@ -13,11 +13,13 @@ struct MoonComplicationProvider: TimelineProvider {
         sampleEntry()
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (MoonComplicationEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (MoonComplicationEntry) -> Void) {
         completion(sampleEntry())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<MoonComplicationEntry>) -> ()) {
+    func getTimeline(
+        in context: Context, completion: @escaping (Timeline<MoonComplicationEntry>) -> Void
+    ) {
         let now = Date()
         let entry = entry(for: now)
 
@@ -30,15 +32,20 @@ struct MoonComplicationProvider: TimelineProvider {
 
     // MARK: - Helper Methods
 
+    /// Returns a static placeholder entry with day 30 (Muku - new moon)
     private func sampleEntry() -> MoonComplicationEntry {
-        entry(for: Date())
+        let phase = MoonCalendarGenerator.moonPhase(for: 30)
+        return MoonComplicationEntry(
+            date: Date(),
+            phaseResult: PhaseResult(primary: phase)
+        )
     }
 
     private func entry(for date: Date) -> MoonComplicationEntry {
         let phaseResult = MoonCalendarGenerator.phase(for: date)
         return MoonComplicationEntry(
             date: date,
-            phase: phaseResult.primary
+            phaseResult: phaseResult
         )
     }
 }
@@ -46,13 +53,43 @@ struct MoonComplicationProvider: TimelineProvider {
 struct MoonComplicationEntry: TimelineEntry {
     /// The date for the timeline entry (required by TimelineEntry).
     let date: Date
-    /// The moon phase to display, as used elsewhere in the app.
-    let phase: MoonPhase
+    /// The complete phase result including primary, secondary, and transition info.
+    let phaseResult: PhaseResult
+
+    /// Convenience accessor for the primary phase.
+    var phase: MoonPhase { phaseResult.primary }
+    /// Convenience accessor for the secondary phase on transition days.
+    var secondaryPhase: MoonPhase? { phaseResult.secondary }
+    /// Whether this is a transition day with overlapping phases.
+    var isTransitionDay: Bool { phaseResult.isTransitionDay }
 }
 
 struct MahinaComplicationsEntryView: View {
     @Environment(\.widgetFamily) private var family
+    @Environment(\.isLuminanceReduced) private var isLuminanceReduced
     var entry: MoonComplicationEntry
+
+    /// Returns the appropriate moon view for rectangular complications - follows DayDetail.headerImage pattern
+    @ViewBuilder
+    private func moonView(for entry: MoonComplicationEntry) -> some View {
+        // Follow exact DayDetail.headerImage pattern
+        if entry.isTransitionDay, let secondaryPhase = entry.secondaryPhase {
+            SplitMoonImage(
+                primaryDay: entry.phase.day,
+                secondaryDay: secondaryPhase.day,
+                isDetailed: true
+            )
+            .unredacted()
+            .opacity(isLuminanceReduced ? 0.5 : 1.0)
+        } else {
+            MoonImage(
+                day: entry.phase.day,
+                isDetailed: true
+            )
+            .unredacted()
+            .opacity(isLuminanceReduced ? 0.5 : 1.0)
+        }
+    }
 
     var body: some View {
         switch family {
@@ -60,11 +97,10 @@ struct MahinaComplicationsEntryView: View {
         case .accessoryCorner:
             ZStack {
                 AccessoryWidgetBackground()
-                moonImage(for: entry.phase.day)
-                    .resizable()
-                    .renderingMode(.template)
+                MoonImage(day: entry.phase.day, isAccentedRendering: true)
                     .widgetAccentable()
-                    .aspectRatio(contentMode: .fit)
+                    .unredacted()
+                    .opacity(isLuminanceReduced ? 0.5 : 1.0)
                     .padding(4)
             }
             .widgetLabel {
@@ -73,11 +109,9 @@ struct MahinaComplicationsEntryView: View {
 
         case .accessoryRectangular:
             HStack(alignment: .center, spacing: 16) {
-                moonImage(for: entry.phase.day)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                DateHeader(date: entry.date)
+                moonView(for: entry)
+                    .frame(width: 32, height: 32)
+                ComplicationDatePhaseHeader(date: entry.date, phase: entry.phase)
             }
 
         case .accessoryInline:
@@ -90,11 +124,10 @@ struct MahinaComplicationsEntryView: View {
         case .accessoryCircular:
             ZStack {
                 AccessoryWidgetBackground()
-                moonImage(for: entry.phase.day)
-                    .resizable()
-                    .renderingMode(.template)
+                MoonImage(day: entry.phase.day, isAccentedRendering: true)
                     .widgetAccentable()
-                    .aspectRatio(contentMode: .fit)
+                    .unredacted()
+                    .opacity(isLuminanceReduced ? 0.5 : 1.0)
                     .frame(width: 36, height: 36)
             }
 
@@ -124,8 +157,42 @@ struct MahinaComplications: Widget {
             .accessoryCorner,
             .accessoryCircular,
             .accessoryRectangular,
-            .accessoryInline
+            .accessoryInline,
         ])
+    }
+}
+
+// MARK: - Complication-Specific Views
+
+/// Date and phase header specifically designed for rectangular complications
+private struct ComplicationDatePhaseHeader: View {
+    let date: Date
+    let phase: MoonPhase
+
+    private var dateString: String {
+        let day = Calendar.current.component(.day, from: date)
+        let month = HawaiianLocalization.month(for: date) ?? englishMonth
+        return "\(month) \(day)"  // Hawaiian month + day for compact display
+    }
+
+    private var englishMonth: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateFormat = "MMMM"  // Full month name
+        return formatter.string(from: date)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(dateString)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            Text(phase.name)
+                .font(.body)
+                .fontWeight(.bold)
+                .foregroundStyle(.primary)  // White in dark mode, black in light mode
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -134,12 +201,32 @@ struct MahinaComplications: Widget {
 #Preview("Rectangular", as: .accessoryRectangular) {
     MahinaComplications()
 } timeline: {
+    let date = Date()
+
     MoonComplicationEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date()).primary
+        date: date,
+        phaseResult: MoonCalendarGenerator.phase(for: date)
     )
+}
+
+#Preview("Rectangular (Privacy)", as: .accessoryRectangular) {
+    MahinaComplications()
+} timeline: {
+    let date = Date()
+
     MoonComplicationEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date()).primary
+        date: date,
+        phaseResult: MoonCalendarGenerator.phase(for: date)
+    )
+}
+
+#Preview("Rectangular (Luminance Reduced)", as: .accessoryRectangular) {
+    MahinaComplications()
+} timeline: {
+    let date = Date()
+
+    MoonComplicationEntry(
+        date: date,
+        phaseResult: MoonCalendarGenerator.phase(for: date)
     )
 }

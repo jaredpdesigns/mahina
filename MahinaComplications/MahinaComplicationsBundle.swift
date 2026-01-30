@@ -5,9 +5,9 @@
 //  Created by Jared Pendergraft on 12/1/25.
 //
 
-import WidgetKit
-import SwiftUI
 import MahinaAssets
+import SwiftUI
+import WidgetKit
 
 @main
 struct MahinaComplicationsBundle: WidgetBundle {

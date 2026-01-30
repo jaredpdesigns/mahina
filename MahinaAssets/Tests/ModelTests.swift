@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import MahinaAssets
 
 /// Tests for data model types to ensure correct initialization, computed properties,
@@ -39,8 +40,9 @@ final class ModelTests: XCTestCase {
         /*
          * Each instance should have a unique ID (UUID)
          */
-        XCTAssertNotEqual(phase1.id, phase2.id,
-                         "Different instances should have different IDs")
+        XCTAssertNotEqual(
+            phase1.id, phase2.id,
+            "Different instances should have different IDs")
     }
 
     func testMoonPhaseHashableConformance() {
@@ -144,8 +146,9 @@ final class ModelTests: XCTestCase {
         let moonDay1 = MoonDay(date: testDate, calendarDay: 15, isOverlap: false, phase: phase)
         let moonDay2 = MoonDay(date: testDate, calendarDay: 15, isOverlap: false, phase: phase)
 
-        XCTAssertNotEqual(moonDay1.id, moonDay2.id,
-                         "Different instances should have different IDs")
+        XCTAssertNotEqual(
+            moonDay1.id, moonDay2.id,
+            "Different instances should have different IDs")
     }
 
     // MARK: - MonthData Tests
@@ -170,8 +173,9 @@ final class ModelTests: XCTestCase {
             for: dateFromString("2025-06-15")
         )
 
-        XCTAssertNotEqual(monthData1.id, monthData2.id,
-                         "Different instances should have different UUIDs")
+        XCTAssertNotEqual(
+            monthData1.id, monthData2.id,
+            "Different instances should have different UUIDs")
     }
 
     func testMonthDataHashableConformance() {
@@ -229,7 +233,7 @@ final class ModelTests: XCTestCase {
         let days = [
             MoonGroupRow.Day(lunarDay: 1, calendarDay: 5, isFilled: true),
             MoonGroupRow.Day(lunarDay: 2, calendarDay: 6, isFilled: true),
-            MoonGroupRow.Day(lunarDay: 3, calendarDay: 7, isFilled: false)
+            MoonGroupRow.Day(lunarDay: 3, calendarDay: 7, isFilled: false),
         ]
 
         let row = MoonGroupRow(
@@ -352,7 +356,8 @@ final class ModelTests: XCTestCase {
         /*
          * Days in the actual month should not be overlaps
          */
-        let monthDays = monthData.monthCalendar.dropFirst(monthData.monthStartWeekdayIndex).prefix(monthData.monthDays)
+        let monthDays = monthData.monthCalendar.dropFirst(monthData.monthStartWeekdayIndex).prefix(
+            monthData.monthDays)
         for day in monthDays {
             XCTAssertFalse(day.isOverlap, "Month days should not be marked as overlap")
         }

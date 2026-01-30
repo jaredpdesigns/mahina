@@ -37,7 +37,9 @@ public struct MoonGroupRow: Identifiable, Hashable {
     /// Indicates whether this group contains the active lunar day.
     public let isActiveGroup: Bool
 
-    public init(name: String, description: String, englishMeaning: String, days: [Day], isActiveGroup: Bool) {
+    public init(
+        name: String, description: String, englishMeaning: String, days: [Day], isActiveGroup: Bool
+    ) {
         self.name = name
         self.description = description
         self.englishMeaning = englishMeaning

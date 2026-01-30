@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import MahinaAssets
 
 /// Tests for LunarPhases static data integrity and lookup functions.
@@ -26,29 +27,33 @@ final class LunarPhasesTests: XCTestCase {
 
     func testAllPhasesHaveNames() {
         for phase in LunarPhases.phases {
-            XCTAssertFalse(phase.name.isEmpty,
-                          "Phase for day \(phase.day) should have a name")
+            XCTAssertFalse(
+                phase.name.isEmpty,
+                "Phase for day \(phase.day) should have a name")
         }
     }
 
     func testAllPhasesHaveDescriptions() {
         for phase in LunarPhases.phases {
-            XCTAssertFalse(phase.description.isEmpty,
-                          "Phase for day \(phase.day) should have a description")
+            XCTAssertFalse(
+                phase.description.isEmpty,
+                "Phase for day \(phase.day) should have a description")
         }
     }
 
     func testAllPhasesHavePlantingGuidance() {
         for phase in LunarPhases.phases {
-            XCTAssertFalse(phase.planting.isEmpty,
-                          "Phase for day \(phase.day) should have planting guidance")
+            XCTAssertFalse(
+                phase.planting.isEmpty,
+                "Phase for day \(phase.day) should have planting guidance")
         }
     }
 
     func testAllPhasesHaveFishingGuidance() {
         for phase in LunarPhases.phases {
-            XCTAssertFalse(phase.fishing.isEmpty,
-                          "Phase for day \(phase.day) should have fishing guidance")
+            XCTAssertFalse(
+                phase.fishing.isEmpty,
+                "Phase for day \(phase.day) should have fishing guidance")
         }
     }
 
@@ -78,8 +83,9 @@ final class LunarPhasesTests: XCTestCase {
     func testHiloPhase() {
         let hilo = LunarPhases.phase(for: 1)
         XCTAssertEqual(hilo?.name, "Hilo", "Day 1 should be Hilo")
-        XCTAssertTrue(hilo?.description.lowercased().contains("new") ?? false,
-                     "Hilo description should mention new moon")
+        XCTAssertTrue(
+            hilo?.description.lowercased().contains("new") ?? false,
+            "Hilo description should mention new moon")
     }
 
     func testHoakaPhase() {
@@ -95,7 +101,7 @@ final class LunarPhasesTests: XCTestCase {
             (3, "Kūkahi"),
             (4, "Kūlua"),
             (5, "Kūkolu"),
-            (6, "Kūpau")
+            (6, "Kūpau"),
         ]
 
         for (day, expectedName) in kuPhases {
@@ -112,7 +118,7 @@ final class LunarPhasesTests: XCTestCase {
             (7, "ʻOlekūkahi"),
             (8, "ʻOlekūlua"),
             (9, "ʻOlekūkolu"),
-            (10, "ʻOlepau")
+            (10, "ʻOlepau"),
         ]
 
         for (day, expectedName) in olePhases {
@@ -129,7 +135,7 @@ final class LunarPhasesTests: XCTestCase {
             (13, "Hua"),
             (14, "Akua"),
             (15, "Hoku"),
-            (16, "Māhealani")
+            (16, "Māhealani"),
         ]
 
         for (day, expectedName) in fullMoonPhases {
@@ -141,8 +147,9 @@ final class LunarPhasesTests: XCTestCase {
     func testMukuPhase() {
         let muku = LunarPhases.phase(for: 30)
         XCTAssertEqual(muku?.name, "Muku", "Day 30 should be Muku")
-        XCTAssertTrue(muku?.description.lowercased().contains("dark") ?? false,
-                     "Muku description should mention dark moon")
+        XCTAssertTrue(
+            muku?.description.lowercased().contains("dark") ?? false,
+            "Muku description should mention dark moon")
     }
 
     // MARK: - Guidance Quality Tests
@@ -158,8 +165,9 @@ final class LunarPhasesTests: XCTestCase {
          * Allow some overlap (similar guidance for similar phases)
          * but expect reasonable variety
          */
-        XCTAssertGreaterThan(uniquePlanting.count, 10,
-                            "Should have variety in planting guidance")
+        XCTAssertGreaterThan(
+            uniquePlanting.count, 10,
+            "Should have variety in planting guidance")
     }
 
     func testFishingGuidanceVariety() {
@@ -169,8 +177,9 @@ final class LunarPhasesTests: XCTestCase {
         let allFishing = LunarPhases.phases.map { $0.fishing }
         let uniqueFishing = Set(allFishing)
 
-        XCTAssertGreaterThan(uniqueFishing.count, 10,
-                            "Should have variety in fishing guidance")
+        XCTAssertGreaterThan(
+            uniqueFishing.count, 10,
+            "Should have variety in fishing guidance")
     }
 
     func testOlePhasesDiscouragePlanting() {
@@ -183,15 +192,14 @@ final class LunarPhasesTests: XCTestCase {
             let phase = LunarPhases.phase(for: day)
             let plantingLower = phase?.planting.lowercased() ?? ""
 
-            let isDiscouraging = plantingLower.contains("avoid") ||
-                                plantingLower.contains("little") ||
-                                plantingLower.contains("discourage") ||
-                                plantingLower.contains("maintenance") ||
-                                plantingLower.contains("weeding") ||
-                                plantingLower.contains("rather than")
+            let isDiscouraging =
+                plantingLower.contains("avoid") || plantingLower.contains("little")
+                || plantingLower.contains("discourage") || plantingLower.contains("maintenance")
+                || plantingLower.contains("weeding") || plantingLower.contains("rather than")
 
-            XCTAssertTrue(isDiscouraging,
-                         "ʻOle phase \(day) should discourage planting: '\(phase?.planting ?? "")'")
+            XCTAssertTrue(
+                isDiscouraging,
+                "ʻOle phase \(day) should discourage planting: '\(phase?.planting ?? "")'")
         }
     }
 
@@ -205,13 +213,13 @@ final class LunarPhasesTests: XCTestCase {
             let phase = LunarPhases.phase(for: day)
             let plantingLower = phase?.planting.lowercased() ?? ""
 
-            let isPositive = plantingLower.contains("good") ||
-                            plantingLower.contains("best") ||
-                            plantingLower.contains("favorable") ||
-                            plantingLower.contains("very good")
+            let isPositive =
+                plantingLower.contains("good") || plantingLower.contains("best")
+                || plantingLower.contains("favorable") || plantingLower.contains("very good")
 
-            XCTAssertTrue(isPositive,
-                         "Full moon phase \(day) should be good for planting: '\(phase?.planting ?? "")'")
+            XCTAssertTrue(
+                isPositive,
+                "Full moon phase \(day) should be good for planting: '\(phase?.planting ?? "")'")
         }
     }
 
@@ -222,8 +230,9 @@ final class LunarPhasesTests: XCTestCase {
          * Phases should be stored in day order
          */
         for (index, phase) in LunarPhases.phases.enumerated() {
-            XCTAssertEqual(phase.day, index + 1,
-                          "Phase at index \(index) should be day \(index + 1), got day \(phase.day)")
+            XCTAssertEqual(
+                phase.day, index + 1,
+                "Phase at index \(index) should be day \(index + 1), got day \(phase.day)")
         }
     }
 }

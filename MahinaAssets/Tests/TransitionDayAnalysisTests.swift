@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import MahinaAssets
 
 /// Analysis tests to understand the pattern behind Hawaiian calendar transition days.
@@ -11,10 +12,10 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
     // Known transition days from the 2025 printed Hawaiian calendar
     let knownTransitionDays2025: [(month: Int, day: Int, phases: String)] = [
-        (2, 27, "Muku/Hilo (30→1)"),    // February 27
-        (3, 12, "Unknown"),              // March 12
-        (5, 26, "Unknown"),              // May 26
-        (7, 22, "Unknown"),              // July 22
+        (2, 27, "Muku/Hilo (30→1)"),  // February 27
+        (3, 12, "Unknown"),  // March 12
+        (5, 26, "Unknown"),  // May 26
+        (7, 22, "Unknown"),  // July 22
     ]
 
     /// Analyze lunar data for each known transition day
@@ -56,7 +57,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
             // Check 2 days before and after
             for offset in -2...2 {
-                guard let date = cal.date(byAdding: .day, value: offset, to: centerDate) else { continue }
+                guard let date = cal.date(byAdding: .day, value: offset, to: centerDate) else {
+                    continue
+                }
                 let dayNum = cal.component(.day, from: date)
                 let marker = offset == 0 ? " <<<" : ""
                 analyzeDate(date, label: "  Day \(dayNum)\(marker)")
@@ -131,7 +134,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
             var transitionHour: Int?
 
             for hour in 0...23 {
-                guard let time = cal.date(byAdding: .hour, value: hour, to: startOfDay) else { continue }
+                guard let time = cal.date(byAdding: .hour, value: hour, to: startOfDay) else {
+                    continue
+                }
                 let age = MoonCalendarGenerator.lunarAge(for: time)
                 let dayInCycle = (age / 29.530588) * 30.0
                 var phase = Int(round(dayInCycle))
@@ -140,7 +145,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
                 if previousPhase != -1 && phase != previousPhase {
                     transitionHour = hour
-                    print("\(month)/\(day): Phase changes from \(previousPhase)→\(phase) around \(hour-1):00-\(hour):00")
+                    print(
+                        "\(month)/\(day): Phase changes from \(previousPhase)→\(phase) around \(hour-1):00-\(hour):00"
+                    )
                     break
                 }
                 previousPhase = phase
@@ -156,7 +163,7 @@ final class TransitionDayAnalysisTests: XCTestCase {
     func testFullMonthAnalysis() {
         let cal = Calendar.current
 
-        let monthsToAnalyze = [2, 3, 5, 7] // Feb, Mar, May, Jul
+        let monthsToAnalyze = [2, 3, 5, 7]  // Feb, Mar, May, Jul
 
         print("\n=== FULL MONTH ANALYSIS - TRANSITION TIMES ===\n")
 
@@ -177,7 +184,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
                 let startOfDay = cal.startOfDay(for: date)
 
                 guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                      let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else {
+                    let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+                else {
                     date = cal.date(byAdding: .day, value: 1, to: date)!
                     continue
                 }
@@ -192,12 +200,16 @@ final class TransitionDayAnalysisTests: XCTestCase {
                 if eveningPhase <= 0 { eveningPhase = 1 }
                 if eveningPhase > 30 { eveningPhase = 1 }
 
-                let isKnown = knownTransitionDays2025.contains { $0.month == month && $0.day == dayNum }
+                let isKnown = knownTransitionDays2025.contains {
+                    $0.month == month && $0.day == dayNum
+                }
                 let changes = morningPhase != eveningPhase
 
                 if changes {
                     let marker = isKnown ? " ← MARKED IN CALENDAR" : ""
-                    print("  Day \(String(format: "%2d", dayNum)): \(morningPhase)→\(eveningPhase)\(marker)")
+                    print(
+                        "  Day \(String(format: "%2d", dayNum)): \(morningPhase)→\(eveningPhase)\(marker)"
+                    )
                 }
 
                 date = cal.date(byAdding: .day, value: 1, to: date)!
@@ -236,7 +248,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
             let startOfDay = cal.startOfDay(for: currentDate)
 
             guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                  let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else {
+                let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+            else {
                 currentDate = cal.date(byAdding: .day, value: 1, to: currentDate)!
                 continue
             }
@@ -290,7 +303,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
             guard let date = cal.date(from: components) else { continue }
 
             let monthData = MoonCalendarGenerator.buildMonthData(for: date)
-            let transitionDays = monthData.monthBuilt.filter { $0.phase.isTransitionDay && !$0.isOverlap }
+            let transitionDays = monthData.monthBuilt.filter {
+                $0.phase.isTransitionDay && !$0.isOverlap
+            }
 
             let formatter = DateFormatter()
             formatter.dateFormat = "MMM"
@@ -309,7 +324,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
                     let marker = isKnown ? " ✓" : ""
                     return "\(dayNum) (\(secondary)→\(primary))\(marker)"
                 }
-                print("\(monthName): \(transitionDays.count) days - \(daysList.joined(separator: ", "))")
+                print(
+                    "\(monthName): \(transitionDays.count) days - \(daysList.joined(separator: ", "))"
+                )
             }
         }
 
@@ -344,7 +361,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
                 let startOfDay = cal.startOfDay(for: date)
 
                 guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                      let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else {
+                    let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+                else {
                     date = cal.date(byAdding: .day, value: 1, to: date)!
                     continue
                 }
@@ -410,7 +428,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
                 let startOfDay = cal.startOfDay(for: date)
 
                 guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                      let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else {
+                    let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+                else {
                     date = cal.date(byAdding: .day, value: 1, to: date)!
                     continue
                 }
@@ -448,7 +467,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
         var synodicGroups: [Int: [(month: Int, day: Int, into: Int)]] = [:]
 
         for t in allTransitions {
-            let daysSinceRef = cal.dateComponents([.day], from: referenceNewMoon, to: t.date).day ?? 0
+            let daysSinceRef =
+                cal.dateComponents([.day], from: referenceNewMoon, to: t.date).day ?? 0
             let synodicMonth = Int(round(Double(daysSinceRef) / 29.53))
 
             if synodicGroups[synodicMonth] == nil {
@@ -475,9 +495,13 @@ final class TransitionDayAnalysisTests: XCTestCase {
             selectedDays.append(selected)
 
             let groupStr = group.map { "\($0.month)/\($0.day) →\($0.into)" }.joined(separator: ", ")
-            let isKnown = knownTransitionDays2025.contains { $0.month == selected.month && $0.day == selected.day }
+            let isKnown = knownTransitionDays2025.contains {
+                $0.month == selected.month && $0.day == selected.day
+            }
             let marker = isKnown ? " ✓" : ""
-            print("  Synodic \(synodicMonth): [\(groupStr)] → picked \(selected.month)/\(selected.day)\(marker)")
+            print(
+                "  Synodic \(synodicMonth): [\(groupStr)] → picked \(selected.month)/\(selected.day)\(marker)"
+            )
         }
 
         print("\nTotal selected: \(selectedDays.count) days")
@@ -515,7 +539,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
                 let startOfDay = cal.startOfDay(for: date)
 
                 guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                      let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else {
+                    let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+                else {
                     date = cal.date(byAdding: .day, value: 1, to: date)!
                     continue
                 }
@@ -557,12 +582,15 @@ final class TransitionDayAnalysisTests: XCTestCase {
                 print("\(monthName): No transition days")
             } else {
                 let daysList = transitions.map { t -> String in
-                    let isKnown = knownTransitionDays2025.contains { $0.month == month && $0.day == t.day }
+                    let isKnown = knownTransitionDays2025.contains {
+                        $0.month == month && $0.day == t.day
+                    }
                     let phaseName = t.into == 1 ? "Hilo" : (t.into == 14 ? "Akua" : "Muku")
                     let marker = isKnown ? " ✓" : ""
                     return "\(t.day) (→\(t.into) \(phaseName))\(marker)"
                 }
-                print("\(monthName): \(transitions.count) days - \(daysList.joined(separator: ", "))")
+                print(
+                    "\(monthName): \(transitions.count) days - \(daysList.joined(separator: ", "))")
             }
         }
 
@@ -593,7 +621,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
             let monthData = MoonCalendarGenerator.buildMonthData(for: date)
 
-            for moonDay in monthData.monthBuilt where moonDay.phase.isTransitionDay && !moonDay.isOverlap {
+            for moonDay in monthData.monthBuilt
+            where moonDay.phase.isTransitionDay && !moonDay.isOverlap {
                 let dayNum = cal.component(.day, from: moonDay.date)
                 let intoPhase = moonDay.phase.primary.day
                 allTransitions.append((month, dayNum, intoPhase))
@@ -616,14 +645,18 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
         print("NEW MOON events (→30 Muku or →1 Hilo):")
         for t in newMoonTransitions {
-            let isKnown = knownTransitionDays2025.contains { $0.month == t.month && $0.day == t.day }
+            let isKnown = knownTransitionDays2025.contains {
+                $0.month == t.month && $0.day == t.day
+            }
             let marker = isKnown ? " ✓ EXPECTED" : ""
             print("  \(t.month)/\(t.day): →\(t.into)\(marker)")
         }
 
         print("\nFULL MOON events (→14 Akua or →15 Hoku):")
         for t in fullMoonTransitions {
-            let isKnown = knownTransitionDays2025.contains { $0.month == t.month && $0.day == t.day }
+            let isKnown = knownTransitionDays2025.contains {
+                $0.month == t.month && $0.day == t.day
+            }
             let marker = isKnown ? " ✓ EXPECTED" : ""
             print("  \(t.month)/\(t.day): →\(t.into)\(marker)")
         }
@@ -656,7 +689,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
             let secondary = result.secondary
 
             let isTransition = result.isTransitionDay
-            let secondaryStr = secondary != nil ? " → \(secondary!.day) (\(secondary!.name)) begins" : ""
+            let secondaryStr =
+                secondary != nil ? " → \(secondary!.day) (\(secondary!.name)) begins" : ""
             let marker = isTransition ? " ← TRANSITION" : ""
 
             print("  Feb \(day): Phase \(primary.day) (\(primary.name))\(secondaryStr)\(marker)")
@@ -679,7 +713,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
             let secondary = result.secondary
 
             let isTransition = result.isTransitionDay
-            let secondaryStr = secondary != nil ? " (secondary: \(secondary!.day) \(secondary!.name))" : ""
+            let secondaryStr =
+                secondary != nil ? " (secondary: \(secondary!.day) \(secondary!.name))" : ""
             let marker = isTransition ? " ← TRANSITION" : ""
 
             print("  Jan \(day): Phase \(primary.day) (\(primary.name))\(secondaryStr)\(marker)")
@@ -697,7 +732,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
             let startOfDay = cal.startOfDay(for: date)
 
             guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                  let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else { continue }
+                let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+            else { continue }
 
             let mAge = MoonCalendarGenerator.lunarAge(for: morning)
             let eAge = MoonCalendarGenerator.lunarAge(for: evening)
@@ -744,7 +780,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
             var phases: [String] = []
             for (name, hours) in [("midnight", 0), ("6am", 6), ("noon", 12), ("6pm", 18)] {
-                guard let time = cal.date(byAdding: .hour, value: hours, to: startOfDay) else { continue }
+                guard let time = cal.date(byAdding: .hour, value: hours, to: startOfDay) else {
+                    continue
+                }
                 let age = MoonCalendarGenerator.lunarAge(for: time)
                 var phase = Int(round((age / 29.530588) * 30.0))
                 if phase <= 0 { phase = 1 }
@@ -753,7 +791,8 @@ final class TransitionDayAnalysisTests: XCTestCase {
             }
 
             guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                  let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else { continue }
+                let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+            else { continue }
 
             let mAge = MoonCalendarGenerator.lunarAge(for: morning)
             let eAge = MoonCalendarGenerator.lunarAge(for: evening)
@@ -794,14 +833,16 @@ final class TransitionDayAnalysisTests: XCTestCase {
             ("6am", 6),
             ("noon", 12),
             ("6pm", 18),
-            ("11pm", 23)
+            ("11pm", 23),
         ]
 
         let header = label.isEmpty ? "\(month)/\(day)/2025 \(expected)" : label
         print(header)
 
         for (timeName, hours) in times {
-            guard let time = cal.date(byAdding: .hour, value: hours, to: startOfDay) else { continue }
+            guard let time = cal.date(byAdding: .hour, value: hours, to: startOfDay) else {
+                continue
+            }
 
             let age = MoonCalendarGenerator.lunarAge(for: time)
             let dayInCycle = (age / 29.530588) * 30.0
@@ -811,12 +852,15 @@ final class TransitionDayAnalysisTests: XCTestCase {
 
             let fractional = dayInCycle - Double(Int(dayInCycle))
 
-            print("    \(timeName.padding(toLength: 10, withPad: " ", startingAt: 0)): age=\(String(format: "%.2f", age))d, dayInCycle=\(String(format: "%.3f", dayInCycle)), frac=\(String(format: "%.3f", fractional)), phase=\(phase)")
+            print(
+                "    \(timeName.padding(toLength: 10, withPad: " ", startingAt: 0)): age=\(String(format: "%.2f", age))d, dayInCycle=\(String(format: "%.3f", dayInCycle)), frac=\(String(format: "%.3f", fractional)), phase=\(phase)"
+            )
         }
 
         // Check if phases change during the day
         guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-              let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else { return }
+            let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+        else { return }
 
         let morningAge = MoonCalendarGenerator.lunarAge(for: morning)
         let eveningAge = MoonCalendarGenerator.lunarAge(for: evening)
@@ -832,7 +876,9 @@ final class TransitionDayAnalysisTests: XCTestCase {
         if eveningPhase > 30 { eveningPhase = 1 }
 
         let phaseChanges = morningPhase != eveningPhase
-        print("    Phase 6am→6pm: \(morningPhase)→\(eveningPhase) \(phaseChanges ? "CHANGES" : "same")")
+        print(
+            "    Phase 6am→6pm: \(morningPhase)→\(eveningPhase) \(phaseChanges ? "CHANGES" : "same")"
+        )
         print("")
     }
 }

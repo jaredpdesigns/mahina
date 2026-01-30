@@ -23,7 +23,10 @@ public struct MonthData: Identifiable, Hashable {
     /// The continuous lunar month slice for this Gregorian month.
     public let monthBuilt: [MoonDay]
 
-    public init(monthNumber: Int, monthName: String, year: Int, monthDays: Int, monthStartWeekdayIndex: Int, monthCalendar: [MoonDay], monthBuilt: [MoonDay]) {
+    public init(
+        monthNumber: Int, monthName: String, year: Int, monthDays: Int, monthStartWeekdayIndex: Int,
+        monthCalendar: [MoonDay], monthBuilt: [MoonDay]
+    ) {
         self.monthNumber = monthNumber
         self.monthName = monthName
         self.year = year

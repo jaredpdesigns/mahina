@@ -4,7 +4,7 @@ import SwiftUI
 /// Supports different visual variants and platform-specific adaptations.
 public struct MoonImage: View {
     public enum Variant {
-        case simple   // Current white/black appearance
+        case simple  // Current white/black appearance
         // case detailed // Future textured appearance
     }
 
@@ -16,7 +16,11 @@ public struct MoonImage: View {
     public var accessibilityLabel: String? = nil
     public var accessibilityValue: String? = nil
 
-    public init(day: Int, variant: Variant = .simple, isDetailed: Bool = false, isOverlap: Bool = false, isAccentedRendering: Bool = false, accessibilityLabel: String? = nil, accessibilityValue: String? = nil) {
+    public init(
+        day: Int, variant: Variant = .simple, isDetailed: Bool = false, isOverlap: Bool = false,
+        isAccentedRendering: Bool = false, accessibilityLabel: String? = nil,
+        accessibilityValue: String? = nil
+    ) {
         self.day = day
         self.variant = variant
         self.isDetailed = isDetailed
@@ -77,8 +81,10 @@ public struct MoonImage: View {
 
 // MARK: - View Extension for Conditional Modifiers
 
-private extension View {
-    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+extension View {
+    @ViewBuilder fileprivate func `if`<Content: View>(
+        _ condition: Bool, transform: (Self) -> Content
+    ) -> some View {
         if condition {
             transform(self)
         } else {
@@ -97,7 +103,9 @@ public struct SplitMoonImage: View {
     public let secondaryDay: Int
     public var isDetailed: Bool = false
 
-    public init(primaryDay: Int, secondaryDay: Int, isDetailed: Bool = false, dividerColor: Color = .clear) {
+    public init(
+        primaryDay: Int, secondaryDay: Int, isDetailed: Bool = false, dividerColor: Color = .clear
+    ) {
         self.primaryDay = primaryDay
         self.secondaryDay = secondaryDay
         self.isDetailed = isDetailed

@@ -16,16 +16,19 @@ Mahina displays the current lunar phase based on Hawaiian moon calendar traditio
 ## Features
 
 ### Main App
+
 - **Daily View**: Scroll through days with detailed lunar phase information
 - **Phase Groups**: Visual representation of the three main lunar groups
 - **Calendar Overlay**: Month picker for easy date navigation
 - **Today Button**: Quick navigation to current date
 
 ### Apple Watch
+
 - Companion app with essential lunar phase information
 - Complications for watch faces
 
 ### Widgets
+
 - Home screen widgets showing current lunar phase
 - Quick access to phase information
 
@@ -34,8 +37,9 @@ Mahina displays the current lunar phase based on Hawaiian moon calendar traditio
 The app uses a continuous lunar age calculation based on a reference new moon (January 11, 2024) with a synodic month length of approximately 29.53 days. Each lunar day (1-30) corresponds to traditional Hawaiian moon names and associated activities.
 
 ### Moon Groups
+
 - **Hoʻonui** (Days 1-10): Growth phase
-- **Poepoe** (Days 11-16): Full moon period  
+- **Poepoe** (Days 11-16): Full moon period
 - **Emi** (Days 17-30): Waning phase
 
 ## Requirements
@@ -54,6 +58,7 @@ The app uses a continuous lunar age calculation based on a reference new moon (J
 ## Architecture
 
 The app follows MVVM architecture with:
+
 - **Models**: Core data structures (`MoonPhase`, `MoonDay`, `MonthData`)
 - **Views**: SwiftUI views for different screens
 - **Services**: Business logic (`MoonCalendarGenerator`)

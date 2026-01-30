@@ -16,11 +16,16 @@ public enum MoonGroup {
     public var metadata: (name: String, description: String, englishMeaning: String) {
         switch self {
         case .hoonui:
-            return ("Hoʻonui", "Growing moon phases, a time of increase and expansion", "to grow bigger")
+            return (
+                "Hoʻonui", "Growing moon phases, a time of increase and expansion", "to grow bigger"
+            )
         case .poepoe:
             return ("Poepoe", "Full moon phases, a time of abundance and peak energy", "round")
         case .emi:
-            return ("Emi", "Waning moon phases, a time of release and preparation for renewal", "to decrease")
+            return (
+                "Emi", "Waning moon phases, a time of release and preparation for renewal",
+                "to decrease"
+            )
         }
     }
 }

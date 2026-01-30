@@ -6,9 +6,9 @@
 //
 
 import AppIntents
+import MahinaAssets
 import SwiftUI
 import WidgetKit
-import MahinaAssets
 
 struct MahinaComplicationsControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
@@ -36,7 +36,7 @@ extension MahinaComplicationsControl {
         }
 
         func currentValue() async throws -> Bool {
-            let isRunning = true // Check if the timer is running
+            let isRunning = true  // Check if the timer is running
             return isRunning
         }
     }

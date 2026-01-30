@@ -24,7 +24,10 @@ public struct MoonPhase: Identifiable, Hashable {
     /// A description of the larger group this phase belongs to.
     public let groupDescription: String
 
-    public init(day: Int, name: String, description: String, planting: String, fishing: String, gridPosition: Int, groupName: String, groupDescription: String) {
+    public init(
+        day: Int, name: String, description: String, planting: String, fishing: String,
+        gridPosition: Int, groupName: String, groupDescription: String
+    ) {
         self.day = day
         self.name = name
         self.description = description

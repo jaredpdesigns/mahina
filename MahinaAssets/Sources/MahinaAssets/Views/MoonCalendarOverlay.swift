@@ -1,15 +1,18 @@
-import SwiftUI
 import Foundation
+import SwiftUI
 
 public struct MoonCalendarOverlay: View {
     public let initialMonth: Date
     public let initialActiveDate: Date
     public var enablePopover: Bool = true
     public var onSelect: (Date, Date) -> Void
-@State public var monthAnchor: Date
-@State public var selection: Date
+    @State public var monthAnchor: Date
+    @State public var selection: Date
 
-    public init(initialMonth: Date, initialActiveDate: Date, enablePopover: Bool = true, onSelect: @escaping (Date, Date) -> Void) {
+    public init(
+        initialMonth: Date, initialActiveDate: Date, enablePopover: Bool = true,
+        onSelect: @escaping (Date, Date) -> Void
+    ) {
         self.initialMonth = initialMonth
         self.initialActiveDate = initialActiveDate
         self.enablePopover = enablePopover

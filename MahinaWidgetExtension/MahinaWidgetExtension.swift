@@ -1,6 +1,6 @@
-import WidgetKit
-import SwiftUI
 import MahinaAssets
+import SwiftUI
+import WidgetKit
 
 /// Timeline entry for the Mahina widget containing moon phase information for a specific date
 struct DayEntry: TimelineEntry {
@@ -117,11 +117,10 @@ struct MahinaWidgetExtension: Widget {
         .supportedFamilies([
             .systemSmall,
             .systemMedium,
-            .systemLarge
+            .systemLarge,
         ])
     }
 }
-
 
 #Preview(as: .systemLarge) {
     MahinaWidgetExtension()

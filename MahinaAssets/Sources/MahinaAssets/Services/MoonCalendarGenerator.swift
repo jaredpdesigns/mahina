@@ -43,8 +43,10 @@ public enum MoonCalendarGenerator {
     ///   leading and trailing days from adjacent months to form a padded calendar grid.
     ///   When `false`, only the days that fall within the target Gregorian month are
     ///   included.
-    public static func buildMonthData(for monthDate: Date, includeOverlap: Bool = true) -> MonthData {
-        return buildMonthData(for: monthDate, includeOverlap: includeOverlap, newMoonProvider: { _, _ in 0 })
+    public static func buildMonthData(for monthDate: Date, includeOverlap: Bool = true) -> MonthData
+    {
+        return buildMonthData(
+            for: monthDate, includeOverlap: includeOverlap, newMoonProvider: { _, _ in 0 })
     }
 
     /// Builds `MonthData` for the Gregorian month containing `monthDate`.
@@ -57,7 +59,9 @@ public enum MoonCalendarGenerator {
     ///     included.
     ///   - newMoonProvider: Retained for API compatibility but ignored; phases are
     ///     derived from the continuous `lunarAge(for:)` model.
-    public static func buildMonthData(for monthDate: Date, includeOverlap: Bool, newMoonProvider: (Int, Int) -> Int) -> MonthData {
+    public static func buildMonthData(
+        for monthDate: Date, includeOverlap: Bool, newMoonProvider: (Int, Int) -> Int
+    ) -> MonthData {
         let cal = Calendar.current
         let comps = cal.dateComponents([.year, .month], from: monthDate)
         let safeMonthDate = cal.date(from: comps) ?? monthDate
@@ -84,7 +88,8 @@ public enum MoonCalendarGenerator {
         }
 
         guard let prevMonth = cal.date(byAdding: .month, value: -1, to: safeMonthDate),
-              let nextMonth = cal.date(byAdding: .month, value: 1, to: safeMonthDate) else {
+            let nextMonth = cal.date(byAdding: .month, value: 1, to: safeMonthDate)
+        else {
             return MonthData(
                 monthNumber: monthNumber,
                 monthName: monthNameStr,
@@ -138,7 +143,9 @@ public enum MoonCalendarGenerator {
         let baseDate = cal.date(from: comps) ?? refDate
 
         return days.compactMap { d -> MoonDay? in
-            guard let date = cal.date(byAdding: .day, value: d - 1, to: baseDate) else { return nil }
+            guard let date = cal.date(byAdding: .day, value: d - 1, to: baseDate) else {
+                return nil
+            }
             let phaseResult = phase(for: date)
             return MoonDay(
                 date: date,
@@ -203,7 +210,8 @@ public enum MoonCalendarGenerator {
 
         // Check phases at morning (6am) and evening (6pm)
         guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-              let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else {
+            let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+        else {
             return nil
         }
 
@@ -222,7 +230,8 @@ public enum MoonCalendarGenerator {
 
         // Must be a phase change into a significant phase
         guard morningPhase != eveningPhase,
-              significantPhases.contains(eveningPhase) else {
+            significantPhases.contains(eveningPhase)
+        else {
             return nil
         }
 
@@ -254,11 +263,14 @@ public enum MoonCalendarGenerator {
         let daysInMonth = cal.range(of: .day, in: .month, for: date)?.count ?? 31
 
         for day in 1...daysInMonth {
-            guard let dayDate = cal.date(byAdding: .day, value: day - 1, to: monthStart) else { continue }
+            guard let dayDate = cal.date(byAdding: .day, value: day - 1, to: monthStart) else {
+                continue
+            }
             let startOfDay = cal.startOfDay(for: dayDate)
 
             guard let morning = cal.date(byAdding: .hour, value: 6, to: startOfDay),
-                  let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay) else { continue }
+                let evening = cal.date(byAdding: .hour, value: 18, to: startOfDay)
+            else { continue }
 
             let mAge = lunarAge(for: morning)
             let eAge = lunarAge(for: evening)
@@ -331,9 +343,18 @@ public enum MoonCalendarGenerator {
     ) -> [MoonGroupRow] {
         // (name, description, englishMeaning, lunar day range)
         let groups: [(String, String, String, ClosedRange<Int>)] = [
-            (MoonGroup.hoonui.metadata.name, MoonGroup.hoonui.metadata.description, MoonGroup.hoonui.metadata.englishMeaning, 1...10),
-            (MoonGroup.poepoe.metadata.name, MoonGroup.poepoe.metadata.description, MoonGroup.poepoe.metadata.englishMeaning, 11...16),
-            (MoonGroup.emi.metadata.name, MoonGroup.emi.metadata.description, MoonGroup.emi.metadata.englishMeaning, 17...30)
+            (
+                MoonGroup.hoonui.metadata.name, MoonGroup.hoonui.metadata.description,
+                MoonGroup.hoonui.metadata.englishMeaning, 1...10
+            ),
+            (
+                MoonGroup.poepoe.metadata.name, MoonGroup.poepoe.metadata.description,
+                MoonGroup.poepoe.metadata.englishMeaning, 11...16
+            ),
+            (
+                MoonGroup.emi.metadata.name, MoonGroup.emi.metadata.description,
+                MoonGroup.emi.metadata.englishMeaning, 17...30
+            ),
         ]
 
         // Map lunar day -> calendar day for this built month
@@ -345,7 +366,9 @@ public enum MoonCalendarGenerator {
         // Determine the active lunar day from the primary phase
         let cal = calendar
         let activeLunarDay: Int = {
-            if let moonDay = monthData.monthBuilt.first(where: { cal.isDate($0.date, inSameDayAs: activeDate) }) {
+            if let moonDay = monthData.monthBuilt.first(where: {
+                cal.isDate($0.date, inSameDayAs: activeDate)
+            }) {
                 return moonDay.phase.primary.day
             } else {
                 return phase(for: activeDate).primary.day

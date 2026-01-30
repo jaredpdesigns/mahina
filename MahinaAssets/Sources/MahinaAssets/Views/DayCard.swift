@@ -16,37 +16,37 @@ public struct DayCard: View {
     }
 
     private var isWatchOS: Bool {
-#if os(watchOS)
-        return true
-#else
-        return false
-#endif
+        #if os(watchOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     private var isIPad: Bool {
-#if os(iOS)
-        return UIDevice.current.userInterfaceIdiom == .pad
-#else
-        return false
-#endif
+        #if os(iOS)
+            return UIDevice.current.userInterfaceIdiom == .pad
+        #else
+            return false
+        #endif
     }
 
     private var isIPadLandscape: Bool {
-#if os(iOS)
-        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
-#else
-        return false
-#endif
+        #if os(iOS)
+            return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
+        #else
+            return false
+        #endif
     }
 
     private var cardBackgroundColor: Color {
-#if os(watchOS)
-        return Color(.darkGray).opacity(0.3)
-#elseif os(macOS)
-        return Color(nsColor: .windowBackgroundColor)
-#else // iOS
-        return Color(uiColor: .systemBackground)
-#endif
+        #if os(watchOS)
+            return Color(.darkGray).opacity(0.3)
+        #elseif os(macOS)
+            return Color(nsColor: .windowBackgroundColor)
+        #else  // iOS
+            return Color(uiColor: .systemBackground)
+        #endif
     }
 
     private var cardPadding: CGFloat {
@@ -62,7 +62,7 @@ public struct DayCard: View {
     public var body: some View {
         Group {
             if isIPadLandscape {
-                HStack( spacing: 32) {
+                HStack(spacing: 32) {
                     dateHeader
                     Divider()
                     phaseDetail

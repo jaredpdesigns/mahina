@@ -13,7 +13,10 @@ public struct PhaseGroups: View {
     /// Whether to display groups vertically or horizontally
     public var isVertical: Bool = false
 
-    public init(rows: [MoonGroupRow], onSelectRow: @escaping (MoonGroupRow) -> Void = { _ in }, isVertical: Bool = false) {
+    public init(
+        rows: [MoonGroupRow], onSelectRow: @escaping (MoonGroupRow) -> Void = { _ in },
+        isVertical: Bool = false
+    ) {
         self.rows = rows
         self.onSelectRow = onSelectRow
         self.isVertical = isVertical
@@ -94,7 +97,7 @@ private struct FlowDotsView: View {
         HStack(spacing: 4) {
             ForEach(days) { day in
                 Capsule()
-                    .frame(width: isVertical ? 12 : 6, height: isVertical ? 12: 24)
+                    .frame(width: isVertical ? 12 : 6, height: isVertical ? 12 : 24)
                     .opacity(day.isFilled ? 1 : 0.25)
                     .foregroundStyle(capsuleForegroundColor)
                     .accessibilityLabel("Lunar day \(day.lunarDay)")

@@ -14,7 +14,7 @@ public struct DateHeader: View {
         self.enablePopover = enablePopover
     }
 
-@State public var showEnglishTranslation = false
+    @State public var showEnglishTranslation = false
 
     // MARK: - Computed Properties
 
@@ -53,11 +53,11 @@ public struct DateHeader: View {
     }
 
     private var isWatchOS: Bool {
-#if os(watchOS)
-        return true
-#else
-        return false
-#endif
+        #if os(watchOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     // MARK: - Body
@@ -77,20 +77,20 @@ public struct DateHeader: View {
                     .accessibilityLabel("Date header: \(weekdayString), \(dateString)")
             }
         }
-#if os(watchOS)
-        .sheet(isPresented: $showEnglishTranslation) {
-            DateTranslationPopoverView(englishDate: fullEnglishDate)
-        }
-#else
-        .popover(
-            isPresented: $showEnglishTranslation,
-            attachmentAnchor: .rect(.bounds),
-            arrowEdge: .bottom
-        ) {
-            DateTranslationPopoverView(englishDate: fullEnglishDate)
+        #if os(watchOS)
+            .sheet(isPresented: $showEnglishTranslation) {
+                DateTranslationPopoverView(englishDate: fullEnglishDate)
+            }
+        #else
+            .popover(
+                isPresented: $showEnglishTranslation,
+                attachmentAnchor: .rect(.bounds),
+                arrowEdge: .bottom
+            ) {
+                DateTranslationPopoverView(englishDate: fullEnglishDate)
                 .presentationCompactAdaptation(.popover)
-        }
-#endif
+            }
+        #endif
     }
 
     private var dateContent: some View {

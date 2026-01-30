@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import MahinaAssets
 
 /// Comprehensive tests for MoonCalendarGenerator - the core lunar calculation engine.
@@ -27,13 +28,14 @@ final class MoonCalendarGeneratorTests: XCTestCase {
             dateFromString("2024-06-15"),
             dateFromString("2025-03-01"),
             dateFromString("2025-12-31"),
-            dateFromString("2026-01-01")
+            dateFromString("2026-01-01"),
         ]
 
         for testDate in testDates {
             let age = MoonCalendarGenerator.lunarAge(for: testDate)
             XCTAssertGreaterThanOrEqual(age, 0, "Lunar age should be >= 0 for \(testDate)")
-            XCTAssertLessThan(age, 29.530588, "Lunar age should be < synodic length for \(testDate)")
+            XCTAssertLessThan(
+                age, 29.530588, "Lunar age should be < synodic length for \(testDate)")
         }
     }
 
@@ -61,11 +63,13 @@ final class MoonCalendarGeneratorTests: XCTestCase {
             /*
              * Handle wraparound at synodic month boundary
              */
-            let expectedAge = (startAge + Double(dayOffset)).truncatingRemainder(dividingBy: 29.530588)
+            let expectedAge = (startAge + Double(dayOffset)).truncatingRemainder(
+                dividingBy: 29.530588)
             let normalizedExpected = expectedAge >= 0 ? expectedAge : expectedAge + 29.530588
 
-            XCTAssertEqual(testAge, normalizedExpected, accuracy: 0.1,
-                          "Age should progress by ~\(dayOffset) days from start")
+            XCTAssertEqual(
+                testAge, normalizedExpected, accuracy: 0.1,
+                "Age should progress by ~\(dayOffset) days from start")
         }
     }
 
@@ -186,12 +190,13 @@ final class MoonCalendarGeneratorTests: XCTestCase {
                 /*
                  * Phase should either stay same, increment by 1, or wrap from 30 to 1
                  */
-                let validProgression = currentPhase == previousPhase ||
-                                       currentPhase == previousPhase + 1 ||
-                                       (previousPhase == 30 && currentPhase == 1)
+                let validProgression =
+                    currentPhase == previousPhase || currentPhase == previousPhase + 1
+                    || (previousPhase == 30 && currentPhase == 1)
 
-                XCTAssertTrue(validProgression,
-                             "Phase should progress smoothly: \(previousPhase) -> \(currentPhase)")
+                XCTAssertTrue(
+                    validProgression,
+                    "Phase should progress smoothly: \(previousPhase) -> \(currentPhase)")
 
                 if currentPhase != previousPhase {
                     phaseChanges += 1
@@ -220,8 +225,9 @@ final class MoonCalendarGeneratorTests: XCTestCase {
 
             if result.isTransitionDay {
                 XCTAssertNotNil(result.secondary, "Transition day should have secondary phase")
-                XCTAssertNotEqual(result.primary.day, result.secondary?.day,
-                                 "Primary and secondary should be different phases")
+                XCTAssertNotEqual(
+                    result.primary.day, result.secondary?.day,
+                    "Primary and secondary should be different phases")
                 return
             }
         }
@@ -237,7 +243,7 @@ final class MoonCalendarGeneratorTests: XCTestCase {
          * and secondary should be the "beginning" phase (evening)
          */
         let testDates = [
-            dateFromString("2025-02-27"),  // Known transition from analysis tests
+            dateFromString("2025-02-27")  // Known transition from analysis tests
         ]
 
         for testDate in testDates {
@@ -251,11 +257,12 @@ final class MoonCalendarGeneratorTests: XCTestCase {
                 let primary = result.primary.day
                 let secondary = result.secondary!.day
 
-                let isValidTransition = secondary == primary + 1 ||
-                                       (primary == 30 && secondary == 1)
+                let isValidTransition =
+                    secondary == primary + 1 || (primary == 30 && secondary == 1)
 
-                XCTAssertTrue(isValidTransition,
-                             "Transition should be consecutive: \(primary) -> \(secondary)")
+                XCTAssertTrue(
+                    isValidTransition,
+                    "Transition should be consecutive: \(primary) -> \(secondary)")
             }
         }
     }
@@ -268,12 +275,15 @@ final class MoonCalendarGeneratorTests: XCTestCase {
         for (index, dateString) in monthDates.enumerated() {
             let monthDate = dateFromString(dateString)
             let month = index + 1
-            let monthData = MoonCalendarGenerator.buildMonthData(for: monthDate, includeOverlap: false)
+            let monthData = MoonCalendarGenerator.buildMonthData(
+                for: monthDate, includeOverlap: false)
 
             let transitionDays = monthData.monthBuilt.filter { $0.phase.isTransitionDay }
 
-            XCTAssertLessThanOrEqual(transitionDays.count, 1,
-                                    "Month \(month) should have at most 1 transition day, found \(transitionDays.count)")
+            XCTAssertLessThanOrEqual(
+                transitionDays.count, 1,
+                "Month \(month) should have at most 1 transition day, found \(transitionDays.count)"
+            )
         }
     }
 
@@ -298,20 +308,23 @@ final class MoonCalendarGeneratorTests: XCTestCase {
          * Calendar with overlap should be 35 or 42 cells (5 or 6 weeks)
          */
         let validLengths = [35, 42]
-        XCTAssertTrue(validLengths.contains(monthData.monthCalendar.count),
-                     "Calendar should be 35 or 42 cells, got \(monthData.monthCalendar.count)")
+        XCTAssertTrue(
+            validLengths.contains(monthData.monthCalendar.count),
+            "Calendar should be 35 or 42 cells, got \(monthData.monthCalendar.count)")
 
         /*
          * monthBuilt should still be just the current month
          */
-        XCTAssertEqual(monthData.monthBuilt.count, 31, "Built month should only have current month days")
+        XCTAssertEqual(
+            monthData.monthBuilt.count, 31, "Built month should only have current month days")
 
         /*
          * Leading overlap days should be marked as overlap
          */
         let leadingOverlap = monthData.monthCalendar.prefix(while: { $0.isOverlap })
-        XCTAssertEqual(leadingOverlap.count, monthData.monthStartWeekdayIndex,
-                      "Leading overlap should match month start index")
+        XCTAssertEqual(
+            leadingOverlap.count, monthData.monthStartWeekdayIndex,
+            "Leading overlap should match month start index")
     }
 
     func testMonthDataForFebruary() {
@@ -334,8 +347,9 @@ final class MoonCalendarGeneratorTests: XCTestCase {
 
         for moonDay in monthData.monthBuilt {
             let dayOfMonth = calendar.component(.day, from: moonDay.date)
-            XCTAssertEqual(dayOfMonth, moonDay.calendarDay,
-                          "Calendar day should match date component")
+            XCTAssertEqual(
+                dayOfMonth, moonDay.calendarDay,
+                "Calendar day should match date component")
 
             let monthOfDay = calendar.component(.month, from: moonDay.date)
             XCTAssertEqual(monthOfDay, 6, "All days should be in June")
@@ -348,33 +362,37 @@ final class MoonCalendarGeneratorTests: XCTestCase {
         /*
          * Test known dates with known weekdays
          */
-        let sunday = dateFromString("2025-06-01")    // June 1, 2025 is Sunday
-        let monday = dateFromString("2025-09-01")    // September 1, 2025 is Monday
+        let sunday = dateFromString("2025-06-01")  // June 1, 2025 is Sunday
+        let monday = dateFromString("2025-09-01")  // September 1, 2025 is Monday
         let saturday = dateFromString("2025-03-01")  // March 1, 2025 is Saturday
 
-        XCTAssertEqual(MoonCalendarGenerator.startOfMonthIndex(for: sunday), 0,
-                      "Sunday should have index 0")
-        XCTAssertEqual(MoonCalendarGenerator.startOfMonthIndex(for: monday), 1,
-                      "Monday should have index 1")
-        XCTAssertEqual(MoonCalendarGenerator.startOfMonthIndex(for: saturday), 6,
-                      "Saturday should have index 6")
+        XCTAssertEqual(
+            MoonCalendarGenerator.startOfMonthIndex(for: sunday), 0,
+            "Sunday should have index 0")
+        XCTAssertEqual(
+            MoonCalendarGenerator.startOfMonthIndex(for: monday), 1,
+            "Monday should have index 1")
+        XCTAssertEqual(
+            MoonCalendarGenerator.startOfMonthIndex(for: saturday), 6,
+            "Saturday should have index 6")
     }
 
     func testDaysInMonth() {
         let testCases: [(String, Int)] = [
-            ("2025-01-15", 31),   // January
-            ("2025-02-15", 28),   // February (non-leap)
-            ("2024-02-15", 29),   // February (leap)
-            ("2025-04-15", 30),   // April
-            ("2025-06-15", 30),   // June
-            ("2025-12-15", 31),   // December
+            ("2025-01-15", 31),  // January
+            ("2025-02-15", 28),  // February (non-leap)
+            ("2024-02-15", 29),  // February (leap)
+            ("2025-04-15", 30),  // April
+            ("2025-06-15", 30),  // June
+            ("2025-12-15", 31),  // December
         ]
 
         for (dateString, expectedDays) in testCases {
             let testDate = dateFromString(dateString)
             let days = MoonCalendarGenerator.daysInMonth(for: testDate)
-            XCTAssertEqual(days, expectedDays,
-                          "\(dateString) month should have \(expectedDays) days")
+            XCTAssertEqual(
+                days, expectedDays,
+                "\(dateString) month should have \(expectedDays) days")
         }
     }
 
@@ -477,9 +495,10 @@ final class MoonCalendarGeneratorTests: XCTestCase {
         /*
          * Phases should be consecutive or same across year boundary
          */
-        let validProgression = jan1Phase.primary.day == dec31Phase.primary.day ||
-                              jan1Phase.primary.day == dec31Phase.primary.day + 1 ||
-                              (dec31Phase.primary.day == 30 && jan1Phase.primary.day == 1)
+        let validProgression =
+            jan1Phase.primary.day == dec31Phase.primary.day
+            || jan1Phase.primary.day == dec31Phase.primary.day + 1
+            || (dec31Phase.primary.day == 30 && jan1Phase.primary.day == 1)
 
         XCTAssertTrue(validProgression, "Phases should progress smoothly across year boundary")
     }

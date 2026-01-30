@@ -44,8 +44,8 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
     // MARK: - Properties
 
     public let items: [Item]
-@Binding public var activeDate: Date
-@Binding public var scrollTarget: Date?
+    @Binding public var activeDate: Date
+    @Binding public var scrollTarget: Date?
 
     /// Function to extract date from each item
     public let dateForItem: (Item) -> Date
@@ -83,32 +83,32 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
 
     // MARK: - State
 
-@State public var hasAutoScrolled = false
+    @State public var hasAutoScrolled = false
 
     private var calendar: Calendar { Calendar.current }
 
     private var isWatchOS: Bool {
-#if os(watchOS)
-        return true
-#else
-        return false
-#endif
+        #if os(watchOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     private var isIPad: Bool {
-#if os(iOS)
-        return UIDevice.current.userInterfaceIdiom == .pad
-#else
-        return false
-#endif
+        #if os(iOS)
+            return UIDevice.current.userInterfaceIdiom == .pad
+        #else
+            return false
+        #endif
     }
 
     private var isIPadLandscape: Bool {
-#if os(iOS)
-        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
-#else
-        return false
-#endif
+        #if os(iOS)
+            return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
+        #else
+            return false
+        #endif
     }
 
     private var contentMaxWidth: CGFloat {
@@ -250,8 +250,8 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
 
 // MARK: - Convenience Extension for No Bottom Content
 
-public extension ScrollableDayList where BottomContent == EmptyView {
-    init(
+extension ScrollableDayList where BottomContent == EmptyView {
+    public init(
         items: [Item],
         activeDate: Binding<Date>,
         scrollTarget: Binding<Date?>,

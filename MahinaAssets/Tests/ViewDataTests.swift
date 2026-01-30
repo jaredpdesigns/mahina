@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import MahinaAssets
 
 /// Tests for data transformations and computed values that drive view rendering.
@@ -59,15 +60,17 @@ final class ViewDataTests: XCTestCase {
          * (5 or 6 rows × 7 columns)
          */
         let validGridSizes = [35, 42]
-        XCTAssertTrue(validGridSizes.contains(monthData.monthCalendar.count),
-                     "Calendar grid should be 35 or 42 cells")
+        XCTAssertTrue(
+            validGridSizes.contains(monthData.monthCalendar.count),
+            "Calendar grid should be 35 or 42 cells")
 
         /*
          * First row should start with Sunday (or include leading overlaps)
          */
         let leadingOverlaps = monthData.monthCalendar.prefix(monthData.monthStartWeekdayIndex)
         for day in leadingOverlaps {
-            XCTAssertTrue(day.isOverlap, "Leading cells should be overlaps for proper grid alignment")
+            XCTAssertTrue(
+                day.isOverlap, "Leading cells should be overlaps for proper grid alignment")
         }
     }
 
@@ -94,7 +97,8 @@ final class ViewDataTests: XCTestCase {
         let juneLastDate = juneLastBuiltDay.date
         let julyFirstDate = julyFirstBuiltDay.date
 
-        let daysBetween = calendar.dateComponents([.day], from: juneLastDate, to: julyFirstDate).day!
+        let daysBetween = calendar.dateComponents([.day], from: juneLastDate, to: julyFirstDate)
+            .day!
         XCTAssertEqual(daysBetween, 1, "Months should be contiguous")
     }
 
@@ -130,8 +134,9 @@ final class ViewDataTests: XCTestCase {
         let transitionDays = monthData.monthBuilt.filter { $0.phase.isTransitionDay }
 
         for moonDay in transitionDays {
-            XCTAssertNotNil(moonDay.phase.secondary,
-                          "Transition day must have secondary phase for split display")
+            XCTAssertNotNil(
+                moonDay.phase.secondary,
+                "Transition day must have secondary phase for split display")
 
             /*
              * Primary and secondary should be adjacent phases
@@ -140,8 +145,9 @@ final class ViewDataTests: XCTestCase {
             let secondary = moonDay.phase.secondary!.day
 
             let isAdjacent = secondary == primary + 1 || (primary == 30 && secondary == 1)
-            XCTAssertTrue(isAdjacent,
-                         "Transition phases should be adjacent: \(primary) and \(secondary)")
+            XCTAssertTrue(
+                isAdjacent,
+                "Transition phases should be adjacent: \(primary) and \(secondary)")
         }
     }
 
@@ -205,8 +211,9 @@ final class ViewDataTests: XCTestCase {
                     sum + row.days.filter { $0.isFilled }.count
                 }
 
-                XCTAssertEqual(totalFilled, 14,
-                              "14 indicators should be filled up to lunar day 14")
+                XCTAssertEqual(
+                    totalFilled, 14,
+                    "14 indicators should be filled up to lunar day 14")
                 return
             }
         }
@@ -222,9 +229,9 @@ final class ViewDataTests: XCTestCase {
          * Test across different phases
          */
         let testCases: [(Int, String)] = [
-            (5, "Hoʻonui"),   // Day 5 is in Hoʻonui
-            (14, "Poepoe"),   // Day 14 is in Poepoe
-            (25, "Emi")       // Day 25 is in Emi
+            (5, "Hoʻonui"),  // Day 5 is in Hoʻonui
+            (14, "Poepoe"),  // Day 14 is in Poepoe
+            (25, "Emi"),  // Day 25 is in Emi
         ]
 
         for (targetDay, expectedGroup) in testCases {
@@ -236,8 +243,9 @@ final class ViewDataTests: XCTestCase {
                     )
 
                     let activeRow = rows.first { $0.isActiveGroup }
-                    XCTAssertEqual(activeRow?.name, expectedGroup,
-                                  "Day \(targetDay) should have \(expectedGroup) as active")
+                    XCTAssertEqual(
+                        activeRow?.name, expectedGroup,
+                        "Day \(targetDay) should have \(expectedGroup) as active")
                     break
                 }
             }
@@ -291,8 +299,9 @@ final class ViewDataTests: XCTestCase {
         /*
          * Name should be short enough for small display
          */
-        XCTAssertLessThanOrEqual(phase.primary.name.count, 15,
-                                "Phase name should be short for widget display")
+        XCTAssertLessThanOrEqual(
+            phase.primary.name.count, 15,
+            "Phase name should be short for widget display")
     }
 
     func testMonthDataSuitableForWidget() {
@@ -358,14 +367,16 @@ final class ViewDataTests: XCTestCase {
         /*
          * Description should provide context
          */
-        XCTAssertFalse(phase.primary.description.isEmpty,
-                      "Description needed for accessibility value")
+        XCTAssertFalse(
+            phase.primary.description.isEmpty,
+            "Description needed for accessibility value")
 
         /*
          * Group info helps users understand position in cycle
          */
-        XCTAssertFalse(phase.primary.groupName.isEmpty,
-                      "Group name helps accessibility context")
+        XCTAssertFalse(
+            phase.primary.groupName.isEmpty,
+            "Group name helps accessibility context")
     }
 
     func testGroupRowDataSupportsAccessibility() {

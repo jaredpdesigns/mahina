@@ -10,13 +10,16 @@ public struct MoonCalendar: View {
 
     public let monthData: MonthData
     public var enablePopover: Bool = true
-@Binding public var displayedMonth: Date
-@Binding public var activeDate: Date
+    @Binding public var displayedMonth: Date
+    @Binding public var activeDate: Date
 
-@State public var dragOffset: CGFloat = 0
-@State public var showEnglishTranslation = false
+    @State public var dragOffset: CGFloat = 0
+    @State public var showEnglishTranslation = false
 
-    public init(monthData: MonthData, displayedMonth: Binding<Date>, activeDate: Binding<Date>, enablePopover: Bool = true) {
+    public init(
+        monthData: MonthData, displayedMonth: Binding<Date>, activeDate: Binding<Date>,
+        enablePopover: Bool = true
+    ) {
         self.monthData = monthData
         self._displayedMonth = displayedMonth
         self._activeDate = activeDate
@@ -26,11 +29,11 @@ public struct MoonCalendar: View {
     // MARK: - Platform Detection
 
     private var isWatchOS: Bool {
-#if os(watchOS)
-        return true
-#else
-        return false
-#endif
+        #if os(watchOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     /// Grid configuration for the 7-day week layout
@@ -48,7 +51,9 @@ public struct MoonCalendar: View {
         .accessibilityElement(children: .contain)
         .accessibilityAddTraits(.isButton)
         .accessibilityLabel("Calendar for \(monthTitle)")
-        .accessibilityHint("Swipe left for next month, swipe right for previous month, or use the navigation buttons")
+        .accessibilityHint(
+            "Swipe left for next month, swipe right for previous month, or use the navigation buttons"
+        )
         .accessibilityAction(named: "Previous Month") {
             shiftMonth(-1)
         }
@@ -90,24 +95,24 @@ public struct MoonCalendar: View {
         .animation(nil, value: displayedMonth)
         .padding(.horizontal, 8)
         .padding(.bottom, isWatchOS ? 0 : 8)
-#if os(watchOS)
-        .sheet(isPresented: $showEnglishTranslation) {
-            if enablePopover {
-                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+        #if os(watchOS)
+            .sheet(isPresented: $showEnglishTranslation) {
+                if enablePopover {
+                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+                }
             }
-        }
-#else
-        .popover(
-            isPresented: $showEnglishTranslation,
-            attachmentAnchor: .rect(.bounds),
-            arrowEdge: .top
-        ) {
-            if enablePopover {
-                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+        #else
+            .popover(
+                isPresented: $showEnglishTranslation,
+                attachmentAnchor: .rect(.bounds),
+                arrowEdge: .top
+            ) {
+                if enablePopover {
+                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
                     .presentationCompactAdaptation(.popover)
+                }
             }
-        }
-#endif
+        #endif
     }
 
     /// Weekday header row (S M T W T F S)
@@ -216,13 +221,13 @@ public struct MoonCalendar: View {
 
     /// Platform-specific system background color for transition indicator border
     private var transitionIndicatorBorderColor: Color {
-#if os(watchOS)
-        return Color.black
-#elseif os(macOS)
-        return Color(nsColor: .windowBackgroundColor)
-#else
-        return Color(uiColor: .systemBackground)
-#endif
+        #if os(watchOS)
+            return Color.black
+        #elseif os(macOS)
+            return Color(nsColor: .windowBackgroundColor)
+        #else
+            return Color(uiColor: .systemBackground)
+        #endif
     }
 
     /// Month title text view
@@ -261,7 +266,8 @@ public struct MoonCalendar: View {
 
     /// Navigates to the previous or next month
     private func shiftMonth(_ months: Int) {
-        if let newDate = Calendar.current.date(byAdding: .month, value: months, to: displayedMonth) {
+        if let newDate = Calendar.current.date(byAdding: .month, value: months, to: displayedMonth)
+        {
             var tx = Transaction()
             tx.disablesAnimations = true
             withTransaction(tx) {
@@ -288,8 +294,10 @@ private struct MonthTranslationPopoverView: View {
         @State private var activeDate = Date()
         var body: some View {
             let monthData = MoonCalendarGenerator.buildMonthData(for: displayedMonth)
-            return MoonCalendar(monthData: monthData, displayedMonth: $displayedMonth, activeDate: $activeDate)
-                .padding()
+            return MoonCalendar(
+                monthData: monthData, displayedMonth: $displayedMonth, activeDate: $activeDate
+            )
+            .padding()
         }
     }
     return PreviewContainer()

@@ -33,7 +33,7 @@ public struct DayDetail: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: displayMode.isMediumWidget ? 8: 24) {
+        VStack(alignment: .leading, spacing: displayMode.isMediumWidget ? 8 : 24) {
             if let phase {
                 PhaseDetailHeader(
                     phaseResult: phase,
@@ -64,11 +64,11 @@ public struct DayDetail: View {
 }
 
 // MARK: - Display Mode Helpers
-public extension DayDetail.DisplayMode {
-    var isSmallWidget: Bool { self == .smallWidget }
-    var isMediumWidget: Bool { self == .mediumWidget }
-    var isLargeWidget: Bool { self == .largeWidget }
-    var isFullApp: Bool { self == .full }
+extension DayDetail.DisplayMode {
+    public var isSmallWidget: Bool { self == .smallWidget }
+    public var isMediumWidget: Bool { self == .mediumWidget }
+    public var isLargeWidget: Bool { self == .largeWidget }
+    public var isFullApp: Bool { self == .full }
 }
 
 // MARK: - Header
@@ -86,54 +86,54 @@ private struct PhaseDetailHeader: View {
     // MARK: - Platform Detection
 
     private var isWatchOS: Bool {
-#if os(watchOS)
-        return true
-#else
-        return false
-#endif
+        #if os(watchOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     private var isMacOS: Bool {
-#if os(macOS)
-        return true
-#else
-        return false
-#endif
+        #if os(macOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     // MARK: - Body
 
     public var body: some View {
         headerContent
-#if !os(watchOS)
-            .popover(
-                isPresented: $showTransitionExplanation,
-                attachmentAnchor: .rect(.bounds),
-                arrowEdge: .bottom
-            ) {
-                TransitionDayPopoverView()
+            #if !os(watchOS)
+                .popover(
+                    isPresented: $showTransitionExplanation,
+                    attachmentAnchor: .rect(.bounds),
+                    arrowEdge: .bottom
+                ) {
+                    TransitionDayPopoverView()
                     .presentationCompactAdaptation(.popover)
-            }
-#endif
+                }
+            #endif
     }
 
     @ViewBuilder
     private var headerContent: some View {
         let content = headerLayout
 
-#if os(watchOS)
-        content
-#else
-        if isTransitionDay {
-            Button(action: { showTransitionExplanation.toggle() }) {
+        #if os(watchOS)
+            content
+        #else
+            if isTransitionDay {
+                Button(action: { showTransitionExplanation.toggle() }) {
+                    content
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint("Tap to learn about transition days")
+            } else {
                 content
             }
-            .buttonStyle(.plain)
-            .accessibilityHint("Tap to learn about transition days")
-        } else {
-            content
-        }
-#endif
+        #endif
     }
 
     @ViewBuilder
@@ -207,11 +207,11 @@ private struct PhaseDetailHeader: View {
                     Text(secondary.name)
                         .font(phaseTitleFont)
                         .fontWeight(.semibold)
-#if !os(watchOS)
-                    Image(systemName: "info.circle")
-                        .font(phaseTitleFont)
-                        .foregroundStyle(.secondary)
-#endif
+                    #if !os(watchOS)
+                        Image(systemName: "info.circle")
+                            .font(phaseTitleFont)
+                            .foregroundStyle(.secondary)
+                    #endif
                 }
                 Text(phase.description)
                     .font(displayMode.isFullApp ? .body : .footnote)
@@ -253,7 +253,10 @@ private struct PhaseDetailSection: View {
     let isAccentedRendering: Bool
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: displayMode.isFullApp ? 16 : displayMode.isMediumWidget ? 0 : 8) {
+        VStack(
+            alignment: .leading,
+            spacing: displayMode.isFullApp ? 16 : displayMode.isMediumWidget ? 0 : 8
+        ) {
             GuidanceItem(
                 title: "Planting",
                 content: phase.planting,
@@ -322,11 +325,11 @@ private struct GuidanceItem: View {
     // MARK: - Platform Detection
 
     private var isWatchOS: Bool {
-#if os(watchOS)
-        return true
-#else
-        return false
-#endif
+        #if os(watchOS)
+            return true
+        #else
+            return false
+        #endif
     }
 
     // MARK: - Body
@@ -383,7 +386,9 @@ private struct TransitionDayPopoverView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Transition Day")
                 .font(.headline)
-            Text("This day spans two lunar phases in the Hawaiian moon calendar. The overlapping moons show the transition from one phase to the next.")
+            Text(
+                "This day spans two lunar phases in the Hawaiian moon calendar. The overlapping moons show the transition from one phase to the next."
+            )
         }
         .padding()
         .frame(width: 360, alignment: .leading)

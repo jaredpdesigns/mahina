@@ -69,22 +69,24 @@ struct MahinaComplicationsEntryView: View {
     @Environment(\.isLuminanceReduced) private var isLuminanceReduced
     var entry: MoonComplicationEntry
 
-    /// Returns the appropriate moon view for rectangular complications - follows DayDetail.headerImage pattern
+    /// Returns the appropriate moon view - follows DayDetail.headerImage pattern
     @ViewBuilder
-    private func moonView(for entry: MoonComplicationEntry) -> some View {
-        // Follow exact DayDetail.headerImage pattern
+    private func moonView(
+        for entry: MoonComplicationEntry,
+        isDetailed: Bool = true
+    ) -> some View {
         if entry.isTransitionDay, let secondaryPhase = entry.secondaryPhase {
             SplitMoonImage(
                 primaryDay: entry.phase.day,
                 secondaryDay: secondaryPhase.day,
-                isDetailed: true
+                isDetailed: isDetailed
             )
             .unredacted()
             .opacity(isLuminanceReduced ? 0.5 : 1.0)
         } else {
             MoonImage(
                 day: entry.phase.day,
-                isDetailed: true
+                isDetailed: isDetailed
             )
             .unredacted()
             .opacity(isLuminanceReduced ? 0.5 : 1.0)
@@ -97,10 +99,11 @@ struct MahinaComplicationsEntryView: View {
         case .accessoryCorner:
             ZStack {
                 AccessoryWidgetBackground()
-                MoonImage(day: entry.phase.day, isAccentedRendering: true)
+                moonView(
+                    for: entry,
+                    isDetailed: false
+                )
                     .widgetAccentable()
-                    .unredacted()
-                    .opacity(isLuminanceReduced ? 0.5 : 1.0)
                     .padding(4)
             }
             .widgetLabel {
@@ -110,7 +113,7 @@ struct MahinaComplicationsEntryView: View {
         case .accessoryRectangular:
             HStack(alignment: .center, spacing: 16) {
                 moonView(for: entry)
-                    .frame(width: 32, height: 32)
+                    .frame(width: 36, height: 36)
                 ComplicationDatePhaseHeader(date: entry.date, phase: entry.phase)
             }
 
@@ -124,10 +127,11 @@ struct MahinaComplicationsEntryView: View {
         case .accessoryCircular:
             ZStack {
                 AccessoryWidgetBackground()
-                MoonImage(day: entry.phase.day, isAccentedRendering: true)
+                moonView(
+                    for: entry,
+                    isDetailed: false
+                )
                     .widgetAccentable()
-                    .unredacted()
-                    .opacity(isLuminanceReduced ? 0.5 : 1.0)
                     .frame(width: 36, height: 36)
             }
 
@@ -209,7 +213,7 @@ private struct ComplicationDatePhaseHeader: View {
     )
 }
 
-#Preview("Rectangular (Privacy)", as: .accessoryRectangular) {
+#Preview("Circular", as: .accessoryCircular) {
     MahinaComplications()
 } timeline: {
     let date = Date()
@@ -220,7 +224,7 @@ private struct ComplicationDatePhaseHeader: View {
     )
 }
 
-#Preview("Rectangular (Luminance Reduced)", as: .accessoryRectangular) {
+#Preview("Corner", as: .accessoryCorner) {
     MahinaComplications()
 } timeline: {
     let date = Date()

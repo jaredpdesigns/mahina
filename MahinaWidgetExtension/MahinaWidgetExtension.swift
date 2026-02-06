@@ -112,8 +112,8 @@ struct MahinaWidgetExtension: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             DayWidgetView(entry: entry)
         }
-        .configurationDisplayName("Moon Phase")
-        .description("Shows today’s lunar phase.")
+        .configurationDisplayName("Today")
+        .description("Shows today’s moon phase.")
         .supportedFamilies([
             .systemSmall,
             .systemMedium,

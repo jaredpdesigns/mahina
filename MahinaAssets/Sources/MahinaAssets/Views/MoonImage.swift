@@ -104,7 +104,10 @@ public struct SplitMoonImage: View {
     public var isDetailed: Bool = false
 
     public init(
-        primaryDay: Int, secondaryDay: Int, isDetailed: Bool = false, dividerColor: Color = .clear
+        primaryDay: Int,
+        secondaryDay: Int,
+        isDetailed: Bool = false,
+        dividerColor: Color = .clear
     ) {
         self.primaryDay = primaryDay
         self.secondaryDay = secondaryDay
@@ -112,32 +115,36 @@ public struct SplitMoonImage: View {
     }
 
     public var body: some View {
+        /*
+         * Each moon is 60% of the total frame to ensure the overlapping pair fits within bounds
+         * Offset is 40% to position in opposite corners
+         */
         GeometryReader { geometry in
-            let totalSize = min(geometry.size.width, geometry.size.height)
-            /*
-             * Each moon is 75% of total frame (48px when frame is 64px)
-             */
-            let moonSize = totalSize * 0.75
-            /*
-             * Offset to position in corners
-             */
-            let offset = totalSize - moonSize
+            let size = min(geometry.size.width, geometry.size.height)
+            let moonSize = size * 0.75
+            let offset = size * 0.25
 
             ZStack(alignment: .topLeading) {
                 /*
                  * Primary phase - top-left corner (bottom layer)
                  */
-                MoonImage(day: primaryDay, isDetailed: isDetailed)
-                    .frame(width: moonSize, height: moonSize)
+                MoonImage(
+                    day: primaryDay,
+                    isDetailed: isDetailed
+                )
+                .frame(width: moonSize, height: moonSize)
 
                 /*
                  * Secondary phase - bottom-right corner (top layer)
                  */
-                MoonImage(day: secondaryDay, isDetailed: isDetailed)
-                    .frame(width: moonSize, height: moonSize)
-                    .offset(x: offset, y: offset)
+                MoonImage(
+                    day: secondaryDay,
+                    isDetailed: isDetailed
+                )
+                .frame(width: moonSize, height: moonSize)
+                .offset(x: offset, y: offset)
             }
-            .frame(width: totalSize, height: totalSize)
+            .frame(width: size, height: size, alignment: .topLeading)
         }
         .aspectRatio(1, contentMode: .fit)
     }

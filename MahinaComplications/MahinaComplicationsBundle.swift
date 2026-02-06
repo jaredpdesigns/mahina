@@ -13,6 +13,5 @@ import WidgetKit
 struct MahinaComplicationsBundle: WidgetBundle {
     var body: some Widget {
         MahinaComplications()
-        MahinaComplicationsControl()
     }
 }

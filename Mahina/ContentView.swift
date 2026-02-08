@@ -8,7 +8,7 @@ import MahinaAssets
 /// Manages the primary user experience for exploring the Hawaiian lunar calendar system.
 struct ContentView: View {
     // MARK: - State Properties
-
+    
     /// Date representing the month currently being displayed in the calendar
     @State private var displayedMonth: Date = Date()
     /// Currently selected/active date in the interface
@@ -19,21 +19,21 @@ struct ContentView: View {
     @State private var scrollTarget: Date? = nil
     /// Controls initial loading state and animation
     @State private var isInitialLoading: Bool = true
-
+    
     // MARK: - Computed Properties
-
+    
     /*
      * Derived month data
      */
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
     }
-
-
+    
+    
     private var groupRows: [MoonGroupRow] {
         MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: activeDate)
     }
-
+    
     private var mainScrollableList: some View {
         var scrollableList = ScrollableDayList(
             items: monthData.monthCalendar.filter { !$0.isOverlap },
@@ -54,14 +54,14 @@ struct ContentView: View {
             Spacer()
                 .frame(height: 150)
         }
-
+        
         /*
          * Use a card-friendly activation threshold (center of screen)
          */
         scrollableList.activationThreshold = 200
         return scrollableList
     }
-
+    
     private var bottomOverlayContent: some View {
         PhaseGroupsWithPopover(rows: groupRows)
             .padding()
@@ -72,7 +72,7 @@ struct ContentView: View {
             )
             .padding(.horizontal)
     }
-
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -81,7 +81,7 @@ struct ContentView: View {
                  */
                 Color(.secondarySystemBackground)
                     .ignoresSafeArea()
-
+                
                 /*
                  * Main scrollable card list
                  */
@@ -93,12 +93,12 @@ struct ContentView: View {
                         activeDate = today
                         scrollTarget = today
                     }
-
+                
                 /*
                  * Floating pill-shaped phase groups indicator at bottom
                  */
                 bottomOverlayContent
-
+                
                 /*
                  * Show loading view during initial load
                  */
@@ -124,7 +124,7 @@ struct ContentView: View {
             }
         }
     }
-
+    
     @ToolbarContentBuilder
     private func topToolbar() -> some ToolbarContent {
         if !isInitialLoading {
@@ -145,7 +145,7 @@ struct ContentView: View {
                 .accessibilityLabel("Select today")
                 .accessibilityHint("Change selected day to today")
             }
-
+            
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: { showCalendarPopover.toggle() }) {
                     Label("Calendar", systemImage: "calendar")
@@ -179,11 +179,11 @@ struct ContentView: View {
 
 private struct LoadingView: View {
     let today = Date()
-
+    
     private var currentPhase: MoonPhase {
         MoonCalendarGenerator.phase(for: today).primary
     }
-
+    
     var body: some View {
         VStack(spacing: 16) {
             MoonImage(
@@ -199,7 +199,7 @@ private struct LoadingView: View {
                 .repeatForever(autoreverses: true),
                 value: currentPhase.day
             )
-
+            
             Text(currentPhase.name)
                 .font(.largeTitle)
                 .fontWeight(.bold)

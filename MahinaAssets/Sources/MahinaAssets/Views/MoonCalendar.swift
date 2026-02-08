@@ -7,15 +7,15 @@ import SwiftUI
 /// provides month navigation controls.
 public struct MoonCalendar: View {
     // MARK: - Properties
-
+    
     public let monthData: MonthData
     public var enablePopover: Bool = true
     @Binding public var displayedMonth: Date
     @Binding public var activeDate: Date
-
+    
     @State public var dragOffset: CGFloat = 0
     @State public var showEnglishTranslation = false
-
+    
     public init(
         monthData: MonthData, displayedMonth: Binding<Date>, activeDate: Binding<Date>,
         enablePopover: Bool = true
@@ -25,22 +25,22 @@ public struct MoonCalendar: View {
         self._activeDate = activeDate
         self.enablePopover = enablePopover
     }
-
+    
     // MARK: - Platform Detection
-
+    
     private var isWatchOS: Bool {
-        #if os(watchOS)
-            return true
-        #else
-            return false
-        #endif
+#if os(watchOS)
+        return true
+#else
+        return false
+#endif
     }
-
+    
     /// Grid configuration for the 7-day week layout
     private let columns = Array(repeating: GridItem(.flexible(minimum: 24), spacing: 4), count: 7)
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         VStack(alignment: .leading, spacing: isWatchOS ? 4 : 8) {
             navigationHeader
@@ -61,9 +61,9 @@ public struct MoonCalendar: View {
             shiftMonth(1)
         }
     }
-
+    
     // MARK: - Subviews
-
+    
     /// Navigation header with previous/next buttons and month title
     private var navigationHeader: some View {
         HStack(spacing: 0) {
@@ -95,26 +95,26 @@ public struct MoonCalendar: View {
         .animation(nil, value: displayedMonth)
         .padding(.horizontal, 8)
         .padding(.bottom, isWatchOS ? 0 : 8)
-        #if os(watchOS)
-            .sheet(isPresented: $showEnglishTranslation) {
-                if enablePopover {
-                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
-                }
+#if os(watchOS)
+        .sheet(isPresented: $showEnglishTranslation) {
+            if enablePopover {
+                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
             }
-        #else
-            .popover(
-                isPresented: $showEnglishTranslation,
-                attachmentAnchor: .rect(.bounds),
-                arrowEdge: .top
-            ) {
-                if enablePopover {
-                    MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
+        }
+#else
+        .popover(
+            isPresented: $showEnglishTranslation,
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .top
+        ) {
+            if enablePopover {
+                MonthTranslationPopoverView(englishMonth: fullEnglishMonth)
                     .presentationCompactAdaptation(.popover)
-                }
             }
-        #endif
+        }
+#endif
     }
-
+    
     /// Weekday header row (S M T W T F S)
     private var weekdayHeader: some View {
         HStack {
@@ -125,7 +125,7 @@ public struct MoonCalendar: View {
             }
         }
     }
-
+    
     /// Calendar grid of day cells
     private var calendarGrid: some View {
         LazyVGrid(columns: columns, spacing: isWatchOS ? 0 : 4) {
@@ -134,7 +134,7 @@ public struct MoonCalendar: View {
             }
         }
     }
-
+    
     /// Individual day cell button
     @ViewBuilder
     private func dayCellButton(for day: MoonDay) -> some View {
@@ -146,7 +146,7 @@ public struct MoonCalendar: View {
         .buttonStyle(.plain)
         .allowsHitTesting(!day.isOverlap)
     }
-
+    
     /// Content for a day cell (number + moon image)
     @ViewBuilder
     private func dayCellContent(for day: MoonDay) -> some View {
@@ -171,7 +171,7 @@ public struct MoonCalendar: View {
         .frame(height: 48)
         .background(dayCellBackground(for: day))
     }
-
+    
     /// Background for a day cell (highlighted if selected)
     @ViewBuilder
     private func dayCellBackground(for day: MoonDay) -> some View {
@@ -179,7 +179,7 @@ public struct MoonCalendar: View {
         RoundedRectangle(cornerRadius: 8)
             .fill(isSelected ? Color.primary.opacity(0.125) : Color.clear)
     }
-
+    
     /// Transition day indicator dot
     private var transitionIndicator: some View {
         ZStack {
@@ -192,7 +192,7 @@ public struct MoonCalendar: View {
         .frame(width: 12, height: 12)
         .offset(x: 4, y: -4)
     }
-
+    
     /// Swipe gesture for month navigation
     private var swipeGesture: some Gesture {
         DragGesture(minimumDistance: 30)
@@ -211,25 +211,25 @@ public struct MoonCalendar: View {
                 dragOffset = 0
             }
     }
-
+    
     // MARK: - Helper Properties
-
+    
     /// Platform-specific moon image size
     private var moonImageSize: CGFloat {
         isWatchOS ? 20 : 24
     }
-
+    
     /// Platform-specific system background color for transition indicator border
     private var transitionIndicatorBorderColor: Color {
-        #if os(watchOS)
-            return Color.black
-        #elseif os(macOS)
-            return Color(nsColor: .windowBackgroundColor)
-        #else
-            return Color(uiColor: .systemBackground)
-        #endif
+#if os(watchOS)
+        return Color.black
+#elseif os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+#else
+        return Color(uiColor: .systemBackground)
+#endif
     }
-
+    
     /// Month title text view
     private var monthTitleText: some View {
         Text(monthTitle)
@@ -239,21 +239,21 @@ public struct MoonCalendar: View {
             .minimumScaleFactor(0.8)
             .frame(minHeight: 32)
     }
-
+    
     /// Formatted month/year title for the navigation header
     private var monthTitle: String {
         let year = Calendar.current.component(.year, from: displayedMonth)
         let monthName = HawaiianLocalization.month(for: displayedMonth) ?? englishMonth
         return "\(monthName) \(year)"
     }
-
+    
     /// English month fallback
     private var englishMonth: String {
         let formatter = DateFormatter()
         formatter.dateFormat = isWatchOS ? "LLL" : "LLLL"
         return formatter.string(from: displayedMonth)
     }
-
+    
     /// Full English month and year for translation popover
     private var fullEnglishMonth: String {
         let formatter = DateFormatter()
@@ -261,9 +261,9 @@ public struct MoonCalendar: View {
         formatter.dateFormat = "MMMM yyyy"
         return formatter.string(from: displayedMonth)
     }
-
+    
     // MARK: - Actions
-
+    
     /// Navigates to the previous or next month
     private func shiftMonth(_ months: Int) {
         if let newDate = Calendar.current.date(byAdding: .month, value: months, to: displayedMonth)
@@ -280,7 +280,7 @@ public struct MoonCalendar: View {
 /// Popover content showing the English translation of the Hawaiian month.
 private struct MonthTranslationPopoverView: View {
     let englishMonth: String
-
+    
     public var body: some View {
         Text(englishMonth)
             .padding()

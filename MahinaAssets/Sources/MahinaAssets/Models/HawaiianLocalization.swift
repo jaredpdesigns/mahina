@@ -5,9 +5,9 @@ import Foundation
 /// Provides Hawaiian translations for weekdays, months, and other calendar-related terms
 /// used throughout the Mahina application.
 public struct HawaiianLocalization {
-
+    
     // MARK: - Weekdays
-
+    
     /// Hawaiian names for days of the week (1 = Sunday, 7 = Saturday)
     public static let weekdays: [Int: String] = [
         1: "Lāpule",  // Sunday
@@ -18,9 +18,9 @@ public struct HawaiianLocalization {
         6: "Pōʻalima",  // Friday
         7: "Pōʻaono",  // Saturday
     ]
-
+    
     // MARK: - Months
-
+    
     /// Hawaiian names for months (1 = January, 12 = December)
     public static let months: [Int: String] = [
         1: "Ianuali",  // January
@@ -36,15 +36,15 @@ public struct HawaiianLocalization {
         11: "Nowemapa",  // November
         12: "Kekemapa",  // December
     ]
-
+    
     // MARK: - Helper Methods
-
+    
     /// Get Hawaiian weekday name for a given date
     public static func weekday(for date: Date) -> String? {
         let weekday = Calendar.current.component(.weekday, from: date)
         return weekdays[weekday]
     }
-
+    
     /// Get Hawaiian month name for a given date
     public static func month(for date: Date) -> String? {
         let month = Calendar.current.component(.month, from: date)

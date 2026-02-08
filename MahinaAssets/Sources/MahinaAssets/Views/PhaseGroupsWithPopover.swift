@@ -7,14 +7,14 @@ import SwiftUI
 public struct PhaseGroupsWithPopover: View {
     public let rows: [MoonGroupRow]
     public var isVertical: Bool = false
-
+    
     public init(rows: [MoonGroupRow], isVertical: Bool = false) {
         self.rows = rows
         self.isVertical = isVertical
     }
-
+    
     @State public var selectedGroupRow: MoonGroupRow?
-
+    
     public var body: some View {
         PhaseGroups(
             rows: rows,
@@ -25,21 +25,21 @@ public struct PhaseGroupsWithPopover: View {
         .animation(nil, value: rows)
         .accessibilityLabel("Moon phase groups")
         .accessibilityHint("Shows progress through lunar cycle")
-        #if !os(watchOS)
-            .popover(
-                item: $selectedGroupRow,
-                attachmentAnchor: .rect(.bounds),
-                arrowEdge: .bottom
-            ) { row in
-                MoonGroupInfoPopoverView(
-                    name: row.name,
-                    description: row.description,
-                    englishMeaning: row.englishMeaning
-                )
-                .frame(width: 360)
-                .presentationCompactAdaptation(.popover)
-            }
-        #endif
+#if !os(watchOS)
+        .popover(
+            item: $selectedGroupRow,
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .bottom
+        ) { row in
+            MoonGroupInfoPopoverView(
+                name: row.name,
+                description: row.description,
+                englishMeaning: row.englishMeaning
+            )
+            .frame(width: 360)
+            .presentationCompactAdaptation(.popover)
+        }
+#endif
     }
 }
 
@@ -48,7 +48,7 @@ private struct MoonGroupInfoPopoverView: View {
     let name: String
     let description: String
     let englishMeaning: String
-
+    
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("\(name) (\(englishMeaning))")

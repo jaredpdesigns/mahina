@@ -8,47 +8,47 @@ public struct DayCard: View {
     public let date: Date
     public let phase: PhaseResult?
     public var displayMode: DayDetail.DisplayMode = .full
-
+    
     public init(date: Date, phase: PhaseResult?, displayMode: DayDetail.DisplayMode = .full) {
         self.date = date
         self.phase = phase
         self.displayMode = displayMode
     }
-
+    
     private var isWatchOS: Bool {
-        #if os(watchOS)
-            return true
-        #else
-            return false
-        #endif
+#if os(watchOS)
+        return true
+#else
+        return false
+#endif
     }
-
+    
     private var isIPad: Bool {
-        #if os(iOS)
-            return UIDevice.current.userInterfaceIdiom == .pad
-        #else
-            return false
-        #endif
+#if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .pad
+#else
+        return false
+#endif
     }
-
+    
     private var isIPadLandscape: Bool {
-        #if os(iOS)
-            return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
-        #else
-            return false
-        #endif
+#if os(iOS)
+        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
+#else
+        return false
+#endif
     }
-
+    
     private var cardBackgroundColor: Color {
-        #if os(watchOS)
-            return Color(.darkGray).opacity(0.3)
-        #elseif os(macOS)
-            return Color(nsColor: .windowBackgroundColor)
-        #else  // iOS
-            return Color(uiColor: .systemBackground)
-        #endif
+#if os(watchOS)
+        return Color(.darkGray).opacity(0.3)
+#elseif os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+#else  // iOS
+        return Color(uiColor: .systemBackground)
+#endif
     }
-
+    
     private var cardPadding: CGFloat {
         if isWatchOS {
             return 12
@@ -58,7 +58,7 @@ public struct DayCard: View {
             return 16
         }
     }
-
+    
     public var body: some View {
         Group {
             if isIPadLandscape {
@@ -87,7 +87,7 @@ public struct DayCard: View {
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Day card for \(date.formatted(date: .long, time: .omitted))")
     }
-
+    
     /*
      * Date header at the top of each card
      */
@@ -95,7 +95,7 @@ public struct DayCard: View {
     private var dateHeader: some View {
         DateHeader(date: date, enablePopover: !isWatchOS)
     }
-
+    
     /*
      * Phase details section - now uses DayDetail directly for all days
      * Transition days show split moon image within DayDetail

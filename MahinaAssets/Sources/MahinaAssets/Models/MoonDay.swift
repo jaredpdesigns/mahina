@@ -16,10 +16,10 @@ public struct MoonDay: Identifiable, Hashable {
     public let isOverlap: Bool
     /// The lunar phase result for this day (includes transition info).
     public let phase: PhaseResult
-
+    
     /// Convenience: the primary lunar day index (1...30) used for selecting icons.
     public var day: Int { phase.primary.day }
-
+    
     public init(date: Date, calendarDay: Int, isOverlap: Bool, phase: PhaseResult) {
         self.date = date
         self.calendarDay = calendarDay

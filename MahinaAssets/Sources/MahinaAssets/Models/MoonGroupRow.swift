@@ -18,7 +18,7 @@ public struct MoonGroupRow: Identifiable, Hashable {
         /// Indicates whether the day is considered filled relative to the active
         /// selection.
         public let isFilled: Bool
-
+        
         public init(lunarDay: Int, calendarDay: Int?, isFilled: Bool) {
             self.lunarDay = lunarDay
             self.calendarDay = calendarDay
@@ -36,7 +36,7 @@ public struct MoonGroupRow: Identifiable, Hashable {
     public let days: [Day]
     /// Indicates whether this group contains the active lunar day.
     public let isActiveGroup: Bool
-
+    
     public init(
         name: String, description: String, englishMeaning: String, days: [Day], isActiveGroup: Bool
     ) {

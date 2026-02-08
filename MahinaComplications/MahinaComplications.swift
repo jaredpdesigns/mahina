@@ -67,7 +67,19 @@ struct MoonComplicationEntry: TimelineEntry {
 struct MahinaComplicationsEntryView: View {
     @Environment(\.widgetFamily) private var family
     @Environment(\.isLuminanceReduced) private var isLuminanceReduced
+    @Environment(\.widgetRenderingMode) private var widgetRenderingMode
     var entry: MoonComplicationEntry
+
+    /*
+     * Accented rendering mode applies to "Clear" watch face styles
+     */
+    private var isAccentedRendering: Bool {
+        if #available(watchOSApplicationExtension 10.0, *) {
+            return widgetRenderingMode != .fullColor
+        } else {
+            return false
+        }
+    }
 
     /// Returns the appropriate moon view - follows DayDetail.headerImage pattern
     @ViewBuilder
@@ -79,14 +91,16 @@ struct MahinaComplicationsEntryView: View {
             SplitMoonImage(
                 primaryDay: entry.phase.day,
                 secondaryDay: secondaryPhase.day,
-                isDetailed: isDetailed
+                isDetailed: isDetailed,
+                isAccentedRendering: isAccentedRendering
             )
             .unredacted()
             .opacity(isLuminanceReduced ? 0.5 : 1.0)
         } else {
             MoonImage(
                 day: entry.phase.day,
-                isDetailed: isDetailed
+                isDetailed: isDetailed,
+                isAccentedRendering: isAccentedRendering
             )
             .unredacted()
             .opacity(isLuminanceReduced ? 0.5 : 1.0)
@@ -103,8 +117,8 @@ struct MahinaComplicationsEntryView: View {
                     for: entry,
                     isDetailed: false
                 )
-                    .widgetAccentable()
-                    .padding(4)
+                .widgetAccentable()
+                .padding(4)
             }
             .widgetLabel {
                 Text(entry.phase.name)
@@ -113,6 +127,7 @@ struct MahinaComplicationsEntryView: View {
         case .accessoryRectangular:
             HStack(alignment: .center, spacing: 16) {
                 moonView(for: entry)
+                    .widgetAccentable()
                     .frame(width: 36, height: 36)
                 ComplicationDatePhaseHeader(date: entry.date, phase: entry.phase)
             }
@@ -131,8 +146,8 @@ struct MahinaComplicationsEntryView: View {
                     for: entry,
                     isDetailed: false
                 )
-                    .widgetAccentable()
-                    .frame(width: 36, height: 36)
+                .widgetAccentable()
+                .frame(width: 36, height: 36)
             }
 
         default:
@@ -155,7 +170,7 @@ struct MahinaComplications: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("Mahina Moon")
+        .configurationDisplayName("Mahina")
         .description("Shows today's moon phase.")
         .supportedFamilies([
             .accessoryCorner,

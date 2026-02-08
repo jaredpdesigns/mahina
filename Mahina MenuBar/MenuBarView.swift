@@ -7,23 +7,23 @@ struct MenuBarView: View {
     @State private var displayedMonth: Date = Date()
     @State private var activeDate: Date = Date()
     @State private var showCalendarPopover: Bool = false
-
+    
     // MARK: - Computed Properties
-
+    
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
     }
-
+    
     private var groupRows: [MoonGroupRow] {
         MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: activeDate)
     }
-
+    
     private var currentPhase: PhaseResult? {
         MoonCalendarGenerator.phase(for: activeDate)
     }
-
+    
     // MARK: - Actions
-
+    
     /*
      * Navigates to the previous or next day
      */
@@ -42,7 +42,7 @@ struct MenuBarView: View {
             moonController.updatePhase(for: newDate)
         }
     }
-
+    
     /*
      * Returns to today's date
      */
@@ -56,7 +56,7 @@ struct MenuBarView: View {
          */
         moonController.updatePhase(for: today)
     }
-
+    
     var body: some View {
         VStack(spacing: 0) {
             if let phase = currentPhase {
@@ -74,7 +74,7 @@ struct MenuBarView: View {
                                     .fill(.quaternary)
                             )
                             .accessibilityLabel("Previous day")
-
+                            
                             Button(action: { goToToday() }) {
                                 HStack(spacing: 4) {
                                     Text("Today")
@@ -89,7 +89,7 @@ struct MenuBarView: View {
                             )
                             .accessibilityLabel("Go to today")
                             .accessibilityHint("Returns to today's date")
-
+                            
                             Button(action: { shiftDay(1) }) {
                                 Image(systemName: "chevron.right")
                                     .frame(width: 24, height: 24)

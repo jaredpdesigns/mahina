@@ -7,23 +7,23 @@ import MahinaAssets
 /// Provides essential navigation and phase information with watchOS-appropriate sizing and interaction patterns.
 struct ContentView: View {
     // MARK: - State Properties
-
+    
     @State private var displayedMonth: Date = Date()
     @State private var activeDate: Date = Date()
     @State private var isShowingCalendarOverlay: Bool = false
     @State private var scrollTarget: Date? = nil
     @State private var hasAutoScrolledToToday: Bool = false
-
+    
     // MARK: - Computed Properties
-
+    
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
     }
-
+    
     private var isToday: Bool {
         Calendar.current.isDateInToday(activeDate)
     }
-
+    
     private var scrollableDayList: some View {
         var list = ScrollableDayList(
             items: monthData.monthCalendar,
@@ -40,15 +40,15 @@ struct ContentView: View {
                 displayMode: .smallWidget
             )
         }
-
+        
         /*
          * Lower activation threshold for watch screen
          */
         list.activationThreshold = 50
-
+        
         return list
     }
-
+    
     var body: some View {
         NavigationStack {
             scrollableDayList
@@ -86,7 +86,7 @@ struct ContentView: View {
                 ) { selectedDate, monthAnchor in
                     let calendar = Calendar.current
                     let normalized = calendar.startOfDay(for: selectedDate)
-
+                    
                     displayedMonth = monthAnchor
                     activeDate = normalized
                     isShowingCalendarOverlay = false
@@ -96,11 +96,11 @@ struct ContentView: View {
             }
         }
     }
-
+    
     private func scrollToToday() {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
-
+        
         /*
          * Anchor the displayed month to the month that contains today.
          */
@@ -109,7 +109,7 @@ struct ContentView: View {
         } else {
             displayedMonth = today
         }
-
+        
         /*
          * Make today the active date and schedule a scroll to that day.
          */

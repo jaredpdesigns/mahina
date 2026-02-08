@@ -3,7 +3,7 @@ import SwiftUI
 /// Preference key for tracking scroll positions of day items in the list
 public struct DayPositionPreferenceKey: PreferenceKey {
     nonisolated(unsafe) public static var defaultValue: [Date: CGFloat] = [:]
-
+    
     public static func reduce(value: inout [Date: CGFloat], nextValue: () -> [Date: CGFloat]) {
         value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
@@ -13,12 +13,12 @@ public struct DayPositionPreferenceKey: PreferenceKey {
 public struct DayPositionTracker: View {
     public let date: Date
     public let anchorPoint: UnitPoint
-
+    
     public init(date: Date, anchorPoint: UnitPoint) {
         self.date = date
         self.anchorPoint = anchorPoint
     }
-
+    
     public var body: some View {
         GeometryReader { proxy in
             let frame = proxy.frame(in: .named("scroll"))
@@ -42,25 +42,25 @@ public struct DayPositionTracker: View {
 /// Includes position tracking for smooth programmatic scrolling to specific dates with configurable offset.
 public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: View {
     // MARK: - Properties
-
+    
     public let items: [Item]
     @Binding public var activeDate: Date
     @Binding public var scrollTarget: Date?
-
+    
     /// Function to extract date from each item
     public let dateForItem: (Item) -> Date
     /// View builder for each row's content
     public let rowContent: (Item) -> RowContent
     /// View builder for bottom spacer/content
     public let bottomContent: () -> BottomContent
-
+    
     /// Vertical position (in points from top) where an item becomes "active"
     /// Default: 100 points from top, which typically positions content nicely visible
     public var activationThreshold: CGFloat = 100
-
+    
     /// Anchor point within each item to track (0 = top, 0.5 = center, 1 = bottom)
     public var trackingAnchor: UnitPoint = UnitPoint(x: 0.5, y: 0.2)
-
+    
     public init(
         items: [Item],
         activeDate: Binding<Date>,
@@ -80,37 +80,37 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
         self.rowContent = rowContent
         self.bottomContent = bottomContent
     }
-
+    
     // MARK: - State
-
+    
     @State public var hasAutoScrolled = false
-
+    
     private var calendar: Calendar { Calendar.current }
-
+    
     private var isWatchOS: Bool {
-        #if os(watchOS)
-            return true
-        #else
-            return false
-        #endif
+#if os(watchOS)
+        return true
+#else
+        return false
+#endif
     }
-
+    
     private var isIPad: Bool {
-        #if os(iOS)
-            return UIDevice.current.userInterfaceIdiom == .pad
-        #else
-            return false
-        #endif
+#if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .pad
+#else
+        return false
+#endif
     }
-
+    
     private var isIPadLandscape: Bool {
-        #if os(iOS)
-            return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
-        #else
-            return false
-        #endif
+#if os(iOS)
+        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
+#else
+        return false
+#endif
     }
-
+    
     private var contentMaxWidth: CGFloat {
         if isIPadLandscape {
             return 960
@@ -120,9 +120,9 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
             return .infinity
         }
     }
-
+    
     // MARK: - Initialization
-
+    
     public init(
         items: [Item],
         activeDate: Binding<Date>,
@@ -138,15 +138,15 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
         self.rowContent = rowContent
         self.bottomContent = bottomContent
     }
-
+    
     // MARK: - Content Generation
-
+    
     @ViewBuilder
     private func content() -> some View {
         ForEach(items.indices, id: \.self) { index in
             let item = items[index]
             let dayDate = calendar.startOfDay(for: dateForItem(item))
-
+            
             if isWatchOS {
                 /*
                  * Simple card display for watchOS without heavy effects
@@ -174,7 +174,7 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
             }
         }
     }
-
+    
     public var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.vertical) {
@@ -228,16 +228,16 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
             let candidates = values.filter { _, position in
                 position >= 0 && position <= activationThreshold + 50
             }
-
+            
             guard !candidates.isEmpty else { return }
-
+            
             /*
              * Pick the one closest to our activation threshold
              */
             let sorted = candidates.sorted { lhs, rhs in
                 abs(lhs.value - activationThreshold) < abs(rhs.value - activationThreshold)
             }
-
+            
             if let best = sorted.first {
                 let newActiveDate = calendar.startOfDay(for: best.key)
                 if newActiveDate != activeDate {
@@ -272,11 +272,11 @@ extension ScrollableDayList where BottomContent == EmptyView {
         @State private var displayedMonth: Date = Date()
         @State private var activeDate: Date = Calendar.current.startOfDay(for: Date())
         @State private var scrollTarget: Date? = nil
-
+        
         private var monthData: MonthData {
             MoonCalendarGenerator.buildMonthData(for: displayedMonth)
         }
-
+        
         var body: some View {
             ScrollableDayList(
                 items: monthData.monthCalendar.filter { !$0.isOverlap },

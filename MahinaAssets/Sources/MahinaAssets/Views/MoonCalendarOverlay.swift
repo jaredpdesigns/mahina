@@ -8,7 +8,7 @@ public struct MoonCalendarOverlay: View {
     public var onSelect: (Date, Date) -> Void
     @State public var monthAnchor: Date
     @State public var selection: Date
-
+    
     public init(
         initialMonth: Date, initialActiveDate: Date, enablePopover: Bool = true,
         onSelect: @escaping (Date, Date) -> Void
@@ -20,11 +20,11 @@ public struct MoonCalendarOverlay: View {
         _monthAnchor = State(initialValue: initialMonth)
         _selection = State(initialValue: initialActiveDate)
     }
-
+    
     private var monthData: MonthData {
         MoonCalendarGenerator.buildMonthData(for: monthAnchor)
     }
-
+    
     public var body: some View {
         MoonCalendar(
             monthData: monthData,

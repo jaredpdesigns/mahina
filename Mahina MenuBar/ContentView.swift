@@ -6,7 +6,7 @@ import MahinaAssets
 struct ContentView: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var moonController = MoonController()
-
+    
     var body: some Scene {
         MenuBarExtra {
             MenuBarView(moonController: moonController)
@@ -29,25 +29,25 @@ struct ContentView: App {
         }
         .menuBarExtraStyle(.window)
     }
-
+    
     // MARK: - Image Rendering
-
+    
     private func renderedMoonImage(for day: Int) -> NSImage? {
         let moonView = MoonImage(
             day: day,
             isDetailed: false,
             isAccentedRendering: true
         )
-        .frame(width: 16, height: 16)
-
+            .frame(width: 16, height: 16)
+        
         let renderer = ImageRenderer(content: moonView)
         renderer.scale = 2.0 // For crisp rendering on Retina displays
-
+        
         guard let nsImage = renderer.nsImage else { return nil }
-
+        
         // Make it a template image so it adapts to system appearance
         nsImage.isTemplate = true
-
+        
         return nsImage
     }
 }
@@ -66,38 +66,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 class MoonController: ObservableObject {
     @Published var currentPhase: PhaseResult?
     private var midnightTimer: Timer?
-
+    
     init() {
         updateCurrentPhase()
         scheduleMidnightUpdate()
     }
-
+    
     deinit {
         midnightTimer?.invalidate()
     }
-
+    
     private func updateCurrentPhase() {
         currentPhase = MoonCalendarGenerator.phase(for: Date())
     }
-
+    
     /*
      * Updates the displayed phase for a specific date
      */
     func updatePhase(for date: Date) {
         currentPhase = MoonCalendarGenerator.phase(for: date)
     }
-
+    
     private func scheduleMidnightUpdate() {
         // Calculate seconds until next midnight
         let calendar = Calendar.current
         let now = Date()
-
+        
         guard let midnight = calendar.nextDate(after: now, matching: DateComponents(hour: 0, minute: 0, second: 0), matchingPolicy: .nextTime) else {
             return
         }
-
+        
         let secondsUntilMidnight = midnight.timeIntervalSince(now)
-
+        
         // Schedule timer to fire at midnight
         midnightTimer?.invalidate()
         midnightTimer = Timer.scheduledTimer(withTimeInterval: secondsUntilMidnight, repeats: false) { [weak self] _ in
@@ -105,7 +105,7 @@ class MoonController: ObservableObject {
             self?.scheduleDailyUpdates()
         }
     }
-
+    
     private func scheduleDailyUpdates() {
         // Schedule daily updates every 24 hours after the first midnight
         midnightTimer?.invalidate()
@@ -113,7 +113,7 @@ class MoonController: ObservableObject {
             self?.updateCurrentPhase()
         }
     }
-
+    
     func refreshPhase() {
         updateCurrentPhase()
     }

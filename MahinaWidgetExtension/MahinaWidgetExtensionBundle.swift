@@ -13,5 +13,6 @@ import MahinaAssets
 struct MahinaWidgetExtensionBundle: WidgetBundle {
     var body: some Widget {
         MahinaWidgetExtension()
+        UpcomingPhasesWidget()
     }
 }

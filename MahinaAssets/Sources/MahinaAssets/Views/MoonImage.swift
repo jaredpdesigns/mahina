@@ -7,7 +7,7 @@ public struct MoonImage: View {
         case simple  // Current white/black appearance
         // case detailed // Future textured appearance
     }
-
+    
     public let day: Int
     public var variant: Variant = .simple
     public var isDetailed: Bool = false
@@ -15,7 +15,7 @@ public struct MoonImage: View {
     public var isAccentedRendering: Bool = false
     public var accessibilityLabel: String? = nil
     public var accessibilityValue: String? = nil
-
+    
     public init(
         day: Int, variant: Variant = .simple, isDetailed: Bool = false, isOverlap: Bool = false,
         isAccentedRendering: Bool = false, accessibilityLabel: String? = nil,
@@ -29,9 +29,9 @@ public struct MoonImage: View {
         self.accessibilityLabel = accessibilityLabel
         self.accessibilityValue = accessibilityValue
     }
-
+    
     @Environment(\.colorScheme) private var colorScheme
-
+    
     @ViewBuilder
     public var img: some View {
         if isDetailed {
@@ -56,7 +56,7 @@ public struct MoonImage: View {
                 .opacity(isOverlap ? 0.5 : 1.0)
         }
     }
-
+    
     public var body: some View {
         img
             .if(accessibilityLabel != nil) { view in
@@ -66,9 +66,9 @@ public struct MoonImage: View {
                 view.accessibilityValue(accessibilityValue!)
             }
     }
-
+    
     // MARK: - Computed Properties
-
+    
     private var moonForegroundColor: Color {
         switch colorScheme {
         case .dark:
@@ -102,44 +102,78 @@ public struct SplitMoonImage: View {
     public let primaryDay: Int
     public let secondaryDay: Int
     public var isDetailed: Bool = false
-
+    public var isAccentedRendering: Bool = false
+    
     public init(
         primaryDay: Int,
         secondaryDay: Int,
         isDetailed: Bool = false,
+        isAccentedRendering: Bool = false,
         dividerColor: Color = .clear
     ) {
         self.primaryDay = primaryDay
         self.secondaryDay = secondaryDay
         self.isDetailed = isDetailed
+        self.isAccentedRendering = isAccentedRendering
     }
-
+    
     public var body: some View {
         /*
          * Each moon is 60% of the total frame to ensure the overlapping pair fits within bounds
          * Offset is 40% to position in opposite corners
+         * The secondary moon needs a background to hide the primary moon beneath it
          */
         GeometryReader { geometry in
             let size = min(geometry.size.width, geometry.size.height)
             let moonSize = size * 0.75
             let offset = size * 0.25
-
+            
             ZStack(alignment: .topLeading) {
                 /*
                  * Primary phase - top-left corner (bottom layer)
+                 * When using simplified images on accented rendering (Clear widgets),
+                 * mask out the area where the secondary moon will overlap
                  */
                 MoonImage(
                     day: primaryDay,
-                    isDetailed: isDetailed
+                    isDetailed: isDetailed,
+                    isAccentedRendering: isAccentedRendering
                 )
                 .frame(width: moonSize, height: moonSize)
-
+                .mask(
+                    Group {
+                        if !isDetailed && isAccentedRendering {
+                            /*
+                             * Cut out a circle from the bottom-right corner
+                             * Uses a Rectangle with a circle "erased" via blendMode
+                             */
+                            ZStack {
+                                Rectangle()
+                                    .fill(.black)
+                                
+                                Circle()
+                                    .fill(.black)
+                                    .frame(width: moonSize, height: moonSize)
+                                    .offset(x: offset, y: offset)
+                                    .blendMode(.destinationOut)
+                            }
+                            .compositingGroup()
+                        } else {
+                            /*
+                             * No masking needed for detailed images or full-color rendering
+                             */
+                            Rectangle()
+                        }
+                    }
+                )
+                
                 /*
                  * Secondary phase - bottom-right corner (top layer)
                  */
                 MoonImage(
                     day: secondaryDay,
-                    isDetailed: isDetailed
+                    isDetailed: isDetailed,
+                    isAccentedRendering: isAccentedRendering
                 )
                 .frame(width: moonSize, height: moonSize)
                 .offset(x: offset, y: offset)
@@ -164,7 +198,7 @@ public struct SplitMoonImage: View {
                 Text("Muku → Hilo")
                     .font(.caption)
             }
-
+            
             VStack {
                 SplitMoonImage(
                     primaryDay: 13,
@@ -177,7 +211,7 @@ public struct SplitMoonImage: View {
         }
         .padding()
         .background(Color.black)
-
+        
         Text("Top-left = primary, Bottom-right = secondary (overlapping)")
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -193,10 +227,10 @@ public struct SplitMoonImage: View {
                 isDetailed: true,
                 accessibilityLabel: "Lunar day 15",
                 accessibilityValue: "Full Moon"
-
+                
             )
             .frame(width: 64, height: 64)
-
+            
             MoonImage(
                 day: 15,
                 accessibilityLabel: "Lunar day 15",
@@ -204,7 +238,7 @@ public struct SplitMoonImage: View {
             )
             .frame(width: 40, height: 40)
         }
-
+        
         Text("Different moon image sizes")
             .font(.caption)
             .foregroundStyle(.secondary)

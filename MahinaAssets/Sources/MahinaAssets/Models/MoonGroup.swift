@@ -2,8 +2,9 @@ import Foundation
 
 /// Represents the three major phases of the Hawaiian lunar calendar cycle.
 ///
-/// The Hawaiian lunar calendar organizes the 30 days into three main groups,
-/// each representing different energetic qualities and traditional activities.
+/// The Hawaiian lunar calendar organizes the 30 days into three 10-day periods
+/// called anahulu, each representing different phases of the lunar cycle.
+/// Based on traditional Hawaiian practice as documented by the Polynesian Voyaging Society.
 public enum MoonGroup {
     /// Growing/waxing moon phases - time of increase and expansion
     case hoonui
@@ -11,7 +12,7 @@ public enum MoonGroup {
     case poepoe
     /// Waning moon phases - time of release and renewal preparation
     case emi
-
+    
     /// Returns the Hawaiian name, cultural description, and English translation for each group
     public var metadata: (name: String, description: String, englishMeaning: String) {
         switch self {

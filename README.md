@@ -36,8 +36,12 @@ Mahina displays the current lunar phase based on Hawaiian moon calendar traditio
 
 The app uses a continuous lunar age calculation based on a reference new moon (January 11, 2024) with a synodic month length of approximately 29.53 days. Each lunar day (1-30) corresponds to traditional Hawaiian moon names and associated activities.
 
-### Moon Groups
+### Moon Groups (Anahulu)
 
-- **Hoʻonui** (Days 1-10): Growth phase
-- **Poepoe** (Days 11-16): Full moon period
-- **Emi** (Days 17-30): Waning phase
+The three 10-day periods are traditionally called anahulu:
+
+- **Hoʻonui** (Days 1-10): "Growing bigger" - waxing moon period (first anahulu)
+- **Poepoe** (Days 11-20): "Round or full" - full moon period (second anahulu)
+- **Emi** (Days 21-30): "Decreasing" - waning moon period (third anahulu)
+
+Reference: [Hōkūleʻa - Hawaiian Lunar Month](https://worldwidevoyage.hokulea.com/education-at-sea/polynesian-navigation/polynesian-non-instrument-wayfinding/hawaiian-lunar-month/)

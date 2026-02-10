@@ -6,11 +6,11 @@ import SwiftUI
 /// Manages its own state for showing group information popovers.
 public struct PhaseGroupsWithPopover: View {
     public let rows: [MoonGroupRow]
-    public var isVertical: Bool = false
+    public var isCompact: Bool = false
     
-    public init(rows: [MoonGroupRow], isVertical: Bool = false) {
+    public init(rows: [MoonGroupRow], isCompact: Bool = false) {
         self.rows = rows
-        self.isVertical = isVertical
+        self.isCompact = isCompact
     }
     
     @State public var selectedGroupRow: MoonGroupRow?
@@ -20,7 +20,7 @@ public struct PhaseGroupsWithPopover: View {
             rows: rows,
             onSelectRow: { row in
                 selectedGroupRow = row
-            }, isVertical: isVertical
+            }, isCompact: isCompact
         )
         .animation(nil, value: rows)
         .accessibilityLabel("Moon phase groups")

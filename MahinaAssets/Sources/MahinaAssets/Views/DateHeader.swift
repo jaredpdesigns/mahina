@@ -8,10 +8,12 @@ import SwiftUI
 public struct DateHeader: View {
     public let date: Date
     public var enablePopover: Bool = true
+    public var isCompact: Bool = false
     
-    public init(date: Date, enablePopover: Bool = true) {
+    public init(date: Date, enablePopover: Bool = true, isCompact: Bool = false) {
         self.date = date
         self.enablePopover = enablePopover
+        self.isCompact = isCompact
     }
     
     @State public var showEnglishTranslation = false
@@ -96,10 +98,11 @@ public struct DateHeader: View {
     private var dateContent: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(weekdayString)
+                .font(isCompact ? .caption : nil)
                 .foregroundStyle(.secondary)
                 .accessibilityLabel("Selected day: \(weekdayString)")
             Text(dateString)
-                .font(isWatchOS ? .body : .largeTitle)
+                .font(isCompact ? .title2 : (isWatchOS ? .body : .largeTitle))
                 .fontWeight(.bold)
         }
     }

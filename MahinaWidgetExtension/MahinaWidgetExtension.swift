@@ -139,6 +139,13 @@ struct DayWidgetView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            if displayModeForFamily == .largeWidget {
+                VStack(alignment: .leading, spacing: 8) {
+                    DateHeader(date: entry.date, enablePopover: false, isCompact: true)
+                    Divider()
+                }
+                Spacer()
+            }
             DayDetail(
                 date: entry.date,
                 phase: entry.phase,
@@ -147,15 +154,15 @@ struct DayWidgetView: View {
             )
             if displayModeForFamily == .largeWidget {
                 Spacer()
-                Divider()
-                PhaseGroups(rows: groupRows, isVertical: true)
-                    .padding(.top)
+                VStack(alignment: .leading, spacing: 12) {
+                    Divider()
+                    PhaseGroups(rows: groupRows, isCompact: true)
+                }
             }
         }
         .containerBackground(for: .widget) {
             Color.clear
         }
-        .padding(.bottom, displayModeForFamily == .largeWidget ? 16 : 0)
     }
     
     private var displayModeForFamily: DayDetail.DisplayMode {

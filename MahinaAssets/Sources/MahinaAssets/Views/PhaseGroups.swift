@@ -2,24 +2,24 @@ import SwiftUI
 
 /// Visual representation of the three Hawaiian lunar phase groups (Hoʻonui, Poepoe, Emi).
 ///
-/// Displays progress through each group using pill-shaped indicators that show completion
-/// status relative to the current lunar day. Supports both horizontal and vertical layouts.
+/// Displays progress through each group using circular charts (compact mode) or capsule
+/// indicators (expanded mode) that show completion status relative to the current lunar day.
 public struct PhaseGroups: View {
     // MARK: - Properties
     
     public let rows: [MoonGroupRow]
     /// Callback when a group row is tapped for more information
     public var onSelectRow: (MoonGroupRow) -> Void = { _ in }
-    /// Whether to display groups vertically or horizontally
-    public var isVertical: Bool = false
+    /// Whether to display in compact mode (circular charts) or expanded mode (capsules)
+    public var isCompact: Bool = false
     
     public init(
         rows: [MoonGroupRow], onSelectRow: @escaping (MoonGroupRow) -> Void = { _ in },
-        isVertical: Bool = false
+        isCompact: Bool = false
     ) {
         self.rows = rows
         self.onSelectRow = onSelectRow
-        self.isVertical = isVertical
+        self.isCompact = isCompact
     }
     
     // MARK: - Body
@@ -32,18 +32,11 @@ public struct PhaseGroups: View {
     
     // MARK: - View Components
     
-    /// Adaptive layout that switches between horizontal and vertical arrangements
+    /// Adaptive layout that switches between compact and expanded arrangements
     @ViewBuilder
     private var content: some View {
-        if isVertical {
-            VStack(alignment: .leading, spacing: 8) {
-                pills
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        } else {
-            HStack(spacing: 24) {
-                pills
-            }
+        HStack(spacing: 24) {
+            pills
         }
     }
     
@@ -55,17 +48,17 @@ public struct PhaseGroups: View {
             Button {
                 onSelectRow(row)
             } label: {
-                PhaseGroupRowView(row: row, isVertical: isVertical)
+                PhaseGroupRowView(row: row, isCompact: isCompact)
             }
             .buttonStyle(.plain)
         }
     }
 }
 
-/// Single group row with label and progress dots/bars for each calendar day in that group.
+/// Single group row with label and progress indicators for each calendar day in that group.
 private struct PhaseGroupRowView: View {
     let row: MoonGroupRow
-    let isVertical: Bool
+    let isCompact: Bool
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -77,7 +70,9 @@ private struct PhaseGroupRowView: View {
                 .textCase(.uppercase)
                 .opacity(row.isActiveGroup ? 1.0 : 0.75)
             
-            FlowDotsView(days: row.days, isVertical: isVertical)
+            FlowDotsView(days: row.days, isCompact: isCompact)
+                .padding(.leading, isCompact ? 8 : 0)
+                .padding(.top, isCompact ? 4 : 0)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(row.name) moon group")
@@ -86,27 +81,31 @@ private struct PhaseGroupRowView: View {
     }
 }
 
-/// Horizontal series of small capsules indicating fill state for each day in the group.
+/// Displays lunar day progress as either a circular chart (compact) or capsules (expanded)
 private struct FlowDotsView: View {
     let days: [MoonGroupRow.Day]
-    let isVertical: Bool
+    let isCompact: Bool
     
     @Environment(\.colorScheme) private var colorScheme
     
     public var body: some View {
-        HStack(spacing: 4) {
-            ForEach(days) { day in
-                Capsule()
-                    .frame(width: isVertical ? 12 : 6, height: isVertical ? 12 : 24)
-                    .opacity(day.isFilled ? 1 : 0.25)
-                    .foregroundStyle(capsuleForegroundColor)
-                    .accessibilityLabel("Lunar day \(day.lunarDay)")
-                    .accessibilityValue(day.isFilled ? "Completed" : "Pending")
+        if isCompact {
+            CircularSegmentChart(days: days)
+        } else {
+            HStack(spacing: 4) {
+                ForEach(days) { day in
+                    Capsule()
+                        .frame(width: 6, height: 24)
+                        .opacity(day.isFilled ? 1 : 0.25)
+                        .foregroundStyle(capsuleForegroundColor)
+                        .accessibilityLabel("Lunar day \(day.lunarDay)")
+                        .accessibilityValue(day.isFilled ? "Completed" : "Pending")
+                }
             }
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel("Group progress indicators")
+            .accessibilityValue("\(days.filter(\.isFilled).count) of \(days.count) days completed")
         }
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel("Group progress indicators")
-        .accessibilityValue("\(days.filter(\.isFilled).count) of \(days.count) days completed")
     }
     
     private var capsuleForegroundColor: Color {
@@ -119,11 +118,53 @@ private struct FlowDotsView: View {
     }
 }
 
+/// Circular gauge showing progress through lunar days in the group
+private struct CircularSegmentChart: View {
+    let days: [MoonGroupRow.Day]
+    
+    @Environment(\.colorScheme) private var colorScheme
+    
+    var body: some View {
+        Gauge(value: Double(filledDaysCount), in: 0...Double(totalDays)) {
+            EmptyView()
+        }
+        .gaugeStyle(.accessoryCircularCapacity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Circular progress chart")
+        .accessibilityValue("\(filledDaysCount) of \(totalDays) days completed")
+        .scaleEffect(0.8)
+        .frame(width: 32, height: 32)
+    }
+    
+    private var filledDaysCount: Int {
+        days.filter(\.isFilled).count
+    }
+    
+    private var totalDays: Int {
+        days.count
+    }
+}
+
+
 #Preview {
     let today = Date()
     let rows: [MoonGroupRow] = {
         let monthData = MoonCalendarGenerator.buildMonthData(for: today)
         return MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: today)
     }()
-    return PhaseGroups(rows: rows).padding()
+    
+    VStack(alignment: .leading, spacing: 40) {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Compact Mode (Circular Gauges)")
+                .font(.headline)
+            PhaseGroups(rows: rows, isCompact: true)
+        }
+        
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Expanded Mode (Capsules)")
+                .font(.headline)
+            PhaseGroups(rows: rows, isCompact: false)
+        }
+    }
+    .padding()
 }

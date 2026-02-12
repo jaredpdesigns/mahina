@@ -9,11 +9,14 @@ public struct DateHeader: View {
     public let date: Date
     public var enablePopover: Bool = true
     public var isCompact: Bool = false
+    /// Phase result for generating share content (iOS only)
+    public var phase: PhaseResult? = nil
     
-    public init(date: Date, enablePopover: Bool = true, isCompact: Bool = false) {
+    public init(date: Date, enablePopover: Bool = true, isCompact: Bool = false, phase: PhaseResult? = nil) {
         self.date = date
         self.enablePopover = enablePopover
         self.isCompact = isCompact
+        self.phase = phase
     }
     
     @State public var showEnglishTranslation = false
@@ -65,19 +68,44 @@ public struct DateHeader: View {
     // MARK: - Body
     
     public var body: some View {
-        Group {
-            if enablePopover {
-                Button(action: { showEnglishTranslation.toggle() }) {
-                    dateContent
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .buttonStyle(.plain)
-                .accessibilityLabel("Date header: \(weekdayString), \(dateString)")
-                .accessibilityHint("Tap to view English translation")
-            } else {
-                dateContent
+        HStack {
+            Group {
+                if enablePopover {
+                    Button(action: { showEnglishTranslation.toggle() }) {
+                        dateContent
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .buttonStyle(.plain)
                     .accessibilityLabel("Date header: \(weekdayString), \(dateString)")
+                    .accessibilityHint("Tap to view English translation")
+                } else {
+                    dateContent
+                        .accessibilityLabel("Date header: \(weekdayString), \(dateString)")
+                }
             }
+            
+#if os(iOS)
+            if let phase, !isCompact {
+                let shareItem = PhaseShareContent.shareItem(for: phase, date: date)
+                Spacer()
+                ShareLink(
+                    item: shareItem,
+                    subject: Text(shareItem.subject),
+                    message: Text(shareItem.text),
+                    preview: SharePreview(
+                        PhaseShareContent.previewTitle(for: phase, dateString: dateString),
+                        image: PhaseShareContent.previewImage(for: phase)
+                    )
+                ) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Share moon phase")
+                .accessibilityHint("Share this day's moon phase information")
+            }
+#endif
         }
 #if os(watchOS)
         .sheet(isPresented: $showEnglishTranslation) {
@@ -102,7 +130,7 @@ public struct DateHeader: View {
                 .foregroundStyle(.secondary)
                 .accessibilityLabel("Selected day: \(weekdayString)")
             Text(dateString)
-                .font(isCompact ? .title2 : (isWatchOS ? .body : .largeTitle))
+                .font(isCompact ? .title2 : (isWatchOS ? .body : .title))
                 .fontWeight(.bold)
         }
     }

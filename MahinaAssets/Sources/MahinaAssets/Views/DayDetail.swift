@@ -7,7 +7,7 @@ public struct DayDetail: View {
         case mediumWidget
         case largeWidget
     }
-    
+
     public let date: Date
     public let phase: PhaseResult?
     public var displayMode: DisplayMode = .full
@@ -15,7 +15,7 @@ public struct DayDetail: View {
     public var showDescription: Bool = true
     /// When true and phase is a transition day, displays secondary phase info
     public var showSecondaryPhase: Bool = false
-    
+
     public init(
         date: Date,
         phase: PhaseResult?,
@@ -31,7 +31,7 @@ public struct DayDetail: View {
         self.showDescription = showDescription
         self.showSecondaryPhase = showSecondaryPhase
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: displayMode.isMediumWidget ? 8 : 24) {
             if let phase {
@@ -40,6 +40,8 @@ public struct DayDetail: View {
                     displayMode: displayMode,
                     isAccentedRendering: isAccentedRendering
                 )
+                .accessibilityAddTraits(.isHeader)
+
                 if showDescription {
                     PhaseDetailSection(
                         phase: phase.primary,
@@ -60,6 +62,8 @@ public struct DayDetail: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .contain)
+        .accessibilityValue("Lunar day \(phase?.primary.day ?? 0)")
     }
 }
 
@@ -76,15 +80,15 @@ private struct PhaseDetailHeader: View {
     let phaseResult: PhaseResult
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
-    
+
     @State private var showTransitionExplanation = false
-    
+
     private var phase: MoonPhase { phaseResult.primary }
     private var secondaryPhase: MoonPhase? { phaseResult.secondary }
     private var isTransitionDay: Bool { phaseResult.isTransitionDay }
-    
+
     // MARK: - Platform Detection
-    
+
     private var isWatchOS: Bool {
 #if os(watchOS)
         return true
@@ -92,7 +96,7 @@ private struct PhaseDetailHeader: View {
         return false
 #endif
     }
-    
+
     private var isMacOS: Bool {
 #if os(macOS)
         return true
@@ -100,9 +104,9 @@ private struct PhaseDetailHeader: View {
         return false
 #endif
     }
-    
+
     // MARK: - Body
-    
+
     public var body: some View {
         headerContent
 #if !os(watchOS)
@@ -116,11 +120,11 @@ private struct PhaseDetailHeader: View {
             }
 #endif
     }
-    
+
     @ViewBuilder
     private var headerContent: some View {
         let content = headerLayout
-        
+
 #if os(watchOS)
         content
 #else
@@ -135,7 +139,7 @@ private struct PhaseDetailHeader: View {
         }
 #endif
     }
-    
+
     @ViewBuilder
     private var headerLayout: some View {
         if displayMode.isSmallWidget {
@@ -150,7 +154,7 @@ private struct PhaseDetailHeader: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var headerImage: some View {
         Group {
@@ -175,23 +179,23 @@ private struct PhaseDetailHeader: View {
         .frame(width: imageSize, height: imageSize)
         .shadow(color: shadowColor, radius: shadowRadius, x: 0, y: shadowOffset)
     }
-    
+
     private var imageSize: CGFloat {
         displayMode.isFullApp ? 64 : 40
     }
-    
+
     private var shadowColor: Color {
         displayMode.isFullApp ? .black.opacity(0.125) : .clear
     }
-    
+
     private var shadowRadius: CGFloat {
         displayMode.isFullApp ? 8 : 0
     }
-    
+
     private var shadowOffset: CGFloat {
         displayMode.isFullApp ? 2 : 0
     }
-    
+
     private var headerText: some View {
         VStack(alignment: .leading, spacing: 4) {
             if isTransitionDay, let secondary = secondaryPhase {
@@ -231,7 +235,7 @@ private struct PhaseDetailHeader: View {
         .accessibilityLabel("Moon phase: \(phase.name)")
         .accessibilityValue(phase.description)
     }
-    
+
     /*
      * Phase title font: larger on macOS for menu bar visibility
      */
@@ -242,7 +246,7 @@ private struct PhaseDetailHeader: View {
             return .title3
         }
     }
-    
+
 }
 
 // MARK: - Section
@@ -250,7 +254,7 @@ private struct PhaseDetailSection: View {
     let phase: MoonPhase
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
-    
+
     public var body: some View {
         VStack(
             alignment: .leading,
@@ -263,7 +267,7 @@ private struct PhaseDetailSection: View {
                 displayMode: displayMode,
                 isAccentedRendering: isAccentedRendering
             )
-            
+
             GuidanceItem(
                 title: "Fishing",
                 content: phase.fishing,
@@ -280,12 +284,12 @@ private struct SecondaryPhaseSection: View {
     let phase: MoonPhase
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Divider()
                 .padding(.vertical, 8)
-            
+
             HStack(spacing: 12) {
                 MoonImage(
                     day: phase.day,
@@ -296,7 +300,7 @@ private struct SecondaryPhaseSection: View {
                 )
                 .frame(width: 32, height: 32)
                 .opacity(0.7)
-                
+
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Also: \(phase.name)")
                         .font(.subheadline)
@@ -320,9 +324,9 @@ private struct GuidanceItem: View {
     let systemName: String
     let displayMode: DayDetail.DisplayMode
     let isAccentedRendering: Bool
-    
+
     // MARK: - Platform Detection
-    
+
     private var isWatchOS: Bool {
 #if os(watchOS)
         return true
@@ -330,9 +334,9 @@ private struct GuidanceItem: View {
         return false
 #endif
     }
-    
+
     // MARK: - Body
-    
+
     public var body: some View {
         Group {
             if displayMode.isSmallWidget {
@@ -350,8 +354,12 @@ private struct GuidanceItem: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title) guidance")
         .accessibilityValue(content)
+        .accessibilityHint("Traditional Hawaiian guidance for \(title.lowercased())")
+        .accessibilityAction(named: "Hear \(title) guidance") {
+            /* Custom action for VoiceOver users */
+        }
     }
-    
+
     private var icon: some View {
         Image(systemName: systemName)
             .symbolRenderingMode(isAccentedRendering ? .monochrome : .palette)
@@ -359,7 +367,7 @@ private struct GuidanceItem: View {
             .foregroundStyle(.primary, .thinMaterial)
             .frame(width: displayMode.isFullApp ? 64 : 40)
     }
-    
+
     @ViewBuilder
     private var text: some View {
         VStack(alignment: .leading, spacing: 2) {

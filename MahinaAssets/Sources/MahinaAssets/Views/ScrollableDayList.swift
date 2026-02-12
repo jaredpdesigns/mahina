@@ -103,18 +103,8 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
 #endif
     }
     
-    private var isIPadLandscape: Bool {
-#if os(iOS)
-        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
-#else
-        return false
-#endif
-    }
-    
     private var contentMaxWidth: CGFloat {
-        if isIPadLandscape {
-            return 960
-        } else if isIPad {
+        if isIPad {
             return 720
         } else {
             return .infinity
@@ -242,6 +232,8 @@ public struct ScrollableDayList<Item, RowContent: View, BottomContent: View>: Vi
                 let newActiveDate = calendar.startOfDay(for: best.key)
                 if newActiveDate != activeDate {
                     activeDate = newActiveDate
+                    /* Provide haptic feedback when date changes */
+                    HapticManager.selection()
                 }
             }
         }

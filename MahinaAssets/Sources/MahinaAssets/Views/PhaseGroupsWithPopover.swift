@@ -24,7 +24,8 @@ public struct PhaseGroupsWithPopover: View {
         )
         .animation(nil, value: rows)
         .accessibilityLabel("Moon phase groups")
-        .accessibilityHint("Shows progress through lunar cycle")
+        .accessibilityHint("Shows progress through lunar cycle. Tap to learn about each group.")
+        .accessibilityValue("\(rows.first(where: { $0.isActiveGroup })?.name ?? "Unknown") phase currently active")
 #if !os(watchOS)
         .popover(
             item: $selectedGroupRow,

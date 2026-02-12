@@ -23,22 +23,6 @@ public struct DayCard: View {
 #endif
     }
     
-    private var isIPad: Bool {
-#if os(iOS)
-        return UIDevice.current.userInterfaceIdiom == .pad
-#else
-        return false
-#endif
-    }
-    
-    private var isIPadLandscape: Bool {
-#if os(iOS)
-        return isIPad && UIScreen.main.bounds.width > UIScreen.main.bounds.height
-#else
-        return false
-#endif
-    }
-    
     private var cardBackgroundColor: Color {
 #if os(watchOS)
         return Color(.darkGray).opacity(0.3)
@@ -50,31 +34,16 @@ public struct DayCard: View {
     }
     
     private var cardPadding: CGFloat {
-        if isWatchOS {
-            return 12
-        } else if isIPad {
-            return 32
-        } else {
-            return 16
-        }
+        isWatchOS ? 12 : 16
     }
     
     public var body: some View {
-        Group {
-            if isIPadLandscape {
-                HStack(spacing: 32) {
-                    dateHeader
-                    Divider()
-                    phaseDetail
-                }
-            } else {
-                VStack(alignment: .leading, spacing: isWatchOS ? 12 : 24) {
-                    dateHeader
-                    phaseDetail
-                    if !isWatchOS {
-                        Spacer(minLength: 0)
-                    }
-                }
+        VStack(alignment: .leading, spacing: isWatchOS ? 12 : 16) {
+            dateHeader
+            Divider()
+            phaseDetail
+            if !isWatchOS {
+                Spacer(minLength: 0)
             }
         }
         .padding(cardPadding)
@@ -86,6 +55,8 @@ public struct DayCard: View {
         .padding(.horizontal, isWatchOS ? 4 : 16)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Day card for \(date.formatted(date: .long, time: .omitted))")
+        .accessibilityHint("Shows moon phase information including planting and fishing guidance")
+        .accessibilityAddTraits(.isButton)
     }
     
     /*
@@ -93,7 +64,7 @@ public struct DayCard: View {
      */
     @ViewBuilder
     private var dateHeader: some View {
-        DateHeader(date: date, enablePopover: !isWatchOS)
+        DateHeader(date: date, enablePopover: !isWatchOS, phase: phase)
     }
     
     /*

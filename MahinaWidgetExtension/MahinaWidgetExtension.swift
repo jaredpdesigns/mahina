@@ -39,14 +39,19 @@ struct Provider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<DayEntry>) -> Void) {
-        let today = Date()
-        let phaseResult = MoonCalendarGenerator.phase(for: today)
+        let calendar = Calendar.current
+        let now = Date()
         
-        // Refresh every 6 hours
-        let next = Calendar.current.date(byAdding: .hour, value: 6, to: today)!
+        /* Create entry for today */
+        let todayPhase = MoonCalendarGenerator.phase(for: now)
+        let todayEntry = DayEntry(date: now, phase: todayPhase)
         
-        let entry = DayEntry(date: today, phase: phaseResult)
-        let timeline = Timeline(entries: [entry], policy: .after(next))
+        /* Refresh at start of next day when phase changes */
+        let startOfNextDay = calendar.startOfDay(
+            for: calendar.date(byAdding: .day, value: 1, to: now) ?? now
+        )
+        
+        let timeline = Timeline(entries: [todayEntry], policy: .after(startOfNextDay))
         completion(timeline)
     }
     
@@ -75,14 +80,26 @@ struct UpcomingPhasesProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<UpcomingPhasesEntry>) -> Void) {
-        let today = Date()
-        let phases = generateUpcomingPhases(from: today)
+        let calendar = Calendar.current
+        let now = Date()
         
-        // Refresh every 6 hours
-        let next = Calendar.current.date(byAdding: .hour, value: 6, to: today)!
+        /* Generate entries for each day transition */
+        var entries: [UpcomingPhasesEntry] = []
         
-        let entry = UpcomingPhasesEntry(date: today, phases: phases)
-        let timeline = Timeline(entries: [entry], policy: .after(next))
+        for dayOffset in 0..<9 {
+            if let futureDate = calendar.date(byAdding: .day, value: dayOffset, to: calendar.startOfDay(for: now)) {
+                let phases = generateUpcomingPhases(from: futureDate)
+                let entry = UpcomingPhasesEntry(date: futureDate, phases: phases)
+                entries.append(entry)
+            }
+        }
+        
+        /* Refresh at start of next day */
+        let startOfNextDay = calendar.startOfDay(
+            for: calendar.date(byAdding: .day, value: 1, to: now) ?? now
+        )
+        
+        let timeline = Timeline(entries: entries, policy: .after(startOfNextDay))
         completion(timeline)
     }
     
@@ -152,17 +169,19 @@ struct DayWidgetView: View {
                 displayMode: displayModeForFamily, isAccentedRendering: isAccentedRendering,
                 showDescription: displayModeForFamily != .smallWidget
             )
+            .animation(.easeInOut(duration: 0.3), value: entry.phase?.primary.day)
             if displayModeForFamily == .largeWidget {
                 Spacer()
                 VStack(alignment: .leading, spacing: 12) {
                     Divider()
                     PhaseGroups(rows: groupRows, isCompact: true)
-                }
+                }.padding(.bottom, 4)
             }
         }
         .containerBackground(for: .widget) {
             Color.clear
         }
+        .widgetURL(URL(string: "mahina://today"))
     }
     
     private var displayModeForFamily: DayDetail.DisplayMode {
@@ -333,8 +352,8 @@ struct UpcomingPhasesWidgetView: View {
     /*
      * Determine how many phases to show based on widget size:
      * - Small: 2 phases (today + tomorrow)
-     * - Medium: 4 phases (today + 3 more)
-     * - Large: 6 phases (today + 5 more)
+     * - Medium: 3 phases
+     * - Large: 9 phases
      */
     private var phasesToShow: [DatePhaseResult] {
         let count: Int
@@ -370,21 +389,38 @@ struct UpcomingPhasesWidgetView: View {
             if family == .systemSmall {
                 VStack(spacing: 12) {
                     ForEach(phasesToShow) { datePhase in
-                        UpcomingPhaseItem(
-                            datePhase: datePhase,
-                            isAccentedRendering: isAccentedRendering,
-                            useHorizontalLayout: true
-                        )
+                        Link(destination: dateURL(for: datePhase.date)) {
+                            UpcomingPhaseItem(
+                                datePhase: datePhase,
+                                isAccentedRendering: isAccentedRendering,
+                                useHorizontalLayout: true
+                            )
+                        }
+                    }
+                }
+            } else if family == .systemMedium {
+                LazyVGrid(columns: gridColumns, spacing: 12) {
+                    ForEach(phasesToShow) { datePhase in
+                        Link(destination: dateURL(for: datePhase.date)) {
+                            UpcomingPhaseItem(
+                                datePhase: datePhase,
+                                isAccentedRendering: isAccentedRendering,
+                                useHorizontalLayout: false
+                            )
+                        }
                     }
                 }
             } else {
+                /* Large widget: show grid with individually tappable phases */
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     ForEach(phasesToShow) { datePhase in
-                        UpcomingPhaseItem(
-                            datePhase: datePhase,
-                            isAccentedRendering: isAccentedRendering,
-                            useHorizontalLayout: false
-                        )
+                        Link(destination: dateURL(for: datePhase.date)) {
+                            UpcomingPhaseItem(
+                                datePhase: datePhase,
+                                isAccentedRendering: isAccentedRendering,
+                                useHorizontalLayout: false
+                            )
+                        }
                     }
                 }
             }
@@ -392,6 +428,14 @@ struct UpcomingPhasesWidgetView: View {
         .containerBackground(for: .widget) {
             Color.clear
         }
+    }
+    
+    /*
+     * Generates URL for navigating to a specific date
+     */
+    private func dateURL(for date: Date) -> URL {
+        let dateString = ISO8601DateFormatter().string(from: date)
+        return URL(string: "mahina://date/\(dateString)")!
     }
 }
 

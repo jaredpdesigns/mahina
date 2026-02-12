@@ -76,6 +76,11 @@ struct ContentView: View {
                         hasAutoScrolledToToday = true
                     }
                 }
+                .onOpenURL { url in
+                    if url.host == "today" {
+                        scrollToToday()
+                    }
+                }
         }
         .sheet(isPresented: $isShowingCalendarOverlay) {
             ScrollView {

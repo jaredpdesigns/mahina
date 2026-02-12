@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// Core service for computing lunar phases and generating Hawaiian lunar calendar data.
 ///
@@ -158,6 +159,33 @@ public enum MoonCalendarGenerator {
     
     // MARK: - Calendar Helper Functions
     
+    /// Builds a limited range of days for efficient widget use.
+    /// This is more efficient than `buildMonthData` when only a few days are needed.
+    ///
+    /// - Parameters:
+    ///   - from: Starting date
+    ///   - count: Number of days to generate
+    /// - Returns: Array of MoonDay objects
+    public static func buildDaysRange(from startDate: Date, count: Int) -> [MoonDay] {
+        let cal = Calendar.current
+        var days: [MoonDay] = []
+        
+        for dayOffset in 0..<count {
+            if let date = cal.date(byAdding: .day, value: dayOffset, to: cal.startOfDay(for: startDate)) {
+                let phaseResult = phase(for: date)
+                let calendarDay = cal.component(.day, from: date)
+                days.append(MoonDay(
+                    date: date,
+                    calendarDay: calendarDay,
+                    isOverlap: false,
+                    phase: phaseResult
+                ))
+            }
+        }
+        
+        return days
+    }
+    
     /// Calculates the zero-based index of the weekday for the first day of the
     /// month containing `date` (0 = Sunday).
     public static func startOfMonthIndex(for date: Date) -> Int {
@@ -193,8 +221,8 @@ public enum MoonCalendarGenerator {
      */
     private static let significantPhases: Set<Int> = [1, 14, 30]
     
-    /// Cache of first transition day per calendar month to ensure only one per month
-    private static nonisolated(unsafe) var monthTransitionCache: [String: Int] = [:]
+    /// Thread-safe cache for month transition data using OSAllocatedUnfairLock
+    private static let transitionCache = OSAllocatedUnfairLock(initialState: [String: Int]())
     
     /// Determines if this date is a significant phase transition day.
     ///
@@ -274,8 +302,8 @@ public enum MoonCalendarGenerator {
         let comps = cal.dateComponents([.year, .month], from: date)
         let cacheKey = "\(comps.year ?? 0)-\(comps.month ?? 0)"
         
-        // Return cached result if available
-        if let cached = monthTransitionCache[cacheKey] {
+        /* Check cache first */
+        if let cached = transitionCache.withLock({ $0[cacheKey] }) {
             return cached
         }
         
@@ -296,7 +324,7 @@ public enum MoonCalendarGenerator {
             let midnightCycle = (midnightAge / synodicLength) * 30.0
             
             if Int(round(midnightCycle)) == 0 {
-                monthTransitionCache[cacheKey] = day
+                transitionCache.withLock { $0[cacheKey] = day }
                 return day
             }
         }
@@ -327,13 +355,13 @@ public enum MoonCalendarGenerator {
             if ePhase > 30 { ePhase = 1 }
             
             if mPhase != ePhase && significantPhases.contains(ePhase) {
-                monthTransitionCache[cacheKey] = day
+                transitionCache.withLock { $0[cacheKey] = day }
                 return day
             }
         }
         
-        // No transition found this month
-        monthTransitionCache[cacheKey] = 0
+        /* No transition found this month */
+        transitionCache.withLock { $0[cacheKey] = 0 }
         return 0
     }
     

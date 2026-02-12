@@ -3,7 +3,7 @@ import AppKit
 import MahinaAssets
 
 struct MenuBarView: View {
-    @ObservedObject var moonController: MoonController
+    var moonController: MoonController
     @State private var displayedMonth: Date = Date()
     @State private var activeDate: Date = Date()
     @State private var showCalendarPopover: Bool = false

@@ -1,11 +1,10 @@
 import SwiftUI
-import Combine
 import MahinaAssets
 
 @main
 struct ContentView: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var moonController = MoonController()
+    @State private var moonController = MoonController()
     
     var body: some Scene {
         MenuBarExtra {
@@ -63,8 +62,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 // MARK: - Moon Controller
 
-class MoonController: ObservableObject {
-    @Published var currentPhase: PhaseResult?
+@Observable
+class MoonController {
+    var currentPhase: PhaseResult?
     private var midnightTimer: Timer?
     
     init() {
@@ -88,7 +88,7 @@ class MoonController: ObservableObject {
     }
     
     private func scheduleMidnightUpdate() {
-        // Calculate seconds until next midnight
+        /* Calculate seconds until next midnight */
         let calendar = Calendar.current
         let now = Date()
         
@@ -98,7 +98,7 @@ class MoonController: ObservableObject {
         
         let secondsUntilMidnight = midnight.timeIntervalSince(now)
         
-        // Schedule timer to fire at midnight
+        /* Schedule timer to fire at midnight */
         midnightTimer?.invalidate()
         midnightTimer = Timer.scheduledTimer(withTimeInterval: secondsUntilMidnight, repeats: false) { [weak self] _ in
             self?.updateCurrentPhase()
@@ -107,7 +107,7 @@ class MoonController: ObservableObject {
     }
     
     private func scheduleDailyUpdates() {
-        // Schedule daily updates every 24 hours after the first midnight
+        /* Schedule daily updates every 24 hours after the first midnight */
         midnightTimer?.invalidate()
         midnightTimer = Timer.scheduledTimer(withTimeInterval: 86400, repeats: true) { [weak self] _ in
             self?.updateCurrentPhase()

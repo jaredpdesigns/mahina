@@ -59,6 +59,13 @@ struct ContentView: View {
                 HapticManager.success()
             }
         }
+        
+        /* Skip loading screen when launching via deep link */
+        if isInitialLoading {
+            withAnimation(.easeOut(duration: 0.3)) {
+                isInitialLoading = false
+            }
+        }
     }
 }
 

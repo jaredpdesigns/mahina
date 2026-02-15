@@ -32,6 +32,12 @@ struct iPhoneView: View {
                 
                 mainScrollableList
                     .onAppear {
+                        /*
+                         * Only set default values if still in initial loading state.
+                         * A deep link may have already set the target date and
+                         * dismissed loading before onAppear fires.
+                         */
+                        guard isInitialLoading else { return }
                         let calendar = Calendar.current
                         let today = calendar.startOfDay(for: Date())
                         displayedMonth = today

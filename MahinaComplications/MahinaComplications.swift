@@ -122,7 +122,11 @@ struct MahinaComplicationsEntryView: View {
                 .padding(4)
             }
             .widgetLabel {
-                Text(entry.phase.name)
+                if entry.isTransitionDay, let secondary = entry.secondaryPhase {
+                    Text("\(entry.phase.name) → \(secondary.name)")
+                } else {
+                    Text(entry.phase.name)
+                }
             }
             
         case .accessoryRectangular:
@@ -130,7 +134,7 @@ struct MahinaComplicationsEntryView: View {
                 moonView(for: entry)
                     .widgetAccentable()
                     .frame(width: 36, height: 36)
-                ComplicationDatePhaseHeader(date: entry.date, phase: entry.phase)
+                ComplicationDatePhaseHeader(date: entry.date, phaseResult: entry.phaseResult)
             }
             
         case .accessoryInline:
@@ -189,7 +193,9 @@ struct MahinaComplications: Widget {
 /// Date and phase header specifically designed for rectangular complications
 private struct ComplicationDatePhaseHeader: View {
     let date: Date
-    let phase: MoonPhase
+    let phaseResult: PhaseResult
+    
+    private var phase: MoonPhase { phaseResult.primary }
     
     private var dateString: String {
         let day = Calendar.current.component(.day, from: date)
@@ -209,10 +215,23 @@ private struct ComplicationDatePhaseHeader: View {
             Text(dateString)
                 .font(.footnote)
                 .foregroundStyle(.secondary)
-            Text(phase.name)
-                .font(.body)
-                .fontWeight(.bold)
-                .foregroundStyle(.primary)  // White in dark mode, black in light mode
+            if phaseResult.isTransitionDay, let secondary = phaseResult.secondary {
+                HStack(spacing: 2) {
+                    Text(phase.name)
+                        .font(.body)
+                        .fontWeight(.bold)
+                    Text("→")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Text(secondary.name)
+                        .font(.body)
+                        .fontWeight(.bold)
+                }
+            } else {
+                Text(phase.name)
+                    .font(.body)
+                    .fontWeight(.bold)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

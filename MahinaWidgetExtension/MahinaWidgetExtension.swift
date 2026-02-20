@@ -167,7 +167,8 @@ struct DayWidgetView: View {
                 date: entry.date,
                 phase: entry.phase,
                 displayMode: displayModeForFamily, isAccentedRendering: isAccentedRendering,
-                showDescription: displayModeForFamily != .smallWidget
+                showDescription: displayModeForFamily != .smallWidget,
+                showTransitionIndicator: false
             )
             .animation(.easeInOut(duration: 0.3), value: entry.phase?.primary.day)
             if displayModeForFamily == .largeWidget {
@@ -220,36 +221,33 @@ struct MahinaWidgetExtension: Widget {
 #Preview("Today (small)", as: .systemSmall) {
     MahinaWidgetExtension()
 } timeline: {
-    /*
-     * Change date string to test specific dates (e.g., "2025-02-27" for transition day)
-     */
+    let today = Date()
+    
     DayEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date())
+        date: today,
+        phase: MoonCalendarGenerator.phase(for: today)
     )
 }
 
 #Preview("Today (medium)", as: .systemMedium) {
     MahinaWidgetExtension()
 } timeline: {
-    /*
-     * Change date string to test specific dates (e.g., "2025-02-27" for transition day)
-     */
+    let today = Date()
+    
     DayEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date())
+        date: today,
+        phase: MoonCalendarGenerator.phase(for: today)
     )
 }
 
 #Preview("Today (large)", as: .systemLarge) {
     MahinaWidgetExtension()
 } timeline: {
-    /*
-     * Change date string to test specific dates (e.g., "2025-02-27" for transition day)
-     */
+    let today = Date()
+    
     DayEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date())
+        date: today,
+        phase: MoonCalendarGenerator.phase(for: today)
     )
 }
 
@@ -274,9 +272,23 @@ struct UpcomingPhaseItem: View {
                         Text(dateString)
                             .font(.caption2)
                             .foregroundStyle(.secondary)
-                        Text(phase.name)
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                        if isTransitionDay, let secondary = datePhase.phase.secondary {
+                            HStack(spacing: 2) {
+                                Text(phase.name)
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                Text("→")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                                Text(secondary.name)
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                            }
+                        } else {
+                            Text(phase.name)
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -288,8 +300,20 @@ struct UpcomingPhaseItem: View {
                         Text(dateString)
                             .font(.caption2)
                             .foregroundStyle(.secondary)
-                        Text(phase.name)
-                            .fontWeight(.semibold)
+                        if isTransitionDay, let secondary = datePhase.phase.secondary {
+                            HStack(spacing: 2) {
+                                Text(phase.name)
+                                    .fontWeight(.semibold)
+                                Text("→")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                                Text(secondary.name)
+                                    .fontWeight(.semibold)
+                            }
+                        } else {
+                            Text(phase.name)
+                                .fontWeight(.semibold)
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity)

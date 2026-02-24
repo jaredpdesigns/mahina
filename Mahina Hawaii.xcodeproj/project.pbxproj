@@ -11,6 +11,10 @@
 		611AD8F12EE0D78000B6BFAC /* Mahina HawaiiWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 611AF8942ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		611AF8972ED7C4BB00CB610E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8962ED7C4BB00CB610E /* WidgetKit.framework */; };
 		611AF8992ED7C4BB00CB610E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8982ED7C4BB00CB610E /* SwiftUI.framework */; };
+		61702CC02F4E2094007835A4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8962ED7C4BB00CB610E /* WidgetKit.framework */; };
+		61702CC12F4E2094007835A4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611AF8982ED7C4BB00CB610E /* SwiftUI.framework */; };
+		61702CCE2F4E2095007835A4 /* MahinaWidgetExtension MenuBarExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61702CBF2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		61702CD42F4E20C8007835A4 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 61702CD32F4E20C8007835A4 /* MahinaAssets */; };
 		618A60D62F11EC5100707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D52F11EC5100707800 /* MahinaAssets */; };
 		618A60D82F11ECB600707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D72F11ECB600707800 /* MahinaAssets */; };
 		618A60DA2F11ECBE00707800 /* MahinaAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 618A60D92F11ECBE00707800 /* MahinaAssets */; };
@@ -42,6 +46,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6129C1AE2EDE357100684393;
 			remoteInfo = "Mahina Watch App";
+		};
+		61702CCC2F4E2095007835A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61347FFF2ECCE854000D7A53 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61702CBE2F4E2094007835A4;
+			remoteInfo = "MahinaWidgetExtension MenuBarExtension";
 		};
 		6170A0B82EDE6EBB009E10E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -82,6 +93,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61702C4E2F4E1C1A007835A4 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				61702CCE2F4E2095007835A4 /* MahinaWidgetExtension MenuBarExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61C8DFE52EDE62520034DF62 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -102,6 +124,7 @@
 		6129C1AF2EDE357100684393 /* Mahina Hawaii Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Hawaii Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		613480072ECCE855000D7A53 /* Mahina Hawaii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Hawaii.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6138DC192EF4C59000DCB3DC /* Mahina Hawaii MenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mahina Hawaii MenuBar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61702CBF2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MahinaWidgetExtension MenuBarExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mahina HawaiiComplicationsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -135,6 +158,13 @@
 				MahinaMenuBarApp.swift,
 			);
 			target = 6138DC182EF4C59000DCB3DC /* Mahina Hawaii MenuBar */;
+		};
+		61702CD52F4E2100007835A4 /* Exceptions for "MahinaWidgetExtension MenuBar" folder in "MahinaWidgetExtension MenuBarExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 61702CBE2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension */;
 		};
 		61C8DFD22EDE57D80034DF62 /* Exceptions for "MahinaComplications" folder in "Mahina HawaiiComplicationsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -212,6 +242,14 @@
 			path = "Mahina MenuBar";
 			sourceTree = "<group>";
 		};
+		61702CC22F4E2094007835A4 /* MahinaWidgetExtension MenuBar */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				61702CD52F4E2100007835A4 /* Exceptions for "MahinaWidgetExtension MenuBar" folder in "MahinaWidgetExtension MenuBarExtension" target */,
+			);
+			path = "MahinaWidgetExtension MenuBar";
+			sourceTree = "<group>";
+		};
 		61C8DFC22EDE57D70034DF62 /* MahinaComplications */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -257,6 +295,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61702CBC2F4E2094007835A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61702CC12F4E2094007835A4 /* SwiftUI.framework in Frameworks */,
+				61702CC02F4E2094007835A4 /* WidgetKit.framework in Frameworks */,
+				61702CD42F4E20C8007835A4 /* MahinaAssets in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61C8DFBC2EDE57D70034DF62 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -287,6 +335,7 @@
 				6129C1B02EDE357100684393 /* Mahina Watch App */,
 				61C8DFC22EDE57D70034DF62 /* MahinaComplications */,
 				6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */,
+				61702CC22F4E2094007835A4 /* MahinaWidgetExtension MenuBar */,
 				611AF8952ED7C4BB00CB610E /* Frameworks */,
 				613480082ECCE855000D7A53 /* Products */,
 			);
@@ -300,6 +349,7 @@
 				6129C1AF2EDE357100684393 /* Mahina Hawaii Watch App.app */,
 				61C8DFBF2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension.appex */,
 				6138DC192EF4C59000DCB3DC /* Mahina Hawaii MenuBar.app */,
+				61702CBF2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -391,10 +441,12 @@
 				6138DC152EF4C59000DCB3DC /* Sources */,
 				6138DC162EF4C59000DCB3DC /* Frameworks */,
 				6138DC172EF4C59000DCB3DC /* Resources */,
+				61702C4E2F4E1C1A007835A4 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				61702CCD2F4E2095007835A4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				6138DC1A2EF4C59000DCB3DC /* Mahina MenuBar */,
@@ -406,6 +458,29 @@
 			productName = "Mahina MenuBar";
 			productReference = 6138DC192EF4C59000DCB3DC /* Mahina Hawaii MenuBar.app */;
 			productType = "com.apple.product-type.application";
+		};
+		61702CBE2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61702CD12F4E2095007835A4 /* Build configuration list for PBXNativeTarget "MahinaWidgetExtension MenuBarExtension" */;
+			buildPhases = (
+				61702CBB2F4E2094007835A4 /* Sources */,
+				61702CBC2F4E2094007835A4 /* Frameworks */,
+				61702CBD2F4E2094007835A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				61702CC22F4E2094007835A4 /* MahinaWidgetExtension MenuBar */,
+			);
+			name = "MahinaWidgetExtension MenuBarExtension";
+			packageProductDependencies = (
+				61702CD32F4E20C8007835A4 /* MahinaAssets */,
+			);
+			productName = "MahinaWidgetExtension MenuBarExtension";
+			productReference = 61702CBF2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */ = {
 			isa = PBXNativeTarget;
@@ -437,7 +512,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2610;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					611AF8932ED7C4BB00CB610E = {
@@ -451,6 +526,9 @@
 					};
 					6138DC182EF4C59000DCB3DC = {
 						CreatedOnToolsVersion = 26.1.1;
+					};
+					61702CBE2F4E2094007835A4 = {
+						CreatedOnToolsVersion = 26.2;
 					};
 					61C8DFBE2EDE57D70034DF62 = {
 						CreatedOnToolsVersion = 26.1.1;
@@ -479,6 +557,7 @@
 				6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */,
 				61C8DFBE2EDE57D70034DF62 /* Mahina HawaiiComplicationsExtension */,
 				6138DC182EF4C59000DCB3DC /* Mahina Hawaii MenuBar */,
+				61702CBE2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -506,6 +585,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6138DC172EF4C59000DCB3DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61702CBD2F4E2094007835A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -550,6 +636,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61702CBB2F4E2094007835A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61C8DFBB2EDE57D70034DF62 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -575,6 +668,11 @@
 			target = 6129C1AE2EDE357100684393 /* Mahina Hawaii Watch App */;
 			targetProxy = 611AD8F52EE0DB2900B6BFAC /* PBXContainerItemProxy */;
 		};
+		61702CCD2F4E2095007835A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61702CBE2F4E2094007835A4 /* MahinaWidgetExtension MenuBarExtension */;
+			targetProxy = 61702CCC2F4E2095007835A4 /* PBXContainerItemProxy */;
+		};
 		6170A0B92EDE6EBB009E10E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 611AF8932ED7C4BB00CB610E /* Mahina HawaiiWidgetExtensionExtension */;
@@ -594,7 +692,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -607,20 +705,20 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaredpdesigns.Mahina.MahinaWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
+				SDKROOT = auto;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				XROS_DEPLOYMENT_TARGET = 26.1;
 			};
 			name = Debug;
 		};
@@ -630,7 +728,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -643,13 +741,14 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaredpdesigns.Mahina.MahinaWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
+				SDKROOT = auto;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -657,7 +756,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
-				XROS_DEPLOYMENT_TARGET = 26.1;
 			};
 			name = Release;
 		};
@@ -669,7 +767,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -707,7 +805,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -864,7 +962,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = MahinaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_APP_SANDBOX = YES;
@@ -915,7 +1013,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = MahinaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_APP_SANDBOX = YES;
@@ -968,7 +1066,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_APP_SANDBOX = YES;
@@ -1010,7 +1108,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				ENABLE_APP_SANDBOX = YES;
@@ -1044,13 +1142,81 @@
 			};
 			name = Release;
 		};
+		61702CCF2F4E2095007835A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MahinaWidgetExtension MenuBar/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "MahinaWidgetExtension MenuBar";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaredpdesigns.Mahina.MahinaMenuBar.MahinaWidgetExtension-MenuBar";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		61702CD02F4E2095007835A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MahinaWidgetExtension MenuBar/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "MahinaWidgetExtension MenuBar";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaredpdesigns.Mahina.MahinaMenuBar.MahinaWidgetExtension-MenuBar";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		61C8DFD02EDE57D80034DF62 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MahinaComplications/Info.plist;
@@ -1084,7 +1250,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 2U6Q2LWV8X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MahinaComplications/Info.plist;
@@ -1161,6 +1327,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		61702CD12F4E2095007835A4 /* Build configuration list for PBXNativeTarget "MahinaWidgetExtension MenuBarExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61702CCF2F4E2095007835A4 /* Debug */,
+				61702CD02F4E2095007835A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		61C8DFCF2EDE57D80034DF62 /* Build configuration list for PBXNativeTarget "Mahina HawaiiComplicationsExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1180,6 +1355,11 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		61702CD32F4E20C8007835A4 /* MahinaAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618A60D42F11EC5100707800 /* XCLocalSwiftPackageReference "MahinaAssets" */;
+			productName = MahinaAssets;
+		};
 		618A60D52F11EC5100707800 /* MahinaAssets */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MahinaAssets;

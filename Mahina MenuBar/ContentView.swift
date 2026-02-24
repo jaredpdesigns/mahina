@@ -1,24 +1,39 @@
 import SwiftUI
 import MahinaAssets
 
+// MARK: - App Delegate
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+    let moonController = MoonController()
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.accessory)
+    }
+    
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls {
+            moonController.handleURL(url)
+        }
+    }
+}
+
 @main
 struct ContentView: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @State private var moonController = MoonController()
     
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(moonController: moonController)
+            MenuBarView(moonController: appDelegate.moonController)
         } label: {
-            if let phase = moonController.currentPhase {
-                if let nsImage = renderedMoonImage(for: phase.primary.day) {
+            if let phaseResult = appDelegate.moonController.currentPhase {
+                if let nsImage = renderedMoonImage(for: phaseResult) {
                     Image(nsImage: nsImage)
-                        .accessibilityLabel("Current moon phase: \(phase.primary.name)")
-                        .accessibilityValue("Lunar day \(phase.primary.day)")
+                        .accessibilityLabel("Current moon phase: \(phaseResult.primary.name)")
+                        .accessibilityValue("Lunar day \(phaseResult.primary.day)")
                 } else {
                     Image(systemName: "moon.fill")
                         .font(.system(size: 14))
-                        .accessibilityLabel("Current moon phase: \(phase.primary.name)")
+                        .accessibilityLabel("Current moon phase: \(phaseResult.primary.name)")
                 }
             } else {
                 Image(systemName: "moon.fill")
@@ -31,32 +46,35 @@ struct ContentView: App {
     
     // MARK: - Image Rendering
     
-    private func renderedMoonImage(for day: Int) -> NSImage? {
-        let moonView = MoonImage(
-            day: day,
-            isDetailed: false,
-            isAccentedRendering: true
-        )
+    @ViewBuilder
+    private func menuBarMoonView(for phaseResult: PhaseResult) -> some View {
+        if phaseResult.isTransitionDay, let secondary = phaseResult.secondary {
+            SplitMoonImage(
+                primaryDay: phaseResult.primary.day,
+                secondaryDay: secondary.day,
+                isDetailed: false,
+                isAccentedRendering: true
+            )
+            .frame(width: 18, height: 18)
+        } else {
+            MoonImage(
+                day: phaseResult.primary.day,
+                isDetailed: false,
+                isAccentedRendering: true
+            )
             .frame(width: 16, height: 16)
-        
-        let renderer = ImageRenderer(content: moonView)
-        renderer.scale = 2.0 // For crisp rendering on Retina displays
+        }
+    }
+    
+    private func renderedMoonImage(for phaseResult: PhaseResult) -> NSImage? {
+        let view = menuBarMoonView(for: phaseResult)
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = 2.0
         
         guard let nsImage = renderer.nsImage else { return nil }
-        
-        // Make it a template image so it adapts to system appearance
         nsImage.isTemplate = true
         
         return nsImage
-    }
-}
-
-// MARK: - App Delegate
-
-class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        // Hide dock icon for menu bar only app
-        NSApp.setActivationPolicy(.accessory)
     }
 }
 
@@ -65,9 +83,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 @Observable
 class MoonController {
     var currentPhase: PhaseResult?
+    var activeDate: Date
+    var displayedMonth: Date
     private var midnightTimer: Timer?
     
     init() {
+        let today = Calendar.current.startOfDay(for: Date())
+        self.activeDate = today
+        self.displayedMonth = today
         updateCurrentPhase()
         scheduleMidnightUpdate()
     }
@@ -77,18 +100,46 @@ class MoonController {
     }
     
     private func updateCurrentPhase() {
-        currentPhase = MoonCalendarGenerator.phase(for: Date())
+        currentPhase = MoonCalendarGenerator.phase(for: activeDate)
+    }
+    
+    func updatePhase(for date: Date) {
+        let calendar = Calendar.current
+        let normalized = calendar.startOfDay(for: date)
+        activeDate = normalized
+        currentPhase = MoonCalendarGenerator.phase(for: normalized)
+        if !calendar.isDate(normalized, equalTo: displayedMonth, toGranularity: .month) {
+            displayedMonth = normalized
+        }
+    }
+    
+    func goToToday() {
+        let today = Calendar.current.startOfDay(for: Date())
+        updatePhase(for: today)
     }
     
     /*
-     * Updates the displayed phase for a specific date
+     * Parses a mahina:// deep link URL and navigates to the requested date.
+     * Supports: mahina://today, mahina://date/{ISO8601}
      */
-    func updatePhase(for date: Date) {
-        currentPhase = MoonCalendarGenerator.phase(for: date)
+    func handleURL(_ url: URL) {
+        guard url.scheme == "mahina" else { return }
+        
+        switch url.host {
+        case "today":
+            goToToday()
+        case "date":
+            let path = url.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+            let formatter = ISO8601DateFormatter()
+            if let date = formatter.date(from: path) {
+                updatePhase(for: date)
+            }
+        default:
+            break
+        }
     }
     
     private func scheduleMidnightUpdate() {
-        /* Calculate seconds until next midnight */
         let calendar = Calendar.current
         let now = Date()
         
@@ -98,23 +149,17 @@ class MoonController {
         
         let secondsUntilMidnight = midnight.timeIntervalSince(now)
         
-        /* Schedule timer to fire at midnight */
         midnightTimer?.invalidate()
         midnightTimer = Timer.scheduledTimer(withTimeInterval: secondsUntilMidnight, repeats: false) { [weak self] _ in
-            self?.updateCurrentPhase()
+            self?.goToToday()
             self?.scheduleDailyUpdates()
         }
     }
     
     private func scheduleDailyUpdates() {
-        /* Schedule daily updates every 24 hours after the first midnight */
         midnightTimer?.invalidate()
         midnightTimer = Timer.scheduledTimer(withTimeInterval: 86400, repeats: true) { [weak self] _ in
-            self?.updateCurrentPhase()
+            self?.goToToday()
         }
-    }
-    
-    func refreshPhase() {
-        updateCurrentPhase()
     }
 }

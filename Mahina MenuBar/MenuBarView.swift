@@ -3,58 +3,29 @@ import AppKit
 import MahinaAssets
 
 struct MenuBarView: View {
-    var moonController: MoonController
-    @State private var displayedMonth: Date = Date()
-    @State private var activeDate: Date = Date()
+    @Bindable var moonController: MoonController
     @State private var showCalendarPopover: Bool = false
     
     // MARK: - Computed Properties
     
     private var monthData: MonthData {
-        MoonCalendarGenerator.buildMonthData(for: displayedMonth, includeOverlap: false)
+        MoonCalendarGenerator.buildMonthData(for: moonController.displayedMonth, includeOverlap: false)
     }
     
     private var groupRows: [MoonGroupRow] {
-        MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: activeDate)
+        MoonCalendarGenerator.buildGroupRows(monthData: monthData, activeDate: moonController.activeDate)
     }
     
     private var currentPhase: PhaseResult? {
-        MoonCalendarGenerator.phase(for: activeDate)
+        MoonCalendarGenerator.phase(for: moonController.activeDate)
     }
     
     // MARK: - Actions
     
-    /*
-     * Navigates to the previous or next day
-     */
     private func shiftDay(_ days: Int) {
-        if let newDate = Calendar.current.date(byAdding: .day, value: days, to: activeDate) {
-            activeDate = Calendar.current.startOfDay(for: newDate)
-            /*
-             * Update displayed month if we cross month boundary
-             */
-            if !Calendar.current.isDate(newDate, equalTo: displayedMonth, toGranularity: .month) {
-                displayedMonth = newDate
-            }
-            /*
-             * Update menu bar icon to reflect the new date's phase
-             */
+        if let newDate = Calendar.current.date(byAdding: .day, value: days, to: moonController.activeDate) {
             moonController.updatePhase(for: newDate)
         }
-    }
-    
-    /*
-     * Returns to today's date
-     */
-    private func goToToday() {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        displayedMonth = today
-        activeDate = today
-        /*
-         * Update menu bar icon to today's phase
-         */
-        moonController.updatePhase(for: today)
     }
     
     var body: some View {
@@ -75,7 +46,7 @@ struct MenuBarView: View {
                             )
                             .accessibilityLabel("Previous day")
                             
-                            Button(action: { goToToday() }) {
+                            Button(action: { moonController.goToToday() }) {
                                 HStack(spacing: 4) {
                                     Text("Today")
                                 }
@@ -123,18 +94,12 @@ struct MenuBarView: View {
                             arrowEdge: .top
                         ) {
                             MoonCalendarOverlay(
-                                initialMonth: displayedMonth,
-                                initialActiveDate: activeDate
+                                initialMonth: moonController.displayedMonth,
+                                initialActiveDate: moonController.activeDate
                             ) { selectedDate, monthAnchor in
-                                let calendar = Calendar.current
-                                let normalized = calendar.startOfDay(for: selectedDate)
-                                displayedMonth = monthAnchor
-                                activeDate = normalized
+                                moonController.displayedMonth = monthAnchor
+                                moonController.updatePhase(for: selectedDate)
                                 showCalendarPopover = false
-                                /*
-                                 * Update menu bar icon to reflect the selected date's phase
-                                 */
-                                moonController.updatePhase(for: normalized)
                             }
                             .frame(width: 360)
                             .presentationCompactAdaptation(.popover)
@@ -158,12 +123,12 @@ struct MenuBarView: View {
                     )
                 }.padding(12)
                 Divider()
-                DateHeader(date: activeDate)
+                DateHeader(date: moonController.activeDate)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 Divider()
                 DayDetail(
-                    date: activeDate,
+                    date: moonController.activeDate,
                     phase: phase,
                     displayMode: .full
                 ).padding()

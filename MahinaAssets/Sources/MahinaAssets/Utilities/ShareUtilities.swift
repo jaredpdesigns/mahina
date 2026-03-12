@@ -32,7 +32,8 @@ public struct PhaseShareContent {
         }
         
         let text = """
-        🌙 \(phaseName): \(dateString)
+        
+        🌗 \(dateString): \(phaseName)
         
         🍃 \(phase.primary.planting)
         
@@ -41,7 +42,7 @@ public struct PhaseShareContent {
         
         return MoonPhaseShareItem(
             text: text,
-            subject: "🌙 \(phaseName): \(dateString)"
+            subject: "🌗 \(dateString): \(phaseName)"
         )
     }
     

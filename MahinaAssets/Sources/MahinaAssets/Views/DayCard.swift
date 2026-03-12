@@ -77,7 +77,8 @@ public struct DayCard: View {
             DayDetail(
                 date: date,
                 phase: phase,
-                displayMode: displayMode
+                displayMode: displayMode,
+                showTransitionIndicator: !isWatchOS
             )
         }
     }

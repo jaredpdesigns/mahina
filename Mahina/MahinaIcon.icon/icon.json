@@ -1,9 +1,22 @@
 {
   "color-space-for-untagged-svg-colors" : "display-p3",
-  "fill" : "system-light",
+  "fill-specializations" : [
+    {
+      "value" : {
+        "automatic-gradient" : "extended-gray:0.00000,1.00000"
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "automatic-gradient" : "extended-gray:0.00000,1.00000"
+      }
+    }
+  ],
   "groups" : [
     {
       "blur-material" : 0.5,
+      "hidden" : false,
       "layers" : [
         {
           "blend-mode" : "normal",
@@ -40,6 +53,7 @@
           "opacity" : 0.1
         }
       ],
+      "name" : "texture",
       "shadow" : {
         "kind" : "layer-color",
         "opacity" : 0.5
@@ -52,25 +66,49 @@
     },
     {
       "blur-material" : 0.5,
+      "hidden" : false,
       "layers" : [
         {
           "blend-mode" : "multiply",
-          "fill" : {
-            "linear-gradient" : [
-              "extended-gray:0.00000,1.00000",
-              "display-p3:0.00000,0.00000,0.00000,0.00000"
-            ],
-            "orientation" : {
-              "start" : {
-                "x" : 0,
-                "y" : 0.5
-              },
-              "stop" : {
-                "x" : 0.5920511881510416,
-                "y" : 0.5
+          "fill-specializations" : [
+            {
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:0.00000,1.00000",
+                  "display-p3:0.00000,0.00000,0.00000,0.00000"
+                ],
+                "orientation" : {
+                  "start" : {
+                    "x" : 0,
+                    "y" : 0.5
+                  },
+                  "stop" : {
+                    "x" : 0.5,
+                    "y" : 0.5
+                  }
+                }
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:0.00000,1.00000",
+                  "display-p3:0.00000,0.00000,0.00000,0.00000"
+                ],
+                "orientation" : {
+                  "start" : {
+                    "x" : 0,
+                    "y" : 0.5
+                  },
+                  "stop" : {
+                    "x" : 0.5,
+                    "y" : 0.5
+                  }
+                }
               }
             }
-          },
+          ],
           "glass" : true,
           "hidden" : false,
           "image-name" : "1.svg",
@@ -86,28 +124,37 @@
           "hidden" : false,
           "image-name" : "1.svg",
           "name" : "1",
-          "opacity" : 1
+          "opacity" : 0.9
         }
       ],
       "lighting" : "combined",
-      "shadow-specializations" : [
-        {
-          "value" : {
-            "kind" : "layer-color",
-            "opacity" : 1
-          }
-        },
-        {
-          "appearance" : "dark",
-          "value" : {
-            "kind" : "layer-color",
-            "opacity" : 0.1
-          }
-        }
-      ],
+      "name" : "shape",
+      "shadow" : {
+        "kind" : "layer-color",
+        "opacity" : 1
+      },
       "specular" : false,
       "translucency" : {
         "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "hidden" : false,
+      "layers" : [
+        {
+          "glass" : false,
+          "image-name" : "stars.svg",
+          "name" : "stars"
+        }
+      ],
+      "name" : "stars",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : false,
         "value" : 0.5
       }
     }

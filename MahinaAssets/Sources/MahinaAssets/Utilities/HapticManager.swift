@@ -4,6 +4,7 @@ import SwiftUI
 import UIKit
 
 /// Haptic feedback manager for iOS
+@MainActor
 public struct HapticManager {
     /// Provides light haptic feedback
     public static func light() {
@@ -34,6 +35,7 @@ public struct HapticManager {
 import WatchKit
 
 /// Haptic feedback manager for watchOS
+@MainActor
 public struct HapticManager {
     /// Provides light haptic feedback
     public static func light() {

@@ -386,28 +386,25 @@ public struct WidgetUpcomingPhasesView: View {
 
 // MARK: - Today Widget Previews
 
-#Preview("Today (small)") {
+#Preview("Today (small)", traits: .fixedLayout(width: 170, height: 170)) {
     WidgetDayView(entry: WidgetDayEntry(
         date: Date(),
         phase: MoonCalendarGenerator.phase(for: Date())
     ))
-    .previewContext(WidgetPreviewContext(family: .systemSmall))
 }
 
-#Preview("Today (medium)") {
+#Preview("Today (medium)", traits: .fixedLayout(width: 364, height: 170)) {
     WidgetDayView(entry: WidgetDayEntry(
         date: Date(),
         phase: MoonCalendarGenerator.phase(for: Date())
     ))
-    .previewContext(WidgetPreviewContext(family: .systemMedium))
 }
 
-#Preview("Today (large)") {
+#Preview("Today (large)", traits: .fixedLayout(width: 364, height: 382)) {
     WidgetDayView(entry: WidgetDayEntry(
         date: Date(),
         phase: MoonCalendarGenerator.phase(for: Date())
     ))
-    .previewContext(WidgetPreviewContext(family: .systemLarge))
 }
 
 // MARK: - Upcoming Phases Widget Previews
@@ -421,28 +418,25 @@ private func previewPhases(count: Int) -> [WidgetDatePhaseResult] {
     }
 }
 
-#Preview("Upcoming (small)") {
+#Preview("Upcoming (small)", traits: .fixedLayout(width: 170, height: 170)) {
     WidgetUpcomingPhasesView(entry: WidgetUpcomingPhasesEntry(
         date: Date(),
         phases: previewPhases(count: 2)
     ))
-    .previewContext(WidgetPreviewContext(family: .systemSmall))
 }
 
-#Preview("Upcoming (medium)") {
+#Preview("Upcoming (medium)", traits: .fixedLayout(width: 364, height: 170)) {
     WidgetUpcomingPhasesView(entry: WidgetUpcomingPhasesEntry(
         date: Date(),
         phases: previewPhases(count: 3)
     ))
-    .previewContext(WidgetPreviewContext(family: .systemMedium))
 }
 
-#Preview("Upcoming (large)") {
+#Preview("Upcoming (large)", traits: .fixedLayout(width: 364, height: 382)) {
     WidgetUpcomingPhasesView(entry: WidgetUpcomingPhasesEntry(
         date: Date(),
         phases: previewPhases(count: 9)
     ))
-    .previewContext(WidgetPreviewContext(family: .systemLarge))
 }
 
 #endif

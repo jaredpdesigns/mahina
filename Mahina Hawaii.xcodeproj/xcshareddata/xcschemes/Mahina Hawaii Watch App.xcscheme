@@ -60,7 +60,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6129C1AE2EDE357100684393"
             BuildableName = "Mahina Hawaii Watch App.app"
-            BlueprintName = "Mahina Hawaii Watch App"
             ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -77,7 +76,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6129C1AE2EDE357100684393"
             BuildableName = "Mahina Hawaii Watch App.app"
-            BlueprintName = "Mahina Hawaii Watch App"
             ReferencedContainer = "container:Mahina Hawaii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

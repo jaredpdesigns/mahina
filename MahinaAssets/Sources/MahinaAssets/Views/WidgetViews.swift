@@ -46,11 +46,15 @@ public struct WidgetDayProvider: TimelineProvider {
         WidgetDayEntry(date: Date(), phase: MoonCalendarGenerator.phase(for: Date()))
     }
     
-    public func getSnapshot(in context: Context, completion: @escaping (WidgetDayEntry) -> Void) {
-        completion(WidgetDayEntry(date: Date(), phase: MoonCalendarGenerator.phase(for: Date())))
+    public func getSnapshot(in context: Context, completion: @escaping (WidgetDayEntry) -> Void)
+    {
+        completion(
+            WidgetDayEntry(date: Date(), phase: MoonCalendarGenerator.phase(for: Date())))
     }
     
-    public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetDayEntry>) -> Void) {
+    public func getTimeline(
+        in context: Context, completion: @escaping (Timeline<WidgetDayEntry>) -> Void
+    ) {
         let calendar = Calendar.current
         let now = Date()
         
@@ -72,18 +76,26 @@ public struct WidgetUpcomingPhasesProvider: TimelineProvider {
         WidgetUpcomingPhasesEntry(date: Date(), phases: generateUpcomingPhases(from: Date()))
     }
     
-    public func getSnapshot(in context: Context, completion: @escaping (WidgetUpcomingPhasesEntry) -> Void) {
-        completion(WidgetUpcomingPhasesEntry(date: Date(), phases: generateUpcomingPhases(from: Date())))
+    public func getSnapshot(
+        in context: Context, completion: @escaping (WidgetUpcomingPhasesEntry) -> Void
+    ) {
+        completion(
+            WidgetUpcomingPhasesEntry(
+                date: Date(), phases: generateUpcomingPhases(from: Date())))
     }
     
-    public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetUpcomingPhasesEntry>) -> Void) {
+    public func getTimeline(
+        in context: Context, completion: @escaping (Timeline<WidgetUpcomingPhasesEntry>) -> Void
+    ) {
         let calendar = Calendar.current
         let now = Date()
         
         var entries: [WidgetUpcomingPhasesEntry] = []
         
         for dayOffset in 0..<9 {
-            if let futureDate = calendar.date(byAdding: .day, value: dayOffset, to: calendar.startOfDay(for: now)) {
+            if let futureDate = calendar.date(
+                byAdding: .day, value: dayOffset, to: calendar.startOfDay(for: now))
+            {
                 let entry = WidgetUpcomingPhasesEntry(
                     date: futureDate,
                     phases: generateUpcomingPhases(from: futureDate)
@@ -109,10 +121,11 @@ public struct WidgetUpcomingPhasesProvider: TimelineProvider {
         
         for dayOffset in 0..<9 {
             if let futureDate = calendar.date(byAdding: .day, value: dayOffset, to: date) {
-                phases.append(WidgetDatePhaseResult(
-                    date: futureDate,
-                    phase: MoonCalendarGenerator.phase(for: futureDate)
-                ))
+                phases.append(
+                    WidgetDatePhaseResult(
+                        date: futureDate,
+                        phase: MoonCalendarGenerator.phase(for: futureDate)
+                    ))
             }
         }
         
@@ -193,7 +206,9 @@ public struct WidgetUpcomingPhaseItem: View {
     public let isAccentedRendering: Bool
     public let useHorizontalLayout: Bool
     
-    public init(datePhase: WidgetDatePhaseResult, isAccentedRendering: Bool, useHorizontalLayout: Bool) {
+    public init(
+        datePhase: WidgetDatePhaseResult, isAccentedRendering: Bool, useHorizontalLayout: Bool
+    ) {
         self.datePhase = datePhase
         self.isAccentedRendering = isAccentedRendering
         self.useHorizontalLayout = useHorizontalLayout
@@ -239,12 +254,15 @@ public struct WidgetUpcomingPhaseItem: View {
                 Text(phase.name)
                     .font(captionSized ? .caption : nil)
                     .fontWeight(.semibold)
+                    .lineLimit(1)
                 Text("→")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
+                    .fixedSize()
                 Text(secondary.name)
                     .font(captionSized ? .caption : nil)
                     .fontWeight(.semibold)
+                    .lineLimit(1)
             }
         } else {
             Text(phase.name)
@@ -387,56 +405,69 @@ public struct WidgetUpcomingPhasesView: View {
 // MARK: - Today Widget Previews
 
 #Preview("Today (small)", traits: .fixedLayout(width: 170, height: 170)) {
-    WidgetDayView(entry: WidgetDayEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date())
-    ))
+    WidgetDayView(
+        entry: WidgetDayEntry(
+            date: Date(),
+            phase: MoonCalendarGenerator.phase(for: Date())
+        ))
 }
 
 #Preview("Today (medium)", traits: .fixedLayout(width: 364, height: 170)) {
-    WidgetDayView(entry: WidgetDayEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date())
-    ))
+    WidgetDayView(
+        entry: WidgetDayEntry(
+            date: Date(),
+            phase: MoonCalendarGenerator.phase(for: Date())
+        ))
 }
 
 #Preview("Today (large)", traits: .fixedLayout(width: 364, height: 382)) {
-    WidgetDayView(entry: WidgetDayEntry(
-        date: Date(),
-        phase: MoonCalendarGenerator.phase(for: Date())
-    ))
+    WidgetDayView(
+        entry: WidgetDayEntry(
+            date: Date(),
+            phase: MoonCalendarGenerator.phase(for: Date())
+        ))
 }
 
 // MARK: - Upcoming Phases Widget Previews
 
-private func previewPhases(count: Int) -> [WidgetDatePhaseResult] {
-    let today = Date()
+private func previewPhases(count: Int, startingAt startDate: Date = Date())
+-> [WidgetDatePhaseResult]
+{
     let calendar = Calendar.current
     return (0..<count).compactMap { offset in
-        guard let date = calendar.date(byAdding: .day, value: offset, to: today) else { return nil }
+        guard let date = calendar.date(byAdding: .day, value: offset, to: startDate) else {
+            return nil
+        }
         return WidgetDatePhaseResult(date: date, phase: MoonCalendarGenerator.phase(for: date))
     }
 }
 
 #Preview("Upcoming (small)", traits: .fixedLayout(width: 170, height: 170)) {
-    WidgetUpcomingPhasesView(entry: WidgetUpcomingPhasesEntry(
-        date: Date(),
-        phases: previewPhases(count: 2)
-    ))
+    WidgetUpcomingPhasesView(
+        entry: WidgetUpcomingPhasesEntry(
+            date: Date(),
+            phases: previewPhases(count: 2)
+        ))
 }
 
 #Preview("Upcoming (medium)", traits: .fixedLayout(width: 364, height: 170)) {
-    WidgetUpcomingPhasesView(entry: WidgetUpcomingPhasesEntry(
-        date: Date(),
-        phases: previewPhases(count: 3)
-    ))
+    // For custom dates:
+    // let previewDate = dateFromString("2026-10-09")
+    // AND then pass it to:
+    // `previewPhases(count: 3, startingAt: previewDate)`
+    WidgetUpcomingPhasesView(
+        entry: WidgetUpcomingPhasesEntry(
+            date: Date(),
+            phases: previewPhases(count: 3)
+        ))
 }
 
 #Preview("Upcoming (large)", traits: .fixedLayout(width: 364, height: 382)) {
-    WidgetUpcomingPhasesView(entry: WidgetUpcomingPhasesEntry(
-        date: Date(),
-        phases: previewPhases(count: 9)
-    ))
+    WidgetUpcomingPhasesView(
+        entry: WidgetUpcomingPhasesEntry(
+            date: Date(),
+            phases: previewPhases(count: 9)
+        ))
 }
 
 #endif
